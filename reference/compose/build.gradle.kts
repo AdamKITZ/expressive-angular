@@ -19,7 +19,7 @@ android {
 kotlin { jvmToolchain(21) }
 
 dependencies {
-  // Keep in step with tools/tokens/generate.ts: CMP material3 1.9.0 is built from androidx material3 1.4.0.
-  implementation("androidx.compose.material3:material3:1.4.0")
+  // Keep in step with tools/tokens/generate.ts: CMP material3 1.11.0-alpha07 is built from androidx material3 1.5.0-alpha17.
+  implementation("androidx.compose.material3:material3:1.5.0-alpha17")
   testImplementation("junit:junit:4.13.2")
 }
