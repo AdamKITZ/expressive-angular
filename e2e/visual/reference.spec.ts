@@ -17,6 +17,8 @@ const scenes = readdirSync(SNAPSHOTS)
 
 for (const { file, name } of scenes) {
   test(`${name} matches Compose`, async ({ page }) => {
+    // Animated scenes compare their first frame; Paparazzi renders Compose at frame time 0 too.
+    await page.clock.setFixedTime(0);
     await page.goto(`/reference/${name}`);
     const actual = PNG.sync.read(await page.locator('[data-reference]').screenshot());
     const expected = PNG.sync.read(readFileSync(join(SNAPSHOTS, file)));
