@@ -10,6 +10,7 @@ Compose Material3 (androidx) is the reference for every value and behaviour.
 npm start              # showcase app
 npm run build          # library, then showcase
 npm run test:ci        # Vitest, single run (`npm test` is watch mode)
+npm run tokens         # regenerate foundations/_tokens.scss from the pinned Compose version; CI runs tokens:check
 npm run lint           # ESLint; `npm run lint:fix` to fix
 npm run format:check   # Prettier; CI runs it
 ```
@@ -29,7 +30,8 @@ Adam reviews every change and must understand it in one sitting.
 ## Rules
 
 - **Compose is the reference.** Sizes, shapes, colour roles and motion come from the androidx Material3 token files
-  of a pinned version, never from memory or screenshots. Anything taken from androidx is credited in `NOTICE`.
+  of the version pinned in `tools/tokens/generate.ts`, never from memory or screenshots. Anything taken from androidx
+  is credited in `NOTICE`.
 - **Only what a consumer needs.** A component or size lands when an app uses it, not to complete the catalogue.
 - **No animation libraries.** CSS and the Web Animations API only. Honour `prefers-reduced-motion`.
 - **Theming through Angular Material.** Components read `--mat-sys-*` tokens; no hardcoded colours.
@@ -41,5 +43,7 @@ Adam reviews every change and must understand it in one sitting.
 
 ```
 projects/expressive-angular/   the library (ng-packagr)
+projects/expressive-angular/src/foundations/   motion and corner tokens (generated) as the Sass mixin `tokens`
 projects/showcase/             demo app, one route per component; later the screenshot harness
+tools/tokens/                  token generator: Compose sources jar → CSS custom properties
 ```

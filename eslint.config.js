@@ -25,14 +25,17 @@ const typeScriptRules = {
     { allowExpressions: false, allowTypedFunctionExpressions: true, allowHigherOrderFunctions: true },
   ],
   'no-console': ['error', { allow: ['warn', 'error'] }],
+  'simple-import-sort/imports': 'error',
+  'simple-import-sort/exports': 'error',
+};
+
+const angularRules = {
   '@angular-eslint/prefer-on-push-component-change-detection': 'error',
   '@angular-eslint/prefer-signals': 'error',
   '@angular-eslint/prefer-output-emitter-ref': 'error',
   '@angular-eslint/prefer-output-readonly': 'error',
   '@angular-eslint/no-uncalled-signals': 'error',
   '@angular-eslint/use-injectable-provided-in': 'error',
-  'simple-import-sort/imports': 'error',
-  'simple-import-sort/exports': 'error',
 };
 
 function angularProject(root, prefix, tsconfigs) {
@@ -46,6 +49,7 @@ function angularProject(root, prefix, tsconfigs) {
     plugins: { 'unused-imports': unusedImports, 'simple-import-sort': simpleImportSort },
     rules: {
       ...typeScriptRules,
+      ...angularRules,
       '@angular-eslint/component-selector': ['error', { type: ['element', 'attribute'], prefix, style: 'kebab-case' }],
       '@angular-eslint/directive-selector': ['error', { type: 'attribute', prefix, style: 'camelCase' }],
     },
@@ -59,6 +63,16 @@ export default tseslint.config(
     './projects/expressive-angular/tsconfig.spec.json',
   ]),
   angularProject('projects/showcase', 'app', ['./projects/showcase/tsconfig.app.json']),
+  {
+    files: ['tools/**/*.ts'],
+    extends: [eslint.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
+    languageOptions: {
+      globals: globals.node,
+      parserOptions: { project: ['./tools/tsconfig.json'], tsconfigRootDir: import.meta.dirname },
+    },
+    plugins: { 'unused-imports': unusedImports, 'simple-import-sort': simpleImportSort },
+    rules: typeScriptRules,
+  },
   {
     files: ['**/*.spec.ts'],
     rules: {
