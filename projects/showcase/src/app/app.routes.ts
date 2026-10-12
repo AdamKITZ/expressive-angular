@@ -2,6 +2,11 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: '',
+    pathMatch: 'full',
+    loadComponent: () => import('./playground/playground').then((m) => m.Playground),
+  },
+  {
     path: 'reference/button',
     loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
   },
