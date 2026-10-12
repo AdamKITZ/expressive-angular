@@ -1,0 +1,42 @@
+// Values from Compose ButtonGroupSmallTokens, ConnectedButtonGroupSmallTokens and ButtonGroupDefaults.
+// Expects the `tokens` and `button` mixins and an Angular Material M3 theme on an ancestor.
+@mixin button-group {
+  .exp-button-group {
+    display: flex;
+    gap: 12px;
+  }
+
+  .exp-button-group-connected {
+    gap: 2px;
+
+    .mat-mdc-button-base.exp-button {
+      // Half the 40px height. Material's corner-full is a huge length, and a browser scales down all radii on an
+      // edge whose sum exceeds it, which would flatten the inner corners.
+      --exp-button-full-corner: 20px;
+      --exp-button-inner-corner: var(--exp-corner-small);
+      --exp-button-start-corners: var(--exp-button-inner-corner);
+      --exp-button-end-corners: var(--exp-button-inner-corner);
+
+      border-start-start-radius: var(--exp-button-start-corners);
+      border-end-start-radius: var(--exp-button-start-corners);
+      border-start-end-radius: var(--exp-button-end-corners);
+      border-end-end-radius: var(--exp-button-end-corners);
+
+      &:first-child {
+        --exp-button-start-corners: var(--exp-button-full-corner);
+      }
+
+      &:last-child {
+        --exp-button-end-corners: var(--exp-button-full-corner);
+      }
+
+      &.exp-button-selected {
+        --exp-button-inner-corner: var(--exp-button-full-corner);
+      }
+
+      &:active:not(:disabled) {
+        --exp-button-inner-corner: var(--exp-corner-extra-small);
+      }
+    }
+  }
+}
