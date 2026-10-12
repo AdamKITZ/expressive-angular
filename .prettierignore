@@ -4,3 +4,4 @@ dist/
 coverage/
 package-lock.json
 projects/expressive-angular/src/foundations/_tokens.scss
+projects/showcase/src/reference/_compose-light-scheme.scss

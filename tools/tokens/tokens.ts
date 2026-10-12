@@ -33,6 +33,25 @@ export function parseCornerValues(kotlin: string): Record<string, number> {
   return corners;
 }
 
+/** Maps each role of a Compose `Color*Tokens` object to the hex colour of the `PaletteTokens` entry it names. */
+export function parseColorScheme(schemeKotlin: string, paletteKotlin: string): Record<string, string> {
+  const palette: Record<string, string> = {};
+  for (const [, name, red, green, blue] of paletteKotlin.matchAll(
+    /val (\w+) = Color\(red = (\d+), green = (\d+), blue = (\d+)\)/g
+  )) {
+    palette[name] = '#' + [red, green, blue].map((channel) => Number(channel).toString(16).padStart(2, '0')).join('');
+  }
+  const scheme: Record<string, string> = {};
+  for (const [, role, paletteName] of schemeKotlin.matchAll(/val (\w+) = PaletteTokens\.(\w+)/g)) {
+    const color = palette[paletteName];
+    if (color === undefined) {
+      throw new Error(`PaletteTokens has no ${paletteName} (needed by ${role})`);
+    }
+    scheme[role] = color;
+  }
+  return scheme;
+}
+
 /** Position of a unit-mass spring released at 0 towards 1, at `t` seconds. */
 function springPosition({ damping, stiffness }: Spring, t: number): number {
   const naturalFrequency = Math.sqrt(stiffness);

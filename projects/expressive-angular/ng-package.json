@@ -7,8 +7,8 @@
   "assets": [
     {
       "glob": "**/*.scss",
-      "input": "src/foundations",
-      "output": "foundations"
+      "input": "src",
+      "output": "."
     }
   ]
 }

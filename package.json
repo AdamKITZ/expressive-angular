@@ -8,7 +8,7 @@
     "build:lib": "ng build expressive-angular",
     "watch": "ng build expressive-angular --watch --configuration development",
     "test": "vitest --dir tools",
-    "test:ci": "vitest run --dir tools",
+    "test:ci": "vitest run --dir tools && ng test expressive-angular --watch=false",
     "lint": "eslint . && tsc -p tsconfig.node.json",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",

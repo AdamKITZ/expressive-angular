@@ -10,7 +10,7 @@ Compose Material3 (androidx) is the reference for every value and behaviour.
 npm start              # showcase app
 npm run build          # library, then showcase
 npm run test:ci        # Vitest, single run (`npm test` is watch mode)
-npm run tokens         # regenerate foundations/_tokens.scss from the pinned Compose version; CI runs tokens:check
+npm run tokens         # regenerate the generated SCSS from the pinned Compose version; CI runs tokens:check
 npm run lint           # ESLint; `npm run lint:fix` to fix
 npm run format:check   # Prettier; CI runs it
 ```
@@ -42,7 +42,8 @@ Adam reviews every change and must understand it in one sitting.
 ## Checking against Compose
 
 A reference scene is a Paparazzi snapshot in `reference/compose` plus a showcase route `/reference/<name>` whose
-`[data-reference]` element renders the same thing at 1dp = 1px. The workflow `Reference` records the Compose images,
+`[data-reference]` element renders the same thing at 1dp = 1px, in Compose's default light colours
+(mixin `compose-light-scheme` in `projects/showcase/src/reference/`). The workflow `Reference` records the Compose images,
 commits changed ones to the PR, and fails when the showcase differs by more than 1 % of the pixels. Every component
 gets scenes for its states; a deliberate difference is written down in the scene, not hidden by a looser threshold.
 

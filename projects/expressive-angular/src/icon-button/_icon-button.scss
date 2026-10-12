@@ -1,0 +1,47 @@
+// Values from Compose SmallIconButtonTokens, StandardIconButtonTokens and FilledTonalIconButtonTokens.
+// Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
+@mixin icon-button {
+  .mat-mdc-icon-button.exp-icon-button {
+    --exp-icon-button-color: var(--mat-sys-on-surface-variant);
+    --mat-icon-button-container-shape: var(--mat-sys-corner-full);
+    --mat-icon-button-icon-color: var(--exp-icon-button-color);
+    --mat-icon-button-state-layer-color: var(--exp-icon-button-color);
+    --mat-icon-button-ripple-color: color-mix(
+      in srgb,
+      var(--exp-icon-button-color) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+      transparent
+    );
+
+    transition:
+      border-radius var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
+      background-color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects),
+      color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+
+    &.exp-icon-button-selected {
+      --exp-icon-button-color: var(--mat-sys-primary);
+      --mat-icon-button-container-shape: var(--exp-corner-medium);
+    }
+
+    &:active:not(:disabled) {
+      --mat-icon-button-container-shape: var(--exp-corner-small);
+    }
+
+    &.exp-icon-button-tonal {
+      --exp-icon-button-color: var(--mat-sys-on-secondary-container);
+      background-color: var(--mat-sys-secondary-container);
+
+      &.exp-icon-button-selected {
+        --exp-icon-button-color: var(--mat-sys-on-secondary);
+        background-color: var(--mat-sys-secondary);
+      }
+
+      &:disabled {
+        background-color: color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}
