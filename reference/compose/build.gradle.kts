@@ -1,8 +1,8 @@
 plugins {
-  id("com.android.library") version "8.12.0"
-  id("org.jetbrains.kotlin.android") version "2.2.20"
-  id("org.jetbrains.kotlin.plugin.compose") version "2.2.20"
-  id("app.cash.paparazzi") version "2.0.0-alpha05.1"
+  id("com.android.library") version "8.13.2"
+  id("org.jetbrains.kotlin.android") version "2.3.0"
+  id("org.jetbrains.kotlin.plugin.compose") version "2.3.0"
+  id("app.cash.paparazzi") version "2.0.0-alpha05"
 }
 
 android {
