@@ -5,7 +5,10 @@ import { join } from 'node:path';
 
 import { parseCornerValues, parseFloatTokens, springEasing } from './tokens.ts';
 
-/** Compose Multiplatform's build of androidx material3; its sources jar is on Maven Central, androidx's is not. */
+/**
+ * Compose Multiplatform's build of androidx material3 1.4.0; its sources jar is on Maven Central, androidx's is not.
+ * reference/compose/build.gradle.kts renders with that androidx version, so both move together.
+ */
 const COMPOSE_MATERIAL3 = '1.9.0';
 const OUTPUT = 'projects/expressive-angular/src/foundations/_tokens.scss';
 const SPRINGS = ['FastSpatial', 'DefaultSpatial', 'SlowSpatial', 'FastEffects', 'DefaultEffects', 'SlowEffects'];

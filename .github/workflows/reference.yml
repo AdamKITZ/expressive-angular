@@ -1,0 +1,65 @@
+name: Reference
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: reference-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Records how Compose renders each reference scene. Changed images are committed to the PR branch so a
+  # reviewer sees them in the diff; a push made with GITHUB_TOKEN starts no new workflow run.
+  compose:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: '17'
+      - uses: gradle/actions/setup-gradle@v5
+      - run: ./gradlew recordPaparazziDebug
+        working-directory: reference/compose
+      - uses: actions/upload-artifact@v7
+        with:
+          name: compose-snapshots
+          path: reference/compose/src/test/snapshots/images/
+      - name: Commit changed snapshots
+        if: github.event.pull_request.head.repo.full_name == github.repository
+        run: |
+          git add reference/compose/src/test/snapshots
+          if git diff --cached --quiet; then exit 0; fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git commit -m 'test(reference): record Compose snapshots'
+          git push
+
+  visual:
+    needs: compose
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+      - uses: actions/download-artifact@v7
+        with:
+          name: compose-snapshots
+          path: reference/compose/src/test/snapshots/images/
+      - uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          cache: 'npm'
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:visual
+        env:
+          CI: 'true'
+      - uses: actions/upload-artifact@v7
+        if: always()
+        with:
+          name: visual-results
+          path: test-results/

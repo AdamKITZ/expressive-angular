@@ -64,11 +64,11 @@ export default tseslint.config(
   ]),
   angularProject('projects/showcase', 'app', ['./projects/showcase/tsconfig.app.json']),
   {
-    files: ['tools/**/*.ts'],
+    files: ['tools/**/*.ts', 'e2e/**/*.ts', 'playwright.config.ts'],
     extends: [eslint.configs.recommended, ...tseslint.configs.recommendedTypeChecked],
     languageOptions: {
       globals: globals.node,
-      parserOptions: { project: ['./tools/tsconfig.json'], tsconfigRootDir: import.meta.dirname },
+      parserOptions: { project: ['./tsconfig.node.json'], tsconfigRootDir: import.meta.dirname },
     },
     plugins: { 'unused-imports': unusedImports, 'simple-import-sort': simpleImportSort },
     rules: typeScriptRules,
