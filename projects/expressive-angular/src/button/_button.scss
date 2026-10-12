@@ -1,0 +1,44 @@
+// Values from Compose ButtonSmallTokens, TonalButtonTokens and ToggleButtonDefaults.
+// Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
+@mixin button {
+  .mat-mdc-button-base.exp-button {
+    --exp-button-color: var(--mat-sys-on-secondary-container);
+    --mat-button-tonal-container-shape: var(--mat-sys-corner-full);
+    --mat-button-tonal-container-color: var(--mat-sys-secondary-container);
+    --mat-button-tonal-label-text-color: var(--exp-button-color);
+    --mat-button-tonal-state-layer-color: var(--exp-button-color);
+    --mat-button-tonal-ripple-color: color-mix(
+      in srgb,
+      var(--exp-button-color) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+      transparent
+    );
+    --mat-button-tonal-disabled-label-text-color: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface-variant) 38%,
+      transparent
+    );
+    --mat-button-tonal-horizontal-padding: 16px;
+
+    // Compose's toggle buttons only have a minimum height.
+    min-width: 0;
+    transition:
+      border-radius var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
+      background-color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects),
+      color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+
+    &.exp-button-selected {
+      --exp-button-color: var(--mat-sys-on-secondary);
+      --mat-button-tonal-container-color: var(--mat-sys-secondary);
+      --mat-button-tonal-container-shape: var(--exp-corner-medium);
+    }
+
+    // Compose's small pressed shape is a 6dp literal, not ButtonSmallTokens.PressedContainerShape (8dp).
+    &:active:not(:disabled) {
+      --mat-button-tonal-container-shape: 6px;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}
