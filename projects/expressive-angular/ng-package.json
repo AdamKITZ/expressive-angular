@@ -3,5 +3,12 @@
   "dest": "../../dist/expressive-angular",
   "lib": {
     "entryFile": "src/public-api.ts"
-  }
+  },
+  "assets": [
+    {
+      "glob": "**/*.scss",
+      "input": "src/foundations",
+      "output": "foundations"
+    }
+  ]
 }

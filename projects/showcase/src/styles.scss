@@ -1,4 +1,5 @@
 @use '@angular/material' as mat;
+@use '../../expressive-angular/src/foundations' as exp;
 
 html {
   color-scheme: light dark;
@@ -9,6 +10,7 @@ html {
       density: 0,
     )
   );
+  @include exp.tokens;
 }
 
 body {

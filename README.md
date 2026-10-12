@@ -6,6 +6,22 @@ reference for sizes, shapes, motion and behaviour.
 
 Status: not released yet. The first release covers button, icon button, button group and loading indicator.
 
+## Usage
+
+```scss
+@use '@adam01230/expressive-angular/foundations' as exp;
+
+html {
+  @include exp.tokens; // --exp-motion-* springs as linear() easings with durations, --exp-corner-* sizes
+}
+```
+
+```css
+.thing {
+  transition: transform var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial);
+}
+```
+
 ## Development
 
 ```bash
@@ -24,4 +40,4 @@ release workflow builds the library and publishes it to npm as `@adam01230/expre
 
 ## License
 
-MIT. Values taken from Jetpack Compose (Apache 2.0) get credited in a `NOTICE` file.
+MIT. Values taken from Jetpack Compose (Apache 2.0) are credited in `NOTICE`.
