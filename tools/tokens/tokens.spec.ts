@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { parseCornerValues, parseFloatTokens, springEasing } from './tokens.ts';
+import { parseColorScheme, parseCornerValues, parseFloatTokens, springEasing } from './tokens.ts';
 
 describe('parseFloatTokens', () => {
   it('reads every float token of a generated Kotlin token object', () => {
@@ -23,6 +23,23 @@ describe('parseCornerValues', () => {
       val CornerValueNone = CornerSize(0.0.dp)`;
 
     expect(parseCornerValues(kotlin)).toEqual({ ExtraLargeIncreased: 32, None: 0 });
+  });
+});
+
+describe('parseColorScheme', () => {
+  it('resolves each colour role to its palette colour', () => {
+    const palette = `
+      val Primary40 = Color(red = 103, green = 80, blue = 164)
+      val Neutral98 = Color(red = 254, green = 247, blue = 255)`;
+    const scheme = `
+      val Background = PaletteTokens.Neutral98
+      val Primary = PaletteTokens.Primary40`;
+
+    expect(parseColorScheme(scheme, palette)).toEqual({ Background: '#fef7ff', Primary: '#6750a4' });
+  });
+
+  it('fails on a role whose palette colour is missing', () => {
+    expect(() => parseColorScheme('val Primary = PaletteTokens.Primary40', '')).toThrow('Primary40');
   });
 });
 

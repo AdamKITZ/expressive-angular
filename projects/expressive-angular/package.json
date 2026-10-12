@@ -18,8 +18,8 @@
   },
   "sideEffects": false,
   "exports": {
-    "./foundations": {
-      "sass": "./foundations/_index.scss"
+    ".": {
+      "sass": "./_index.scss"
     }
   }
 }

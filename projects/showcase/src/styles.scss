@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@use '../../expressive-angular/src/foundations' as exp;
+@use '../../expressive-angular/src' as exp;
 
 html {
   color-scheme: light dark;
@@ -11,6 +11,7 @@ html {
     )
   );
   @include exp.tokens;
+  @include exp.icon-button;
 }
 
 body {
