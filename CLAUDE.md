@@ -39,11 +39,20 @@ Adam reviews every change and must understand it in one sitting.
 - Selector prefix `exp`. DI with `inject()`. OnPush everywhere.
 - Commits follow commitlint: `<type>(<scope>): <description>`, scope required (component name, `ci`, `showcase`, `*`).
 
+## Checking against Compose
+
+A reference scene is a Paparazzi snapshot in `reference/compose` plus a showcase route `/reference/<name>` whose
+`[data-reference]` element renders the same thing at 1dp = 1px. The workflow `Reference` records the Compose images,
+commits changed ones to the PR, and fails when the showcase differs by more than 1 % of the pixels. Every component
+gets scenes for its states; a deliberate difference is written down in the scene, not hidden by a looser threshold.
+
 ## Where things are
 
 ```
 projects/expressive-angular/   the library (ng-packagr)
 projects/expressive-angular/src/foundations/   motion and corner tokens (generated) as the Sass mixin `tokens`
-projects/showcase/             demo app, one route per component; later the screenshot harness
+projects/showcase/             demo app, one route per component; /reference/<scene> routes for the visual check
+reference/compose/             Compose scenes rendered by Paparazzi in CI (needs JDK 21 + Android SDK, not run locally)
+e2e/visual/                    Playwright: each reference scene vs. its showcase route, pixel diff
 tools/tokens/                  token generator: Compose sources jar → CSS custom properties
 ```
