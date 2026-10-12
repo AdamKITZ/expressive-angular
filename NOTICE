@@ -5,3 +5,7 @@ projects/expressive-angular/src/foundations/_tokens.scss is generated from the M
 Jetpack Compose Material3 (androidx.compose.material3.tokens), as published in
 org.jetbrains.compose.material3:material3. Copyright The Android Open Source Project, licensed under the
 Apache License, Version 2.0: https://www.apache.org/licenses/LICENSE-2.0
+
+projects/expressive-angular/src/loading-indicator/morphs.ts is generated from the shapes and motion of Jetpack
+Compose Material3's LoadingIndicator (androidx.compose.material3, androidx.graphics.shapes), recorded by
+reference/compose. Copyright The Android Open Source Project, licensed under the Apache License, Version 2.0.
