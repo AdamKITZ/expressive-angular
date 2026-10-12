@@ -1,0 +1,81 @@
+<section class="controls">
+  <exp-button-group aria-label="Colour scheme" connected [value]="scheme()" (valueChange)="pickScheme($event)">
+    <button matButton="tonal" expButton value="light dark">System</button>
+    <button matButton="tonal" expButton value="light">Light</button>
+    <button matButton="tonal" expButton value="dark">Dark</button>
+  </exp-button-group>
+  <button matButton="tonal" expButton [selected]="disabled()" (click)="disabled.set(!disabled())">Disabled</button>
+</section>
+
+<section>
+  <h2>Icon button</h2>
+  <div class="row">
+    <button mat-icon-button expIconButton aria-label="Search" [disabled]="disabled()">
+      <mat-icon>search</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      expIconButton
+      aria-label="Favorite"
+      [selected]="favorite()"
+      [disabled]="disabled()"
+      (click)="favorite.set(!favorite())"
+    >
+      <mat-icon>{{ favorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
+    </button>
+    <button mat-icon-button expIconButton appearance="tonal" aria-label="Edit" [disabled]="disabled()">
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button
+      mat-icon-button
+      expIconButton
+      appearance="tonal"
+      aria-label="Bookmark"
+      [selected]="bookmarked()"
+      [disabled]="disabled()"
+      (click)="bookmarked.set(!bookmarked())"
+    >
+      <mat-icon>{{ bookmarked() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
+    </button>
+  </div>
+  <p class="hint">Standard and tonal, each as an action and as a toggle. Hold a button to see the pressed shape.</p>
+</section>
+
+<section>
+  <h2>Toggle button</h2>
+  <div class="row">
+    @for (format of ['bold', 'italic']; track format) {
+      <button
+        matButton="tonal"
+        expButton
+        [selected]="formats()[format]"
+        [disabled]="disabled()"
+        (click)="toggleFormat(format)"
+      >
+        {{ format }}
+      </button>
+    }
+  </div>
+</section>
+
+<section>
+  <h2>Button group</h2>
+  <exp-button-group aria-label="Range" [(value)]="range">
+    @for (option of ['day', 'week', 'month']; track option) {
+      <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
+    }
+  </exp-button-group>
+  <p class="hint">Selected: {{ range() }}. Pressing a button widens it; arrow keys move the selection.</p>
+
+  <exp-button-group aria-label="Size" connected [(value)]="size">
+    @for (option of ['s', 'm', 'l', 'xl']; track option) {
+      <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
+    }
+  </exp-button-group>
+  <p class="hint">Connected. Selected: {{ size() }}.</p>
+</section>
+
+<section>
+  <h2>Loading indicator</h2>
+  <exp-loading-indicator aria-label="Loading" />
+</section>

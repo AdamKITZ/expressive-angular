@@ -4,6 +4,8 @@ Material 3 Expressive components for Angular, built on Angular Material's M3 tok
 [Jetpack Compose Material3](https://developer.android.com/jetpack/androidx/releases/compose-material3) is the
 reference for sizes, shapes, motion and behaviour.
 
+Try the components in the [playground](https://adamkitz.github.io/expressive-angular/).
+
 ## Usage
 
 ```bash
