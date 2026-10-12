@@ -6,6 +6,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
   },
   {
+    path: 'reference/button-group',
+    loadComponent: () => import('./reference/button-group').then((m) => m.ButtonGroupReference),
+  },
+  {
     path: 'reference/corner-large-increased',
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },
