@@ -14,6 +14,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },
   {
+    path: 'reference/loading-indicator',
+    loadComponent: () => import('./reference/loading-indicator').then((m) => m.LoadingIndicatorReference),
+  },
+  {
     path: 'reference/icon-button',
     loadComponent: () => import('./reference/icon-button').then((m) => m.IconButtonReference),
   },
