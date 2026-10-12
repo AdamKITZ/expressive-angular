@@ -59,8 +59,9 @@ npm run format:check
 
 ## Releasing
 
-Bump `projects/expressive-angular/package.json`, merge, then publish a GitHub release tagged `v<version>`. The
-release workflow builds the library and publishes it to npm as `@adam01230/expressive-angular`.
+Bump `projects/expressive-angular/package.json`, merge, then run the `Release` workflow on `main` (Actions → Release →
+Run workflow). It builds the library, publishes it to npm as `@adam01230/expressive-angular` and creates the GitHub
+release `v<version>`.
 
 ## License
 
