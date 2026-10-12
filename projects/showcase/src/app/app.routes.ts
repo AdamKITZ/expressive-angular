@@ -2,6 +2,10 @@ import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {
+    path: 'reference/button',
+    loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
+  },
+  {
     path: 'reference/corner-large-increased',
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },
