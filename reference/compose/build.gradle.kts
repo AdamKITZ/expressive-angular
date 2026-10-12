@@ -11,12 +11,12 @@ android {
   defaultConfig { minSdk = 24 }
   buildFeatures { compose = true }
   compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
   }
 }
 
-kotlin { jvmToolchain(17) }
+kotlin { jvmToolchain(21) }
 
 dependencies {
   // Keep in step with tools/tokens/generate.ts: CMP material3 1.9.0 is built from androidx material3 1.4.0.
