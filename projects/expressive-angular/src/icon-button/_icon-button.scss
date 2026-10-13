@@ -3,7 +3,7 @@
 // Values from Compose {XSmall,Small,Medium,Large,XLarge}IconButtonTokens and the Standard, Filled, FilledTonal and
 // Outlined icon button tokens (vibrant colours for standard and outlined).
 // Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
-$sizes: (
+$-sizes: (
   xs: (
     height: 32px,
     icon: 20px,
@@ -90,7 +90,7 @@ $sizes: (
       font-size: var(--exp-icon-button-icon-size);
     }
 
-    @each $name, $size in $sizes {
+    @each $name, $size in $-sizes {
       &.exp-icon-button-#{$name} {
         --exp-icon-button-height: #{map.get($size, height)};
         --exp-icon-button-icon-size: #{map.get($size, icon)};

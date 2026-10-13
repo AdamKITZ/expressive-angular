@@ -4,8 +4,6 @@ import {
   ExpIconButton,
   ExpIconButtonAppearance,
   ExpIconButtonShape,
-  ExpIconButtonSize,
-  ExpIconButtonWidth,
 } from '@adam01230/expressive-angular';
 import {
   ChangeDetectionStrategy,
@@ -21,14 +19,16 @@ import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 
 type Column = 'action' | 'unselected' | 'selected' | 'static';
+type Size = 'xs' | 's' | 'm' | 'l' | 'xl';
+type Width = 'narrow' | 'uniform' | 'wide';
 
 /** Mirrors the `$sizes` map in the icon-button mixin, for the caption only. */
 const SIZES: Record<
-  ExpIconButtonSize,
+  Size,
   {
     height: number;
     icon: number;
-    widths: Record<ExpIconButtonWidth, number>;
+    widths: Record<Width, number>;
     square: number;
     pressed: number;
     selected: number;
@@ -151,12 +151,12 @@ export class IconButtonMatrix {
 
   protected readonly appearances: ExpIconButtonAppearance[] = ['filled', 'tonal', 'outlined', 'standard'];
   protected readonly columns: Column[] = ['action', 'unselected', 'selected', 'static'];
-  protected readonly sizes: ExpIconButtonSize[] = ['xs', 's', 'm', 'l', 'xl'];
-  protected readonly widths: ExpIconButtonWidth[] = ['narrow', 'uniform', 'wide'];
+  protected readonly sizes: Size[] = ['xs', 's', 'm', 'l', 'xl'];
+  protected readonly widths: Width[] = ['narrow', 'uniform', 'wide'];
   protected readonly shapes: ExpIconButtonShape[] = ['round', 'square'];
 
-  protected readonly size: WritableSignal<ExpIconButtonSize> = signal('s');
-  protected readonly width: WritableSignal<ExpIconButtonWidth> = signal('uniform');
+  protected readonly size: WritableSignal<Size> = signal('s');
+  protected readonly width: WritableSignal<Width> = signal('uniform');
   protected readonly shape: WritableSignal<ExpIconButtonShape> = signal('round');
   protected readonly caption: Signal<string> = computed(() => {
     const size = SIZES[this.size()];
