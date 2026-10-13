@@ -16,6 +16,7 @@ html {
   @include exp.button-group;
   @include exp.split-button;
   @include exp.floating-toolbar;
+  @include exp.docked-toolbar;
 }
 
 body {
