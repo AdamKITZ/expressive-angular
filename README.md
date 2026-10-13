@@ -23,6 +23,7 @@ html {
   @include exp.button;
   @include exp.button-group;
   @include exp.split-button;
+  @include exp.floating-toolbar;
 }
 ```
 
@@ -47,14 +48,26 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
   </button>
 </exp-split-button>
 
+<exp-floating-toolbar aria-label="Formatting" vibrant [expanded]="editing()">
+  <button mat-icon-button expIconButton expToolbarLeading aria-label="Undo"><mat-icon>undo</mat-icon></button>
+  <button mat-icon-button expIconButton [morph]="false" aria-label="Bold" [selected]="bold()" (click)="toggleBold()">
+    <mat-icon>format_bold</mat-icon>
+  </button>
+  <button matFab expToolbarFab aria-label="Done"><mat-icon>check</mat-icon></button>
+</exp-floating-toolbar>
+
 <exp-loading-indicator aria-label="Loading" />
 ```
 
-Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton` and `ExpLoadingIndicator` from `@adam01230/expressive-angular`.
+Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab` and
+`ExpLoadingIndicator` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
 pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
-trailing one becomes a pill and flips its icon while its menu is open. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+trailing one becomes a pill and flips its icon while its menu is open. A floating toolbar is `horizontal` or `vertical`, standard or `vibrant`; while `expanded` is false its
+`expToolbarLeading` and `expToolbarTrailing` items fold away, or, with an `expToolbarFab`, the whole bar folds into
+the FAB. Icon buttons inside it take the toolbar's content colour; Compose's toolbars use toggles that keep their shape,
+hence `[morph]="false"`. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css

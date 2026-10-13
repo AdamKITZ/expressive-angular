@@ -5,12 +5,13 @@ import { MatButton } from '@angular/material/button';
 
 import { IconButtonMatrix } from './icon-button-matrix';
 import { SplitButtonDemo } from './split-button-demo';
+import { ToolbarDemo } from './toolbar-demo';
 
 type Scheme = 'light dark' | 'light' | 'dark';
 
 @Component({
   selector: 'app-playground',
-  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix, SplitButtonDemo],
+  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix, SplitButtonDemo, ToolbarDemo],
   templateUrl: './playground.html',
   styleUrl: './playground.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

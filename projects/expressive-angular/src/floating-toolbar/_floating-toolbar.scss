@@ -1,0 +1,194 @@
+@use '../toolbar/toolbar-items' as toolbar;
+
+// Values from Compose FloatingToolbarTokens and FloatingToolbarDefaults.
+// Expects the `tokens` and `icon-button` mixins and an Angular Material M3 theme on an ancestor.
+@mixin floating-toolbar {
+  .exp-floating-toolbar {
+    --exp-floating-toolbar-container: var(--mat-sys-surface-container);
+    --exp-floating-toolbar-content: var(--mat-sys-on-surface);
+    --exp-floating-toolbar-motion: var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial);
+
+    display: inline-flex;
+    align-items: center;
+    vertical-align: middle;
+
+    .exp-floating-toolbar-fold {
+      display: grid;
+      grid-template: 1fr / 1fr;
+      overflow: hidden;
+      border-radius: 9999px;
+      background: var(--exp-floating-toolbar-container);
+      color: var(--exp-floating-toolbar-content);
+      transition:
+        grid-template-columns var(--exp-floating-toolbar-motion),
+        grid-template-rows var(--exp-floating-toolbar-motion),
+        box-shadow var(--exp-floating-toolbar-motion);
+    }
+
+    // The bar's padding can't shrink below itself, so a padding-free box between it and the fold does the folding.
+    .exp-floating-toolbar-clip {
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .exp-floating-toolbar-bar {
+      display: flex;
+      align-items: center;
+      // `safe` keeps the start visible while the bar folds into the FAB, as Compose clips rather than reflows.
+      justify-content: safe center;
+      box-sizing: border-box;
+      min-height: 64px;
+      padding: 8px;
+
+      > *,
+      .exp-floating-toolbar-side > div > * {
+        flex-shrink: 0;
+      }
+
+      @include toolbar.toolbar-items(var(--exp-floating-toolbar-content));
+    }
+
+    .exp-floating-toolbar-side {
+      display: grid;
+      grid-template: 1fr / 1fr;
+      transition:
+        grid-template-columns var(--exp-floating-toolbar-motion),
+        grid-template-rows var(--exp-floating-toolbar-motion);
+
+      > div {
+        display: flex;
+        align-items: center;
+        min-width: 0;
+        min-height: 0;
+        overflow: hidden;
+      }
+    }
+
+    // Compose's leading content shrinks towards the end and the trailing content towards the start.
+    .exp-floating-toolbar-leading > div {
+      justify-content: flex-end;
+    }
+
+    > .mat-mdc-fab {
+      --mat-fab-container-color: var(--mat-sys-primary-container);
+      --mat-fab-foreground-color: var(--mat-sys-on-primary-container);
+      --mat-fab-state-layer-color: var(--mat-sys-on-primary-container);
+      --mat-fab-ripple-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-primary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+        transparent
+      );
+      --mat-fab-container-shape: var(--exp-corner-large);
+      --mat-fab-container-elevation-shadow: var(--mat-sys-level2);
+      --mat-fab-focus-container-elevation-shadow: var(--mat-sys-level2);
+      --mat-fab-pressed-container-elevation-shadow: var(--mat-sys-level2);
+      --mat-fab-hover-container-elevation-shadow: var(--mat-sys-level3);
+
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      transition:
+        width var(--exp-floating-toolbar-motion),
+        height var(--exp-floating-toolbar-motion);
+    }
+
+    &.exp-floating-toolbar-vibrant {
+      --exp-floating-toolbar-container: var(--mat-sys-primary-container);
+      --exp-floating-toolbar-content: var(--mat-sys-on-primary-container);
+
+      // FloatingToolbarTokens.VibrantButtonSelected*: Compose never reads them, but they are the spec's value.
+      .exp-floating-toolbar-bar .mat-mdc-icon-button.exp-icon-button-standard.exp-icon-button-selected {
+        --exp-icon-button-color: var(--mat-sys-on-surface);
+        --exp-icon-button-container: var(--mat-sys-surface-container);
+      }
+
+      > .mat-mdc-fab {
+        --mat-fab-container-color: var(--mat-sys-tertiary-container);
+        --mat-fab-foreground-color: var(--mat-sys-on-tertiary-container);
+        --mat-fab-state-layer-color: var(--mat-sys-on-tertiary-container);
+        --mat-fab-ripple-color: color-mix(
+          in srgb,
+          var(--mat-sys-on-tertiary-container) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+          transparent
+        );
+      }
+    }
+
+    &.exp-floating-toolbar-vertical {
+      flex-direction: column;
+
+      .exp-floating-toolbar-bar {
+        flex-direction: column;
+        min-width: 64px;
+        min-height: 0;
+      }
+
+      .exp-floating-toolbar-side > div {
+        flex-direction: column;
+      }
+    }
+
+    &.exp-floating-toolbar-collapsed:not(.exp-floating-toolbar-with-fab) {
+      &.exp-floating-toolbar-horizontal .exp-floating-toolbar-side {
+        grid-template-columns: 0fr;
+      }
+
+      &.exp-floating-toolbar-vertical .exp-floating-toolbar-side {
+        grid-template-rows: 0fr;
+      }
+    }
+
+    &.exp-floating-toolbar-with-fab {
+      // Compose reserves the collapsed FAB's 80dp across the toolbar, so the bar doesn't jump when it folds.
+      min-height: 80px;
+
+      &.exp-floating-toolbar-vertical {
+        min-width: 80px;
+        min-height: 0;
+      }
+
+      .exp-floating-toolbar-fold {
+        margin-inline-end: 8px;
+        box-shadow: var(--mat-sys-level1);
+        transition:
+          grid-template-columns var(--exp-floating-toolbar-motion),
+          grid-template-rows var(--exp-floating-toolbar-motion),
+          margin var(--exp-floating-toolbar-motion),
+          box-shadow var(--exp-floating-toolbar-motion);
+      }
+
+      &.exp-floating-toolbar-vertical .exp-floating-toolbar-fold {
+        margin-inline-end: 0;
+        margin-block-end: 8px;
+      }
+
+      &.exp-floating-toolbar-collapsed {
+        .exp-floating-toolbar-fold {
+          margin: 0;
+          box-shadow: none;
+        }
+
+        &.exp-floating-toolbar-horizontal .exp-floating-toolbar-fold {
+          grid-template-columns: 0fr;
+        }
+
+        &.exp-floating-toolbar-vertical .exp-floating-toolbar-fold {
+          grid-template-rows: 0fr;
+        }
+
+        > .mat-mdc-fab {
+          width: 80px;
+          height: 80px;
+        }
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .exp-floating-toolbar-fold,
+      .exp-floating-toolbar-side,
+      > .mat-mdc-fab {
+        transition: none;
+      }
+    }
+  }
+}
