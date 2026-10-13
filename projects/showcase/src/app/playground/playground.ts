@@ -1,14 +1,15 @@
-import { ExpButton, ExpButtonGroup, ExpIconButton, ExpLoadingIndicator } from '@adam01230/expressive-angular';
+import { ExpButton, ExpButtonGroup, ExpLoadingIndicator } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
-import { MatButton, MatIconButton } from '@angular/material/button';
-import { MatIcon } from '@angular/material/icon';
+import { MatButton } from '@angular/material/button';
+
+import { IconButtonMatrix } from './icon-button-matrix';
 
 type Scheme = 'light dark' | 'light' | 'dark';
 
 @Component({
   selector: 'app-playground',
-  imports: [MatButton, MatIconButton, MatIcon, ExpButton, ExpButtonGroup, ExpIconButton, ExpLoadingIndicator],
+  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix],
   templateUrl: './playground.html',
   styleUrl: './playground.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -16,8 +17,6 @@ type Scheme = 'light dark' | 'light' | 'dark';
 export class Playground {
   protected readonly scheme: WritableSignal<Scheme> = signal<Scheme>('light dark');
   protected readonly disabled: WritableSignal<boolean> = signal(false);
-  protected readonly favorite: WritableSignal<boolean> = signal(false);
-  protected readonly bookmarked: WritableSignal<boolean> = signal(true);
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');
   protected readonly size: WritableSignal<unknown> = signal('m');

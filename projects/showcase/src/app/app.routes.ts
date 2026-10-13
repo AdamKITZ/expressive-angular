@@ -23,7 +23,11 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/loading-indicator').then((m) => m.LoadingIndicatorReference),
   },
   {
-    path: 'reference/icon-button',
-    loadComponent: () => import('./reference/icon-button').then((m) => m.IconButtonReference),
+    path: 'reference/icon-button-colors',
+    loadComponent: () => import('./reference/icon-button-colors').then((m) => m.IconButtonColorsReference),
+  },
+  {
+    path: 'reference/icon-button-sizes',
+    loadComponent: () => import('./reference/icon-button-sizes').then((m) => m.IconButtonSizesReference),
   },
 ];
