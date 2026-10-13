@@ -3,7 +3,10 @@
 @mixin button {
   .mat-mdc-button-base.exp-button {
     --exp-button-color: var(--mat-sys-on-secondary-container);
-    --mat-button-tonal-container-shape: var(--mat-sys-corner-full);
+    // Half the 40px height, not Material's corner-full: that is a huge length, and a spring easing that overshoots
+    // past the target radius drives the interpolated value below zero, so the button turns square mid-transition.
+    --exp-button-full-corner: 20px;
+    --mat-button-tonal-container-shape: var(--exp-button-full-corner);
     --mat-button-tonal-container-color: var(--mat-sys-secondary-container);
     --mat-button-tonal-label-text-color: var(--exp-button-color);
     --mat-button-tonal-state-layer-color: var(--exp-button-color);
