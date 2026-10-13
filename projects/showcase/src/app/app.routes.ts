@@ -38,4 +38,12 @@ export const routes: Routes = [
     path: 'reference/split-button-sizes',
     loadComponent: () => import('./reference/split-button-sizes').then((m) => m.SplitButtonSizesReference),
   },
+  {
+    path: 'reference/floating-toolbar',
+    loadComponent: () => import('./reference/floating-toolbar').then((m) => m.FloatingToolbarReference),
+  },
+  {
+    path: 'reference/floating-toolbar-fab',
+    loadComponent: () => import('./reference/floating-toolbar-fab').then((m) => m.FloatingToolbarFabReference),
+  },
 ];

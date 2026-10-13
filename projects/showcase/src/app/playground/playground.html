@@ -22,6 +22,15 @@
 </section>
 
 <section>
+  <h2>Floating toolbar</h2>
+  <app-toolbar-demo [disabled]="disabled()" />
+  <p class="hint">
+    Collapsing folds the first and last item away, or folds the whole bar into its FAB. Arrow keys, Home and End move
+    between items.
+  </p>
+</section>
+
+<section>
   <h2>Toggle button</h2>
   <div class="row">
     @for (format of ['bold', 'italic']; track format) {
