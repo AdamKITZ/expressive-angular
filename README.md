@@ -19,6 +19,7 @@ Include the styles once, next to your Angular Material theme:
 
 html {
   @include exp.tokens; // --exp-motion-* springs as linear() easings with durations, --exp-corner-* sizes
+  @include exp.material-buttons; // every Angular Material button and icon button gets Compose's shapes and padding
   @include exp.icon-button;
   @include exp.button;
   @include exp.button-group;

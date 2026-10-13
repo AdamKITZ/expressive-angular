@@ -11,6 +11,7 @@ html {
     )
   );
   @include exp.tokens;
+  @include exp.material-buttons;
   @include exp.icon-button;
   @include exp.button;
   @include exp.button-group;
