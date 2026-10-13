@@ -40,6 +40,7 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup` and `ExpLoadingIndicator` from `@adam01230/expressive-angular`.
+A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css

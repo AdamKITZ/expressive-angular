@@ -11,6 +11,8 @@ import {
   InputSignalWithTransform,
   model,
   ModelSignal,
+  output,
+  OutputEmitterRef,
   Signal,
 } from '@angular/core';
 
@@ -36,6 +38,7 @@ const STEPS: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: 
     '[class.exp-button-group-connected]': 'connected()',
     '(keydown)': 'onKeydown($event)',
     '(pointerdown)': 'onPointerdown($event)',
+    '(focusout)': 'onFocusout($event)',
   },
   providers: [{ provide: EXP_BUTTON_GROUP, useExisting: ExpButtonGroup }],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -47,6 +50,8 @@ export class ExpButtonGroup implements ExpButtonGroupRef {
   public readonly connected: InputSignalWithTransform<boolean, unknown> = input(false, {
     transform: booleanAttribute,
   });
+  /** Focus left the group; a `[formControl]` or `[field]` on it marks the control touched. */
+  public readonly touch: OutputEmitterRef<void> = output<void>();
 
   private readonly host: HTMLElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
   private readonly dir: Directionality = inject(Directionality);
@@ -79,6 +84,10 @@ export class ExpButtonGroup implements ExpButtonGroupRef {
         return;
       }
     }
+  }
+
+  protected onFocusout(event: FocusEvent): void {
+    if (!this.host.contains(event.relatedTarget as Node | null)) this.touch.emit();
   }
 
   protected onPointerdown(event: PointerEvent): void {
