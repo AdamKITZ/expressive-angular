@@ -1,0 +1,97 @@
+@use 'sass:map';
+
+// Values from Compose ButtonDefaults (shapes(), contentPaddingFor(MinHeight), MinWidth), ButtonSmallTokens and
+// SmallIconButtonTokens: the expressive overloads of Button, FilledTonalButton, OutlinedButton, ElevatedButton,
+// TextButton and IconButton. Turns every Angular Material button and icon button into its Compose counterpart,
+// so include it before the other component mixins, which override it for their own buttons.
+// Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
+
+// Angular Material's own transition on each variant, kept so that hover elevation and outline still animate.
+$-variants: (
+  filled: (
+    class: mat-mdc-unelevated-button,
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+  ),
+  protected: (
+    class: mat-mdc-raised-button,
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+  ),
+  tonal: (
+    class: mat-tonal-button,
+    transition: box-shadow 280ms cubic-bezier(0.4, 0, 0.2, 1),
+  ),
+  outlined: (
+    class: mat-mdc-outlined-button,
+    transition: border 280ms cubic-bezier(0.4, 0, 0.2, 1),
+  ),
+  text: (
+    class: mat-mdc-button,
+    transition: null,
+  ),
+);
+
+@mixin material-buttons {
+  @each $name, $variant in $-variants {
+    $class: map.get($variant, class);
+
+    // In :where() so that any rule on the button itself, the app's or another mixin's, takes precedence.
+    :where(.mat-mdc-button-base.#{$class}) {
+      // Half the height, not Material's corner-full: corner-full is 9999px, and a transition from it to the
+      // pressed corner only moves in its last frame.
+      --exp-material-button-corner: calc(var(--mat-button-#{$name}-container-height, 40px) / 2);
+      --mat-button-#{$name}-container-shape: var(--exp-material-button-corner);
+      --mat-button-#{$name}-horizontal-padding: 16px;
+      --mat-button-#{$name}-icon-offset: 0px;
+    }
+
+    :where(.mat-mdc-button-base.#{$class}:active:not(:disabled)) {
+      --exp-material-button-corner: var(--exp-corner-small);
+    }
+
+    // Two classes, because Material's own rules for these properties have one and load later.
+    .mat-mdc-button-base.#{$class} {
+      min-width: 58px;
+      transition:
+        map.get($variant, transition),
+        border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: map.get($variant, transition);
+      }
+    }
+  }
+
+  // OutlinedButtonTokens: Material still uses primary and outline here.
+  :where(.mat-mdc-button-base.mat-mdc-outlined-button) {
+    --mat-button-outlined-label-text-color: var(--mat-sys-on-surface-variant);
+    --mat-button-outlined-state-layer-color: var(--mat-sys-on-surface-variant);
+    --mat-button-outlined-ripple-color: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+      transparent
+    );
+    --mat-button-outlined-outline-color: var(--mat-sys-outline-variant);
+    --mat-button-outlined-disabled-outline-color: color-mix(in srgb, var(--mat-sys-outline-variant) 10%, transparent);
+  }
+
+  :where(.mat-mdc-button-base.mat-mdc-button) {
+    --mat-button-text-with-icon-horizontal-padding: 16px;
+  }
+
+  :where(.mat-mdc-icon-button) {
+    --exp-material-icon-button-corner: 50%;
+    --mat-icon-button-container-shape: var(--exp-material-icon-button-corner);
+  }
+
+  :where(.mat-mdc-icon-button:active:not(:disabled)) {
+    --exp-material-icon-button-corner: var(--exp-corner-small);
+  }
+
+  .mat-mdc-icon-button.mat-mdc-button-base {
+    transition: border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+}

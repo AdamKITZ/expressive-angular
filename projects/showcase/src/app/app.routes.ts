@@ -31,6 +31,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/icon-button-sizes').then((m) => m.IconButtonSizesReference),
   },
   {
+    path: 'reference/material-buttons',
+    loadComponent: () => import('./reference/material-buttons').then((m) => m.MaterialButtonsReference),
+  },
+  {
     path: 'reference/split-button',
     loadComponent: () => import('./reference/split-button').then((m) => m.SplitButtonReference),
   },
