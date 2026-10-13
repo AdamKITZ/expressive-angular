@@ -1,0 +1,31 @@
+@use '../toolbar/toolbar-items' as toolbar;
+
+// Values from Compose DockedToolbarTokens and BottomAppBarDefaults.Flexible*.
+// Expects the `tokens` and `icon-button` mixins and an Angular Material M3 theme on an ancestor.
+@mixin docked-toolbar {
+  .exp-docked-toolbar {
+    --exp-docked-toolbar-container: var(--mat-sys-surface-container);
+    --exp-docked-toolbar-content: var(--mat-sys-on-surface);
+
+    display: block;
+    padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background: var(--exp-docked-toolbar-container);
+    color: var(--exp-docked-toolbar-content);
+
+    .exp-docked-toolbar-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-sizing: border-box;
+      height: 64px;
+      padding: 0 16px;
+
+      @include toolbar.toolbar-items(var(--exp-docked-toolbar-content));
+    }
+
+    &.exp-docked-toolbar-fixed .exp-docked-toolbar-bar {
+      justify-content: center;
+      gap: 32px;
+    }
+  }
+}

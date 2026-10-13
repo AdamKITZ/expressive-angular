@@ -1,4 +1,10 @@
-import { ExpButton, ExpFloatingToolbar, ExpIconButton, ExpToolbarFab } from '@adam01230/expressive-angular';
+import {
+  ExpButton,
+  ExpDockedToolbar,
+  ExpFloatingToolbar,
+  ExpIconButton,
+  ExpToolbarFab,
+} from '@adam01230/expressive-angular';
 import { ChangeDetectionStrategy, Component, input, InputSignal, signal, WritableSignal } from '@angular/core';
 import { MatButton, MatFabButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -13,6 +19,7 @@ import { MatTooltip } from '@angular/material/tooltip';
     MatIcon,
     MatTooltip,
     ExpButton,
+    ExpDockedToolbar,
     ExpFloatingToolbar,
     ExpIconButton,
     ExpToolbarFab,
@@ -143,6 +150,63 @@ import { MatTooltip } from '@angular/material/tooltip';
         <mat-icon>directions</mat-icon>
       </button>
     </exp-floating-toolbar>
+
+    <h3>Docked, actions spread across the bar</h3>
+    <exp-docked-toolbar aria-label="Message">
+      <button mat-icon-button expIconButton aria-label="Archive" [disabled]="disabled()">
+        <mat-icon>archive</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="Delete" [disabled]="disabled()">
+        <mat-icon>delete</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="Mark unread" [disabled]="disabled()">
+        <mat-icon>mark_email_unread</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="Snooze" [disabled]="disabled()">
+        <mat-icon>schedule</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="More" [disabled]="disabled()">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </exp-docked-toolbar>
+
+    <h3>Docked, fixed spacing, with toggles</h3>
+    <exp-docked-toolbar aria-label="Text formatting" arrangement="fixed">
+      @for (format of formats; track format.key) {
+        <button
+          mat-icon-button
+          expIconButton
+          [morph]="false"
+          [attr.aria-label]="format.label"
+          [selected]="active()[format.key]"
+          [disabled]="disabled()"
+          (click)="toggle(format.key)"
+        >
+          <mat-icon>{{ format.icon }}</mat-icon>
+        </button>
+      }
+    </exp-docked-toolbar>
+
+    <h3>Docked, fixed spacing, vibrant colours</h3>
+    <exp-docked-toolbar class="vibrant" aria-label="Player" arrangement="fixed">
+      <button mat-icon-button expIconButton aria-label="Previous" [disabled]="disabled()">
+        <mat-icon>skip_previous</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        expIconButton
+        appearance="filled"
+        width="wide"
+        [attr.aria-label]="playing() ? 'Pause' : 'Play'"
+        [disabled]="disabled()"
+        (click)="playing.set(!playing())"
+      >
+        <mat-icon>{{ playing() ? 'pause' : 'play_arrow' }}</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="Next" [disabled]="disabled()">
+        <mat-icon>skip_next</mat-icon>
+      </button>
+    </exp-docked-toolbar>
   `,
   styles: `
     :host {
@@ -150,6 +214,16 @@ import { MatTooltip } from '@angular/material/tooltip';
       flex-direction: column;
       align-items: flex-start;
       gap: 12px;
+    }
+
+    exp-docked-toolbar {
+      align-self: stretch;
+      max-width: 412px;
+    }
+
+    .vibrant {
+      --exp-docked-toolbar-container: var(--mat-sys-primary-container);
+      --exp-docked-toolbar-content: var(--mat-sys-on-primary-container);
     }
 
     h3 {

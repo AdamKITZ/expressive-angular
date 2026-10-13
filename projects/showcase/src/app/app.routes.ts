@@ -46,4 +46,8 @@ export const routes: Routes = [
     path: 'reference/floating-toolbar-fab',
     loadComponent: () => import('./reference/floating-toolbar-fab').then((m) => m.FloatingToolbarFabReference),
   },
+  {
+    path: 'reference/docked-toolbar',
+    loadComponent: () => import('./reference/docked-toolbar').then((m) => m.DockedToolbarReference),
+  },
 ];
