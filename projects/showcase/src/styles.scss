@@ -14,6 +14,7 @@ html {
   @include exp.icon-button;
   @include exp.button;
   @include exp.button-group;
+  @include exp.split-button;
 }
 
 body {
