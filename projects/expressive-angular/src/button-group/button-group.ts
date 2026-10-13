@@ -15,6 +15,7 @@ import {
 } from '@angular/core';
 
 import { EXP_BUTTON_GROUP, ExpButton, ExpButtonGroupRef } from '../button/button';
+import { durationMs } from './duration-ms';
 import { pressedWidths } from './pressed-widths';
 
 /** `ButtonGroupDefaults.ExpandedRatio`. */
@@ -88,7 +89,7 @@ export class ExpButtonGroup implements ExpButtonGroupRef {
 
     const style = getComputedStyle(this.host);
     const timing: KeyframeAnimationOptions = {
-      duration: parseFloat(style.getPropertyValue('--exp-motion-fast-spatial-duration')),
+      duration: durationMs(style.getPropertyValue('--exp-motion-fast-spatial-duration')),
       easing: style.getPropertyValue('--exp-motion-fast-spatial'),
       fill: 'forwards',
     };

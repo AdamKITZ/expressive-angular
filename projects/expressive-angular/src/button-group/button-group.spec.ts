@@ -4,6 +4,7 @@ import { MatButton } from '@angular/material/button';
 
 import { ExpButton } from '../button/button';
 import { ExpButtonGroup } from './button-group';
+import { durationMs } from './duration-ms';
 import { pressedWidths } from './pressed-widths';
 
 @Component({
@@ -81,5 +82,14 @@ describe('pressedWidths', () => {
     { name: 'last', index: 2, expected: [100, 85, 115] },
   ])('grows the $name button by the ratio and takes the space from its neighbours', ({ index, expected }) => {
     expect(pressedWidths([100, 100, 100], index, 0.15)).toEqual(expected);
+  });
+});
+
+describe('durationMs', () => {
+  it.each([
+    { value: '360ms', expected: 360 },
+    { value: '.36s', expected: 360 },
+  ])('turns $value into $expected milliseconds', ({ value, expected }) => {
+    expect(durationMs(value)).toBe(expected);
   });
 });
