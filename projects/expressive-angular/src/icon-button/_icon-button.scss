@@ -1,10 +1,71 @@
-// Values from Compose SmallIconButtonTokens, StandardIconButtonTokens and FilledTonalIconButtonTokens.
+@use 'sass:map';
+
+// Values from Compose {XSmall,Small,Medium,Large,XLarge}IconButtonTokens and the Standard, Filled, FilledTonal and
+// Outlined icon button tokens (vibrant colours for standard and outlined).
 // Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
+$-sizes: (
+  xs: (
+    height: 32px,
+    icon: 20px,
+    narrow: 28px,
+    uniform: 32px,
+    wide: 40px,
+    square: medium,
+    pressed: small,
+    selected: medium,
+  ),
+  s: (
+    height: 40px,
+    icon: 24px,
+    narrow: 32px,
+    uniform: 40px,
+    wide: 52px,
+    square: medium,
+    pressed: small,
+    selected: medium,
+  ),
+  m: (
+    height: 56px,
+    icon: 24px,
+    narrow: 48px,
+    uniform: 56px,
+    wide: 72px,
+    square: large,
+    pressed: medium,
+    selected: large,
+  ),
+  l: (
+    height: 96px,
+    icon: 32px,
+    narrow: 64px,
+    uniform: 96px,
+    wide: 128px,
+    square: extra-large,
+    pressed: large,
+    selected: extra-large,
+  ),
+  xl: (
+    height: 136px,
+    icon: 40px,
+    narrow: 104px,
+    uniform: 136px,
+    wide: 184px,
+    square: extra-large,
+    pressed: large,
+    selected: extra-large,
+  ),
+);
+
 @mixin icon-button {
   .mat-mdc-icon-button.exp-icon-button {
     --exp-icon-button-color: var(--mat-sys-on-surface-variant);
-    // Half the 40px size, not Material's corner-full; see `--exp-button-full-corner` in the button mixin.
-    --mat-icon-button-container-shape: 20px;
+    --exp-icon-button-container: transparent;
+    --exp-icon-button-outline: transparent;
+    // In px rather than 50%: a percentage makes wide buttons elliptical.
+    --exp-icon-button-full-corner: calc(min(var(--exp-icon-button-width), var(--exp-icon-button-height)) / 2);
+    --exp-icon-button-corner: var(--exp-icon-button-full-corner);
+    --mat-icon-button-container-shape: var(--exp-icon-button-corner);
+    --mat-icon-button-icon-size: var(--exp-icon-button-icon-size);
     --mat-icon-button-icon-color: var(--exp-icon-button-color);
     --mat-icon-button-state-layer-color: var(--exp-icon-button-color);
     --mat-icon-button-ripple-color: color-mix(
@@ -13,31 +74,100 @@
       transparent
     );
 
-    transition:
-      border-radius var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
-      background-color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects),
-      color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+    width: var(--exp-icon-button-width);
+    height: var(--exp-icon-button-height);
+    padding: calc((var(--exp-icon-button-height) - var(--exp-icon-button-icon-size)) / 2)
+      calc((var(--exp-icon-button-width) - var(--exp-icon-button-icon-size)) / 2);
+    background-color: var(--exp-icon-button-container);
+    // Compose draws the 1dp outline inside the container, at every size.
+    box-shadow: inset 0 0 0 1px var(--exp-icon-button-outline);
+    // Compose morphs on DefaultEffects so the shape never bounces; colours switch without animation.
+    transition: border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
 
-    &.exp-icon-button-selected {
-      --exp-icon-button-color: var(--mat-sys-primary);
-      --mat-icon-button-container-shape: var(--exp-corner-medium);
+    .mat-icon {
+      width: var(--exp-icon-button-icon-size);
+      height: var(--exp-icon-button-icon-size);
+      font-size: var(--exp-icon-button-icon-size);
     }
 
-    &:active:not(:disabled) {
-      --mat-icon-button-container-shape: var(--exp-corner-small);
+    @each $name, $size in $-sizes {
+      &.exp-icon-button-#{$name} {
+        --exp-icon-button-height: #{map.get($size, height)};
+        --exp-icon-button-icon-size: #{map.get($size, icon)};
+        --exp-icon-button-square-corner: var(--exp-corner-#{map.get($size, square)});
+        --exp-icon-button-pressed-corner: var(--exp-corner-#{map.get($size, pressed)});
+        --exp-icon-button-selected-corner: var(--exp-corner-#{map.get($size, selected)});
+
+        @each $width in narrow, uniform, wide {
+          &.exp-icon-button-#{$width} {
+            --exp-icon-button-width: #{map.get($size, $width)};
+          }
+        }
+      }
+    }
+
+    &.exp-icon-button-square {
+      --exp-icon-button-corner: var(--exp-icon-button-square-corner);
+      --exp-icon-button-selected-corner: var(--exp-icon-button-full-corner);
+    }
+
+    &:not(.exp-icon-button-static) {
+      &.exp-icon-button-selected {
+        --exp-icon-button-corner: var(--exp-icon-button-selected-corner);
+      }
+
+      &:active:not(:disabled) {
+        --exp-icon-button-corner: var(--exp-icon-button-pressed-corner);
+      }
+    }
+
+    &.exp-icon-button-standard.exp-icon-button-selected {
+      --exp-icon-button-color: var(--mat-sys-primary);
+    }
+
+    &.exp-icon-button-filled {
+      --exp-icon-button-color: var(--mat-sys-on-primary);
+      --exp-icon-button-container: var(--mat-sys-primary);
+
+      &.exp-icon-button-toggle:not(.exp-icon-button-selected) {
+        --exp-icon-button-color: var(--mat-sys-on-surface-variant);
+        --exp-icon-button-container: var(--mat-sys-surface-container);
+      }
     }
 
     &.exp-icon-button-tonal {
       --exp-icon-button-color: var(--mat-sys-on-secondary-container);
-      background-color: var(--mat-sys-secondary-container);
+      --exp-icon-button-container: var(--mat-sys-secondary-container);
 
       &.exp-icon-button-selected {
         --exp-icon-button-color: var(--mat-sys-on-secondary);
-        background-color: var(--mat-sys-secondary);
+        --exp-icon-button-container: var(--mat-sys-secondary);
+      }
+    }
+
+    &.exp-icon-button-outlined {
+      --exp-icon-button-outline: var(--mat-sys-outline-variant);
+
+      &.exp-icon-button-selected {
+        --exp-icon-button-color: var(--mat-sys-inverse-on-surface);
+        --exp-icon-button-container: var(--mat-sys-inverse-surface);
+        --exp-icon-button-outline: transparent;
+      }
+    }
+
+    &:disabled {
+      &.exp-icon-button-filled,
+      &.exp-icon-button-tonal {
+        background-color: color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
       }
 
-      &:disabled {
-        background-color: color-mix(in srgb, var(--mat-sys-on-surface) 10%, transparent);
+      &.exp-icon-button-outlined {
+        --exp-icon-button-container: transparent;
+        --exp-icon-button-outline: color-mix(in srgb, var(--mat-sys-outline-variant) 38%, transparent);
+
+        &.exp-icon-button-selected {
+          --exp-icon-button-outline: transparent;
+        }
       }
     }
 

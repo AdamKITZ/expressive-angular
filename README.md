@@ -30,6 +30,9 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 ```html
 <button mat-icon-button expIconButton aria-label="History" [selected]="open()"><mat-icon>history</mat-icon></button>
 <button mat-icon-button expIconButton appearance="tonal" aria-label="Send"><mat-icon>send</mat-icon></button>
+<button mat-icon-button expIconButton appearance="filled" size="l" width="wide" shape="square" aria-label="Play">
+  <mat-icon>play_arrow</mat-icon>
+</button>
 
 <exp-button-group aria-label="Billing" connected [(value)]="interval">
   <button matButton="tonal" expButton value="month">Monthly</button>
@@ -40,7 +43,9 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup` and `ExpLoadingIndicator` from `@adam01230/expressive-angular`.
-A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
+`narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
+pressed or selected. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css

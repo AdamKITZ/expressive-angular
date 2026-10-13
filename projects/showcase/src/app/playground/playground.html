@@ -9,36 +9,10 @@
 
 <section>
   <h2>Icon button</h2>
-  <div class="row">
-    <button mat-icon-button expIconButton aria-label="Search" [disabled]="disabled()">
-      <mat-icon>search</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      expIconButton
-      aria-label="Favorite"
-      [selected]="favorite()"
-      [disabled]="disabled()"
-      (click)="favorite.set(!favorite())"
-    >
-      <mat-icon>{{ favorite() ? 'favorite' : 'favorite_border' }}</mat-icon>
-    </button>
-    <button mat-icon-button expIconButton appearance="tonal" aria-label="Edit" [disabled]="disabled()">
-      <mat-icon>edit</mat-icon>
-    </button>
-    <button
-      mat-icon-button
-      expIconButton
-      appearance="tonal"
-      aria-label="Bookmark"
-      [selected]="bookmarked()"
-      [disabled]="disabled()"
-      (click)="bookmarked.set(!bookmarked())"
-    >
-      <mat-icon>{{ bookmarked() ? 'bookmark' : 'bookmark_border' }}</mat-icon>
-    </button>
-  </div>
-  <p class="hint">Standard and tonal, each as an action and as a toggle. Hold a button to see the pressed shape.</p>
+  <app-icon-button-matrix [disabled]="disabled()" />
+  <p class="hint">
+    Filled, tonal, outlined and standard, as an action and as a toggle. Hold a button to see the pressed shape.
+  </p>
 </section>
 
 <section>
