@@ -1,0 +1,170 @@
+@use 'sass:map';
+
+// Values from Compose SplitButton{XSmall,Small,Medium,Large,XLarge}Tokens and SplitButtonDefaults.
+// Expects the `tokens` mixin and an Angular Material M3 theme on an ancestor.
+$-sizes: (
+  xs: (
+    height: 32px,
+    leading-start: 12px,
+    leading-end: 10px,
+    trailing: 13px,
+    leading-icon: 20px,
+    trailing-icon: 22px,
+    inner: extra-small,
+    pressed: small,
+  ),
+  s: (
+    height: 40px,
+    leading-start: 16px,
+    leading-end: 12px,
+    trailing: 13px,
+    leading-icon: 20px,
+    trailing-icon: 22px,
+    inner: extra-small,
+    pressed: medium,
+  ),
+  m: (
+    height: 56px,
+    leading-start: 24px,
+    leading-end: 24px,
+    trailing: 15px,
+    leading-icon: 24px,
+    trailing-icon: 26px,
+    inner: extra-small,
+    pressed: medium,
+  ),
+  l: (
+    height: 96px,
+    leading-start: 48px,
+    leading-end: 48px,
+    trailing: 29px,
+    leading-icon: 32px,
+    trailing-icon: 38px,
+    inner: small,
+    pressed: large-increased,
+  ),
+  xl: (
+    height: 136px,
+    leading-start: 64px,
+    leading-end: 64px,
+    trailing: 43px,
+    leading-icon: 40px,
+    trailing-icon: 50px,
+    inner: medium,
+    pressed: large-increased,
+  ),
+);
+
+@mixin split-button {
+  .exp-split-button {
+    display: inline-flex;
+    gap: 2px;
+    vertical-align: middle;
+
+    @each $name, $size in $-sizes {
+      &.exp-split-button-#{$name} {
+        --exp-split-button-height: #{map.get($size, height)};
+        --exp-split-button-leading-start: #{map.get($size, leading-start)};
+        --exp-split-button-leading-end: #{map.get($size, leading-end)};
+        --exp-split-button-trailing: #{map.get($size, trailing)};
+        --exp-split-button-leading-icon: #{map.get($size, leading-icon)};
+        --exp-split-button-trailing-icon: #{map.get($size, trailing-icon)};
+        --exp-split-button-inner-rest: var(--exp-corner-#{map.get($size, inner)});
+        --exp-split-button-inner-pressed: var(--exp-corner-#{map.get($size, pressed)});
+      }
+    }
+
+    > .mat-mdc-button-base {
+      --exp-split-button-full: calc(var(--exp-split-button-height) / 2);
+      --exp-split-button-inner: var(--exp-split-button-inner-rest);
+      --mat-button-outlined-label-text-color: var(--mat-sys-on-surface-variant);
+      --mat-button-outlined-state-layer-color: var(--mat-sys-on-surface-variant);
+      --mat-button-outlined-ripple-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+        transparent
+      );
+      --mat-button-outlined-outline-color: var(--mat-sys-outline-variant);
+      --mat-button-outlined-disabled-outline-color: color-mix(in srgb, var(--mat-sys-outline-variant) 10%, transparent);
+
+      // Material draws the outline as a border outside the padding; Compose draws it inside the size.
+      --exp-split-button-border: 0px;
+
+      min-width: 48px;
+      height: var(--exp-split-button-height);
+      // Compose morphs on DefaultEffects so the corners never bounce.
+      transition:
+        border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects),
+        padding var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
+
+      &.mat-mdc-outlined-button {
+        --exp-split-button-border: 1px;
+      }
+
+      &:active:not(:disabled) {
+        --exp-split-button-inner: var(--exp-split-button-inner-pressed);
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    > .mat-mdc-button-base:first-child {
+      padding-inline: calc(var(--exp-split-button-leading-start) - var(--exp-split-button-border))
+        calc(var(--exp-split-button-leading-end) - var(--exp-split-button-border));
+      border-radius: 0;
+      border-start-start-radius: var(--exp-split-button-full);
+      border-end-start-radius: var(--exp-split-button-full);
+      border-start-end-radius: var(--exp-split-button-inner);
+      border-end-end-radius: var(--exp-split-button-inner);
+
+      .mat-icon {
+        width: var(--exp-split-button-leading-icon);
+        height: var(--exp-split-button-leading-icon);
+        font-size: var(--exp-split-button-leading-icon);
+      }
+    }
+
+    > .mat-mdc-button-base:last-child {
+      // Compose centres the icon optically: it moves 0.11 × (start corners − end corners) towards the flatter side.
+      --exp-split-button-offset: calc(0.11 * (var(--exp-split-button-inner) - var(--exp-split-button-full)));
+
+      padding-inline: calc(
+          var(--exp-split-button-trailing) - var(--exp-split-button-border) + var(--exp-split-button-offset)
+        )
+        calc(var(--exp-split-button-trailing) - var(--exp-split-button-border) - var(--exp-split-button-offset));
+      border-radius: 0;
+      border-start-start-radius: var(--exp-split-button-inner);
+      border-end-start-radius: var(--exp-split-button-inner);
+      border-start-end-radius: var(--exp-split-button-full);
+      border-end-end-radius: var(--exp-split-button-full);
+
+      .mat-icon {
+        width: var(--exp-split-button-trailing-icon);
+        height: var(--exp-split-button-trailing-icon);
+        margin: 0;
+        font-size: var(--exp-split-button-trailing-icon);
+        transition: rotate var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
+      }
+
+      &[aria-expanded='true'] {
+        --exp-split-button-inner: var(--exp-split-button-full);
+        // Compose draws the content colour at the pressed state-layer opacity over the open trailing button.
+        background-image: linear-gradient(
+          color-mix(in srgb, currentColor calc(var(--mat-sys-pressed-state-layer-opacity) * 100%), transparent) 0 0
+        );
+
+        .mat-icon {
+          rotate: 180deg;
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .mat-icon {
+          transition: none;
+        }
+      }
+    }
+  }
+}

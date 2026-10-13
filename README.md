@@ -22,6 +22,7 @@ html {
   @include exp.icon-button;
   @include exp.button;
   @include exp.button-group;
+  @include exp.split-button;
 }
 ```
 
@@ -39,13 +40,21 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
   <button matButton="tonal" expButton value="year">Yearly</button>
 </exp-button-group>
 
+<exp-split-button size="m">
+  <button matButton="filled"><mat-icon>edit</mat-icon> Edit</button>
+  <button matButton="filled" aria-label="More" [matMenuTriggerFor]="menu">
+    <mat-icon>keyboard_arrow_down</mat-icon>
+  </button>
+</exp-split-button>
+
 <exp-loading-indicator aria-label="Loading" />
 ```
 
-Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup` and `ExpLoadingIndicator` from `@adam01230/expressive-angular`.
+Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton` and `ExpLoadingIndicator` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
-pressed or selected. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
+trailing one becomes a pill and flips its icon while its menu is open. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css

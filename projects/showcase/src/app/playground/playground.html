@@ -16,6 +16,12 @@
 </section>
 
 <section>
+  <h2>Split button</h2>
+  <app-split-button-demo [disabled]="disabled()" />
+  <p class="hint">Hold a half to see its inner corners grow. Opening the menu turns the trailing half into a pill.</p>
+</section>
+
+<section>
   <h2>Toggle button</h2>
   <div class="row">
     @for (format of ['bold', 'italic']; track format) {

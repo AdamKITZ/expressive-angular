@@ -4,12 +4,13 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSig
 import { MatButton } from '@angular/material/button';
 
 import { IconButtonMatrix } from './icon-button-matrix';
+import { SplitButtonDemo } from './split-button-demo';
 
 type Scheme = 'light dark' | 'light' | 'dark';
 
 @Component({
   selector: 'app-playground',
-  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix],
+  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix, SplitButtonDemo],
   templateUrl: './playground.html',
   styleUrl: './playground.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
