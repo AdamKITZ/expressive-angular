@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.BottomAppBarDefaults
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.FlexibleBottomAppBar
 import androidx.compose.material3.IconButton
@@ -30,7 +31,7 @@ import org.junit.Test
  * Must render the same scene as the showcase route `/reference/docked-toolbar`: a 360dp wide `FlexibleBottomAppBar`
  * with the default (SpaceBetween) and the fixed arrangement, without window insets.
  */
-@OptIn(ExperimentalMaterial3ExpressiveApi::class)
+@OptIn(ExperimentalMaterial3Api::class, ExperimentalMaterial3ExpressiveApi::class)
 class DockedToolbarTest {
   @get:Rule
   val paparazzi = Paparazzi(
