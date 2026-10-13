@@ -99,7 +99,8 @@ npm run format:check
 
 Bump `projects/expressive-angular/package.json`, merge, then run the `Release` workflow on `main` (Actions → Release →
 Run workflow). It builds the library, publishes it to npm as `@adam01230/expressive-angular` and creates the GitHub
-release `v<version>`.
+release `v<version>`. Publishing needs no token: npm trusts this repository's `release.yml` (npm package settings →
+Trusted Publisher).
 
 ## License
 

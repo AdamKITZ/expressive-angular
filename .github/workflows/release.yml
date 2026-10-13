@@ -22,10 +22,9 @@ jobs:
         run: echo "VERSION=$(node -p "require('./projects/expressive-angular/package.json').version")" >> "$GITHUB_ENV"
       - run: npm run build:lib
       - run: cp LICENSE NOTICE README.md dist/expressive-angular/
-      - run: npm publish --provenance --access public
+      # Authenticates through npm Trusted Publishing (OIDC, `id-token: write`), which also adds provenance.
+      - run: npm publish --access public
         working-directory: dist/expressive-angular
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
       - run: gh release create "v${VERSION}" --target "${GITHUB_SHA}" --title "v${VERSION}" --generate-notes
         env:
           GH_TOKEN: ${{ github.token }}
