@@ -22,6 +22,7 @@ class Host {
 
 async function setup(orientation: ExpFloatingToolbarOrientation = 'horizontal'): Promise<{
   host: Host;
+  element: HTMLElement;
   button: (label: string) => HTMLButtonElement;
   press: (key: string) => Promise<void>;
   stable: () => Promise<void>;
@@ -36,7 +37,7 @@ async function setup(orientation: ExpFloatingToolbarOrientation = 'horizontal'):
     document.activeElement?.dispatchEvent(new KeyboardEvent('keydown', { key, bubbles: true }));
     await fixture.whenStable();
   };
-  return { host: fixture.componentInstance, button, press, stable: () => fixture.whenStable() };
+  return { host: fixture.componentInstance, element, button, press, stable: () => fixture.whenStable() };
 }
 
 describe('ExpFloatingToolbar', () => {
@@ -73,6 +74,13 @@ describe('ExpFloatingToolbar', () => {
     button('bold').focus();
     await press('ArrowRight');
     expect(['back', 'bold', 'link', 'more'].map((label) => button(label).tabIndex)).toEqual([-1, -1, 0, -1]);
+  });
+
+  it('names the toolbar with the aria-label set on the component', async () => {
+    const { element } = await setup();
+
+    expect(element.querySelector('[role=toolbar]')?.getAttribute('aria-label')).toBe('Editor');
+    expect(element.querySelector('exp-floating-toolbar')?.hasAttribute('aria-label')).toBe(false);
   });
 
   it('leaves folded items out and moves the tab stop off them when collapsing', async () => {
