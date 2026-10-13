@@ -61,6 +61,19 @@ $-variants: (
     }
   }
 
+  // OutlinedButtonTokens: Material still uses primary and outline here.
+  :where(.mat-mdc-button-base.mat-mdc-outlined-button) {
+    --mat-button-outlined-label-text-color: var(--mat-sys-on-surface-variant);
+    --mat-button-outlined-state-layer-color: var(--mat-sys-on-surface-variant);
+    --mat-button-outlined-ripple-color: color-mix(
+      in srgb,
+      var(--mat-sys-on-surface-variant) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+      transparent
+    );
+    --mat-button-outlined-outline-color: var(--mat-sys-outline-variant);
+    --mat-button-outlined-disabled-outline-color: color-mix(in srgb, var(--mat-sys-outline-variant) 10%, transparent);
+  }
+
   :where(.mat-mdc-button-base.mat-mdc-button) {
     --mat-button-text-with-icon-horizontal-padding: 16px;
   }

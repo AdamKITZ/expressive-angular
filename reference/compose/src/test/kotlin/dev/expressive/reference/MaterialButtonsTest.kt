@@ -34,7 +34,8 @@ import org.junit.Test
 /**
  * Must render the same scene as the showcase route `/reference/material-buttons`: plain Angular Material buttons
  * under the `material-buttons` mixin. The 48dp touch target is switched off because on the web it doesn't take
- * layout space.
+ * layout space. The icon button takes the vibrant colours, as `expIconButton` does: its default colours follow
+ * LocalContentColor, which the web has no equivalent of.
  */
 class MaterialButtonsTest {
   @get:Rule
@@ -59,7 +60,13 @@ class MaterialButtonsTest {
             OutlinedButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Dot(20) }
             TextButton(onClick = {}, shapes = ButtonDefaults.shapes()) { Dot(20) }
             Button(onClick = {}, shapes = ButtonDefaults.shapes(), enabled = false) { Dot(20) }
-            IconButton(onClick = {}, shapes = IconButtonDefaults.shapes()) { Dot(24) }
+            IconButton(
+              onClick = {},
+              shapes = IconButtonDefaults.shapes(),
+              colors = IconButtonDefaults.iconButtonVibrantColors(),
+            ) {
+              Dot(24)
+            }
           }
         }
       }
