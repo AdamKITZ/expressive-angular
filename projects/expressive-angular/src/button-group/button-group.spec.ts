@@ -1,5 +1,6 @@
 import { Component, signal } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 
 import { ExpButton } from '../button/button';
@@ -72,6 +73,46 @@ describe('ExpButtonGroup', () => {
 
     expect(fixture.componentInstance.value()).toBe(to);
     expect(document.activeElement).toBe(buttons[to - 1]);
+  });
+});
+
+@Component({
+  imports: [MatButton, ExpButton, ExpButtonGroup, ReactiveFormsModule],
+  template: `
+    <exp-button-group connected aria-label="Length" [formControl]="length">
+      <button matButton="tonal" expButton value="short">Short</button>
+      <button matButton="tonal" expButton value="long">Long</button>
+    </exp-button-group>
+  `,
+})
+class FormHost {
+  public readonly length = new FormControl('short');
+}
+
+describe('ExpButtonGroup in a form', () => {
+  it('shows the control value, writes the clicked button back and turns touched once focus leaves', async () => {
+    const fixture = TestBed.createComponent(FormHost);
+    await fixture.whenStable();
+    const buttons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+    expect(buttons.map((button) => button.getAttribute('aria-checked'))).toEqual(['true', 'false']);
+
+    buttons[1].click();
+    buttons[1].dispatchEvent(new FocusEvent('focusout', { bubbles: true }));
+    await fixture.whenStable();
+
+    expect(fixture.componentInstance.length.value).toBe('long');
+    expect(fixture.componentInstance.length.touched).toBe(true);
+  });
+
+  it('follows a value set on the control', async () => {
+    const fixture = TestBed.createComponent(FormHost);
+    await fixture.whenStable();
+
+    fixture.componentInstance.length.setValue('long');
+    await fixture.whenStable();
+
+    const buttons = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+    expect(buttons.map((button) => button.getAttribute('aria-checked'))).toEqual(['false', 'true']);
   });
 });
 
