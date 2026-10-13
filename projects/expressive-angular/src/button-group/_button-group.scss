@@ -10,9 +10,6 @@
     gap: 2px;
 
     .mat-mdc-button-base.exp-button {
-      // Half the 40px height. Material's corner-full is a huge length, and a browser scales down all radii on an
-      // edge whose sum exceeds it, which would flatten the inner corners.
-      --exp-button-full-corner: 20px;
       --exp-button-inner-corner: var(--exp-corner-small);
       --exp-button-start-corners: var(--exp-button-inner-corner);
       --exp-button-end-corners: var(--exp-button-inner-corner);

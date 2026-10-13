@@ -3,7 +3,8 @@
 @mixin icon-button {
   .mat-mdc-icon-button.exp-icon-button {
     --exp-icon-button-color: var(--mat-sys-on-surface-variant);
-    --mat-icon-button-container-shape: var(--mat-sys-corner-full);
+    // Half the 40px size, not Material's corner-full; see `--exp-button-full-corner` in the button mixin.
+    --mat-icon-button-container-shape: 20px;
     --mat-icon-button-icon-color: var(--exp-icon-button-color);
     --mat-icon-button-state-layer-color: var(--exp-icon-button-color);
     --mat-icon-button-ripple-color: color-mix(
