@@ -115,6 +115,45 @@ import { MatTooltip } from '@angular/material/tooltip';
       </button>
     </exp-floating-toolbar>
 
+    <h3>Call, with mute and camera toggles</h3>
+    <exp-floating-toolbar aria-label="Call" [expanded]="expanded()">
+      <button
+        mat-icon-button
+        expIconButton
+        [morph]="false"
+        aria-label="Mute microphone"
+        [selected]="active()['muted']"
+        [disabled]="disabled()"
+        (click)="toggle('muted')"
+      >
+        <mat-icon>{{ active()['muted'] ? 'mic_off' : 'mic' }}</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        expIconButton
+        [morph]="false"
+        aria-label="Turn camera off"
+        [selected]="active()['cameraOff']"
+        [disabled]="disabled()"
+        (click)="toggle('cameraOff')"
+      >
+        <mat-icon>{{ active()['cameraOff'] ? 'videocam_off' : 'videocam' }}</mat-icon>
+      </button>
+      <button mat-icon-button expIconButton aria-label="Share screen" [disabled]="disabled()">
+        <mat-icon>present_to_all</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        expIconButton
+        appearance="filled"
+        width="wide"
+        aria-label="Leave call"
+        [disabled]="disabled()"
+      >
+        <mat-icon>call_end</mat-icon>
+      </button>
+    </exp-floating-toolbar>
+
     <h3>With a text button and a FAB</h3>
     <exp-floating-toolbar aria-label="Mail" [expanded]="expanded()">
       <button mat-icon-button expIconButton aria-label="Archive" [disabled]="disabled()">
