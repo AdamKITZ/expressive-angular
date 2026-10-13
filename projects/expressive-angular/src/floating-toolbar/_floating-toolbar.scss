@@ -1,3 +1,5 @@
+@use '../toolbar/toolbar-items' as toolbar;
+
 // Values from Compose FloatingToolbarTokens and FloatingToolbarDefaults.
 // Expects the `tokens` and `icon-button` mixins and an Angular Material M3 theme on an ancestor.
 @mixin floating-toolbar {
@@ -43,25 +45,7 @@
         flex-shrink: 0;
       }
 
-      // Compose's items abut; the gaps come from each icon button's 48dp touch target, which takes no space on the
-      // web.
-      .mat-mdc-icon-button.exp-icon-button {
-        margin: calc(max(0px, 48px - var(--exp-icon-button-height)) / 2)
-          calc(max(0px, 48px - var(--exp-icon-button-width)) / 2);
-      }
-
-      // Inside a toolbar Compose's icon buttons follow the toolbar's content colour; a selected one turns Primary.
-      .mat-mdc-icon-button.exp-icon-button-standard {
-        --exp-icon-button-color: var(--exp-floating-toolbar-content);
-
-        &.exp-icon-button-selected {
-          --exp-icon-button-color: var(--mat-sys-primary);
-        }
-      }
-
-      .mat-mdc-icon-button.exp-icon-button:disabled {
-        --mat-icon-button-disabled-icon-color: color-mix(in srgb, var(--exp-floating-toolbar-content) 38%, transparent);
-      }
+      @include toolbar.toolbar-items(var(--exp-floating-toolbar-content));
     }
 
     .exp-floating-toolbar-side {

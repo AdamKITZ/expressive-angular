@@ -1,0 +1,21 @@
+// Icon buttons inside a toolbar whose content colour is `$content`.
+@mixin toolbar-items($content) {
+  // Compose's items abut; the gaps come from each icon button's 48dp touch target, which takes no space on the web.
+  .mat-mdc-icon-button.exp-icon-button {
+    margin: calc(max(0px, 48px - var(--exp-icon-button-height)) / 2)
+      calc(max(0px, 48px - var(--exp-icon-button-width)) / 2);
+  }
+
+  // Inside a toolbar Compose's icon buttons follow the toolbar's content colour; a selected one turns Primary.
+  .mat-mdc-icon-button.exp-icon-button-standard {
+    --exp-icon-button-color: #{$content};
+
+    &.exp-icon-button-selected {
+      --exp-icon-button-color: var(--mat-sys-primary);
+    }
+  }
+
+  .mat-mdc-icon-button.exp-icon-button:disabled {
+    --mat-icon-button-disabled-icon-color: color-mix(in srgb, #{$content} 38%, transparent);
+  }
+}
