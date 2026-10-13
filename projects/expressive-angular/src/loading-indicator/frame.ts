@@ -34,12 +34,14 @@ function morphProgress(ms: number): number {
   return MORPH_PROGRESS[before] + (MORPH_PROGRESS[before + 1] - MORPH_PROGRESS[before]) * (frame - before);
 }
 
-/** Scales the cubics and centres their bounds in the box, as Compose's `processPath` does. */
+/**
+ * Scales the cubics and puts their centre of area in the middle of the box. Compose's `processPath` centres the
+ * bounds instead, which leaves the pentagon's centre of area 1.2px off the rotation centre at 48px, so it wobbles.
+ */
 function toPath(points: number[]): string {
-  const xs = points.filter((_, i) => i % 2 === 0);
-  const ys = points.filter((_, i) => i % 2 === 1);
-  const offsetX = 0.5 - ((Math.min(...xs) + Math.max(...xs)) / 2) * SHAPE_SCALE;
-  const offsetY = 0.5 - ((Math.min(...ys) + Math.max(...ys)) / 2) * SHAPE_SCALE;
+  const [centreX, centreY] = areaCentre(points);
+  const offsetX = 0.5 - centreX * SHAPE_SCALE;
+  const offsetY = 0.5 - centreY * SHAPE_SCALE;
   const at = (i: number): string =>
     `${round(points[i] * SHAPE_SCALE + offsetX)} ${round(points[i + 1] * SHAPE_SCALE + offsetY)}`;
   const curves: string[] = [];
@@ -47,6 +49,34 @@ function toPath(points: number[]): string {
     curves.push(`C${at(i + 2)} ${at(i + 4)} ${at(i + 6)}`);
   }
   return `M${at(0)}${curves.join('')}Z`;
+}
+
+/** From a polygon of 16 points per cubic; finer sampling moves the result by less than 0.01px at 48px. */
+function areaCentre(points: number[]): [number, number] {
+  const polygon: [number, number][] = [];
+  for (let i = 0; i < points.length; i += 8) {
+    for (let step = 0; step < 16; step++) {
+      const t = step / 16;
+      const u = 1 - t;
+      const at = (k: number): number =>
+        u * u * u * points[i + k] +
+        3 * u * u * t * points[i + 2 + k] +
+        3 * u * t * t * points[i + 4 + k] +
+        t * t * t * points[i + 6 + k];
+      polygon.push([at(0), at(1)]);
+    }
+  }
+  let area = 0;
+  let x = 0;
+  let y = 0;
+  polygon.forEach(([x0, y0], i) => {
+    const [x1, y1] = polygon[(i + 1) % polygon.length];
+    const cross = x0 * y1 - x1 * y0;
+    area += cross;
+    x += (x0 + x1) * cross;
+    y += (y0 + y1) * cross;
+  });
+  return [x / (3 * area), y / (3 * area)];
 }
 
 function round(value: number): number {
