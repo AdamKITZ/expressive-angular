@@ -47,6 +47,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/range-slider').then((m) => m.RangeSliderReference),
   },
   {
+    path: 'reference/segmented-list',
+    loadComponent: () => import('./reference/segmented-list').then((m) => m.SegmentedListReference),
+  },
+  {
     path: 'reference/slider',
     loadComponent: () => import('./reference/slider').then((m) => m.SliderReference),
   },

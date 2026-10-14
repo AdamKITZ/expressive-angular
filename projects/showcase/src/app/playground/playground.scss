@@ -39,3 +39,15 @@ h2 {
 .vertical-sliders {
   height: 200px;
 }
+
+.segmented .exp-segmented-list {
+  max-width: 360px;
+  padding: 8px;
+  border-radius: var(--exp-corner-large);
+  background: var(--mat-sys-surface-container);
+
+  > * {
+    display: flex;
+    align-items: center;
+  }
+}
