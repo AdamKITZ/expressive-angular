@@ -68,10 +68,12 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 
 <exp-linear-progress wavy [value]="uploaded" aria-label="Upload" />
 <exp-circular-progress wavy aria-label="Loading" />
+
+<exp-slider><input type="range" aria-label="Volume" min="0" max="1" formControlName="volume" /></exp-slider>
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar`,
-`ExpLoadingIndicator`, `ExpLinearProgress` and `ExpCircularProgress` from `@adam01230/expressive-angular`.
+`ExpLoadingIndicator`, `ExpLinearProgress`, `ExpCircularProgress` and `ExpSlider` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
 pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
@@ -83,7 +85,9 @@ hence `[morph]="false"`. A docked toolbar spans the bottom of the screen and pad
 `--exp-docked-toolbar-content` change its colours. A linear progress indicator takes a `value` from 0 to 100, or none while the wait is unknown; `wavy` turns its indicator into
 the expressive wave. `contained` puts the loading indicator on a round PrimaryContainer, as Compose's `ContainedLoadingIndicator`.
 A circular progress indicator works the same as the linear one and is 40px, or 48px when wavy; give it another `width` and `height`
-to resize it. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+to resize it. A slider draws Compose's `Slider` around a native `<input type="range">`, which keeps the value, forms
+binding, label and keyboard; without a `step` attribute it is continuous, with one it snaps and shows a dot per step.
+A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css

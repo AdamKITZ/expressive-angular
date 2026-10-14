@@ -4,9 +4,11 @@ import {
   ExpCircularProgress,
   ExpLinearProgress,
   ExpLoadingIndicator,
+  ExpSlider,
 } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
 
 import { IconButtonMatrix } from './icon-button-matrix';
@@ -24,6 +26,8 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpCircularProgress,
     ExpLinearProgress,
     ExpLoadingIndicator,
+    ExpSlider,
+    ReactiveFormsModule,
     IconButtonMatrix,
     SplitButtonDemo,
     ToolbarDemo,
@@ -39,6 +43,7 @@ export class Playground {
   protected readonly range: WritableSignal<unknown> = signal('week');
   protected readonly size: WritableSignal<unknown> = signal('m');
   protected readonly progress: WritableSignal<number> = signal(40);
+  protected readonly volume: FormControl<number | null> = new FormControl(0.3);
 
   private readonly document: Document = inject(DOCUMENT);
 
