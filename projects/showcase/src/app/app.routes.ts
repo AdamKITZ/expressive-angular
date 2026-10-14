@@ -43,6 +43,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/material-buttons').then((m) => m.MaterialButtonsReference),
   },
   {
+    path: 'reference/rich-tooltip',
+    loadComponent: () => import('./reference/rich-tooltip').then((m) => m.RichTooltipReference),
+  },
+  {
     path: 'reference/split-button',
     loadComponent: () => import('./reference/split-button').then((m) => m.SplitButtonReference),
   },

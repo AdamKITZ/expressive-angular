@@ -10,6 +10,7 @@ import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSig
 import { MatButton } from '@angular/material/button';
 
 import { IconButtonMatrix } from './icon-button-matrix';
+import { RichTooltipDemo } from './rich-tooltip-demo';
 import { SplitButtonDemo } from './split-button-demo';
 import { ToolbarDemo } from './toolbar-demo';
 
@@ -25,6 +26,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpLinearProgress,
     ExpLoadingIndicator,
     IconButtonMatrix,
+    RichTooltipDemo,
     SplitButtonDemo,
     ToolbarDemo,
   ],

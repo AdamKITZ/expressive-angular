@@ -18,6 +18,7 @@ html {
   @include exp.split-button;
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
+  @include exp.rich-tooltip;
 }
 
 body {

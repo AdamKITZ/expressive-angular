@@ -1,0 +1,68 @@
+// Values from Compose RichTooltipTokens and Tooltip.kt. Expects the `tokens` mixin and an Angular Material M3 theme.
+//
+// Compose places the subhead and the text by their first baseline. In a 20px line of 14px Roboto that baseline sits
+// 14.8px below the top of the line box, so a baseline distance becomes padding by subtracting it.
+$first-baseline: 14.8px;
+
+@mixin rich-tooltip {
+  .exp-rich-tooltip {
+    box-sizing: border-box;
+    min-width: 40px;
+    max-width: 320px;
+    min-height: 24px;
+    padding: 0 16px;
+    border-radius: var(--mat-sys-corner-medium);
+    background: var(--mat-sys-surface-container);
+    color: var(--mat-sys-on-surface-variant);
+    box-shadow: var(--mat-sys-level2);
+    font: var(--mat-sys-body-medium);
+    letter-spacing: var(--mat-sys-body-medium-tracking);
+    transition:
+      transform var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
+      opacity var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+
+    @starting-style {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+
+    &.exp-rich-tooltip-closing {
+      transform: scale(0.8);
+      opacity: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: opacity var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+
+      @starting-style {
+        transform: none;
+      }
+
+      &.exp-rich-tooltip-closing {
+        transform: none;
+      }
+    }
+  }
+
+  .exp-rich-tooltip-subhead {
+    display: block;
+    padding-top: 28px - $first-baseline;
+    font: var(--mat-sys-title-small);
+    letter-spacing: var(--mat-sys-title-small-tracking);
+  }
+
+  .exp-rich-tooltip-text {
+    padding: 24px - $first-baseline 0 16px;
+
+    .exp-rich-tooltip-plain > & {
+      padding: 4px 0;
+    }
+  }
+
+  .exp-rich-tooltip-actions {
+    display: flex;
+    align-items: center;
+    min-height: 36px;
+    padding-bottom: 8px;
+  }
+}

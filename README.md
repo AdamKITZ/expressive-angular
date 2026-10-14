@@ -26,6 +26,7 @@ html {
   @include exp.split-button;
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
+  @include exp.rich-tooltip;
 }
 ```
 
@@ -68,10 +69,20 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 
 <exp-linear-progress wavy [value]="uploaded" aria-label="Upload" />
 <exp-circular-progress wavy aria-label="Loading" />
+
+<button mat-icon-button aria-label="About retention" [expRichTooltipTriggerFor]="retention">
+  <mat-icon>info</mat-icon>
+</button>
+<exp-rich-tooltip #retention>
+  <span expRichTooltipSubhead>Retention</span>
+  Entries older than <strong>90 days</strong> are deleted.
+  <div expRichTooltipActions><button matButton (click)="openSettings()">Settings</button></div>
+</exp-rich-tooltip>
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar`,
-`ExpLoadingIndicator`, `ExpLinearProgress` and `ExpCircularProgress` from `@adam01230/expressive-angular`.
+`ExpLoadingIndicator`, `ExpLinearProgress`, `ExpCircularProgress`, `ExpRichTooltip`, `ExpRichTooltipTrigger`,
+`ExpRichTooltipSubhead` and `ExpRichTooltipActions` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
 pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
@@ -83,7 +94,9 @@ hence `[morph]="false"`. A docked toolbar spans the bottom of the screen and pad
 `--exp-docked-toolbar-content` change its colours. A linear progress indicator takes a `value` from 0 to 100, or none while the wait is unknown; `wavy` turns its indicator into
 the expressive wave. `contained` puts the loading indicator on a round PrimaryContainer, as Compose's `ContainedLoadingIndicator`.
 A circular progress indicator works the same as the linear one and is 40px, or 48px when wavy; give it another `width` and `height`
-to resize it. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+to resize it. A rich tooltip holds any HTML; it opens on hover, keyboard focus or a touch long press above its anchor,
+or below with `expRichTooltipPosition="below"`. With an `expRichTooltipActions` row it is persistent: it also opens on
+click, stays until a click outside or Escape, and Tab moves from the anchor into its buttons. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css
