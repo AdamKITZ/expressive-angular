@@ -79,7 +79,13 @@ export function circularProgressFrame(input: CircularProgressFrameInput): Circul
       visible: Math.max(0, circumference - spacing - trackStart),
       offset: -trackStart,
     },
-    indicator: { ...star, visible: stop, offset: -shift * star.length, rotation: -shift * 360 },
+    indicator: {
+      d: star.d,
+      length: 2 * star.length,
+      visible: stop,
+      offset: -shift * star.length,
+      rotation: -shift * 360,
+    },
     rotation: input.rotation,
   };
 }
@@ -119,7 +125,8 @@ function circlePath(centre: number, radius: number): { d: string } {
 /**
  * The circle-to-star morph at `amplitude`, or the star's own outline, which starts at a different point, before the
  * first morph; turned so it starts at 12 o'clock, scaled to the size less a stroke and
- * centred on its bounds, as Compose's `pathFromCubics` and `processPath` do.
+ * centred on its bounds, as Compose's `pathFromCubics` and `processPath` do. The outline runs round twice, so the
+ * indicator still fits when the wave has moved it past the start; `length` is one round.
  */
 function starPath(size: number, vertices: number, amplitude: number, morphed: boolean): { d: string; length: number } {
   const { star, start, end } = SHAPES[vertices];
@@ -140,13 +147,13 @@ function starPath(size: number, vertices: number, amplitude: number, morphed: bo
   const dy = size / 2 - (Math.min(...ys) + Math.max(...ys)) / 2;
   const at = (i: number): string => `${round(xs[i] + dx)} ${round(ys[i] + dy)}`;
 
-  let d = `M${at(0)}`;
+  let once = '';
   let length = 0;
   for (let i = 0; i < xs.length; i += 4) {
-    d += `C${at(i + 1)} ${at(i + 2)} ${at(i + 3)}`;
+    once += `C${at(i + 1)} ${at(i + 2)} ${at(i + 3)}`;
     length += cubicLength(xs.slice(i, i + 4), ys.slice(i, i + 4));
   }
-  return { d: `${d}Z`, length };
+  return { d: `M${at(0)}${once}${once}Z`, length };
 }
 
 /** By 16 chords; finer sampling changes the length of a 48px indicator by less than 0.01px. */
