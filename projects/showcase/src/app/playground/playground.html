@@ -99,4 +99,13 @@
   <p class="hint">Volume {{ volume.value }}. Five steps, and disabled.</p>
   <exp-slider><input type="range" aria-label="Rating" min="1" max="5" step="1" value="3" /></exp-slider>
   <exp-slider><input type="range" aria-label="Locked" min="0" max="100" value="60" disabled /></exp-slider>
+  <p class="hint">A range, continuous and in steps of 10.</p>
+  <exp-range-slider>
+    <input type="range" aria-label="Lowest price" min="0" max="100" value="20" />
+    <input type="range" aria-label="Highest price" min="0" max="100" value="70" />
+  </exp-range-slider>
+  <exp-range-slider>
+    <input type="range" aria-label="From" min="0" max="100" step="10" value="30" />
+    <input type="range" aria-label="To" min="0" max="100" step="10" value="60" />
+  </exp-range-slider>
 </section>

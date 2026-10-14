@@ -4,6 +4,7 @@ import {
   ExpCircularProgress,
   ExpLinearProgress,
   ExpLoadingIndicator,
+  ExpRangeSlider,
   ExpSlider,
 } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
@@ -26,6 +27,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpCircularProgress,
     ExpLinearProgress,
     ExpLoadingIndicator,
+    ExpRangeSlider,
     ExpSlider,
     ReactiveFormsModule,
     IconButtonMatrix,
