@@ -15,6 +15,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/button-group').then((m) => m.ButtonGroupReference),
   },
   {
+    path: 'reference/circular-progress',
+    loadComponent: () => import('./reference/circular-progress').then((m) => m.CircularProgressReference),
+  },
+  {
     path: 'reference/corner-large-increased',
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },

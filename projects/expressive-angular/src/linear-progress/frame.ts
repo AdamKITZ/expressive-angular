@@ -81,6 +81,22 @@ export function waveAmplitude(progress: number): number {
   return progress <= 0.1 || progress >= 0.95 ? 0 : 1;
 }
 
+/** `IncreasingAmplitudeAnimationSpec` and `DecreasingAmplitudeAnimationSpec` in WavyProgressIndicator.kt. */
+const AMPLITUDE_MS = 500;
+
+/** A change of the wave's amplitude that started `since` ms after the indicator did. */
+export interface AmplitudeTransition {
+  from: number;
+  to: number;
+  since: number;
+}
+
+/** Compose eases the wave in with the standard curve and out with the emphasized accelerate one. */
+export function amplitudeAt({ from, to, since }: AmplitudeTransition, elapsedMs: number): number {
+  const t = Math.min((elapsedMs - since) / AMPLITUDE_MS, 1);
+  return from + (to - from) * (to > from ? standard(t) : emphasizedAccelerate(t));
+}
+
 /** Tail and head of the two lines of the indeterminate indicator, `elapsedMs` after it starts. */
 export function indeterminateFractions(elapsedMs: number): number[] {
   const ms = elapsedMs % CYCLE_MS;
@@ -129,7 +145,7 @@ function wave(from: number, to: number, input: LinearProgressFrameInput): string
 }
 
 /** `MotionTokens.EasingEmphasizedAccelerateCubicBezier`, cubic-bezier(0.3, 0, 0.8, 0.15). */
-export function emphasizedAccelerate(x: number): number {
+function emphasizedAccelerate(x: number): number {
   return cubicBezier(0.3, 0, 0.8, 0.15, x);
 }
 

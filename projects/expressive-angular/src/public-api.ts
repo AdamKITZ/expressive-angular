@@ -1,5 +1,6 @@
 export { ExpButton } from './button/button';
 export { ExpButtonGroup } from './button-group/button-group';
+export { ExpCircularProgress } from './circular-progress/circular-progress';
 export * from './docked-toolbar/docked-toolbar';
 export * from './floating-toolbar/floating-toolbar';
 export * from './icon-button/icon-button';

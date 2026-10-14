@@ -1,4 +1,10 @@
-import { ExpButton, ExpButtonGroup, ExpLinearProgress, ExpLoadingIndicator } from '@adam01230/expressive-angular';
+import {
+  ExpButton,
+  ExpButtonGroup,
+  ExpCircularProgress,
+  ExpLinearProgress,
+  ExpLoadingIndicator,
+} from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
@@ -15,6 +21,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
     MatButton,
     ExpButton,
     ExpButtonGroup,
+    ExpCircularProgress,
     ExpLinearProgress,
     ExpLoadingIndicator,
     IconButtonMatrix,

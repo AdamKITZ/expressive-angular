@@ -14,10 +14,7 @@ import {
   viewChild,
 } from '@angular/core';
 
-import { emphasizedAccelerate, indeterminateFractions, linearProgressFrame, standard, waveAmplitude } from './frame';
-
-/** `IncreasingAmplitudeAnimationSpec` and `DecreasingAmplitudeAnimationSpec` in WavyProgressIndicator.kt. */
-const AMPLITUDE_MS = 500;
+import { amplitudeAt, AmplitudeTransition, indeterminateFractions, linearProgressFrame, waveAmplitude } from './frame';
 
 /**
  * Compose's `LinearProgressIndicator`, or with `wavy` its `LinearWavyProgressIndicator`: determinate with a `value`
@@ -105,7 +102,7 @@ export class ExpLinearProgress {
       const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)');
       // Date.now rather than the frame timestamp, so a test can pin the animation with Playwright's setFixedTime.
       const start = Date.now();
-      let amplitude: { from: number; to: number; since: number } | null = null;
+      let amplitude: AmplitudeTransition | null = null;
       let frameId = 0;
 
       const draw = (): void => {
@@ -145,10 +142,4 @@ export class ExpLinearProgress {
       destroyRef.onDestroy(() => cancelAnimationFrame(frameId));
     });
   }
-}
-
-/** Compose eases the wave in with the standard curve and out with the emphasized accelerate one. */
-function amplitudeAt({ from, to, since }: { from: number; to: number; since: number }, elapsedMs: number): number {
-  const t = Math.min((elapsedMs - since) / AMPLITUDE_MS, 1);
-  return from + (to - from) * (to > from ? standard(t) : emphasizedAccelerate(t));
 }
