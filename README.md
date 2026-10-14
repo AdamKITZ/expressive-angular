@@ -64,10 +64,12 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 </exp-docked-toolbar>
 
 <exp-loading-indicator aria-label="Loading" />
+
+<exp-linear-progress wavy [value]="uploaded" aria-label="Upload" />
 ```
 
-Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar` and
-`ExpLoadingIndicator` from `@adam01230/expressive-angular`.
+Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar`,
+`ExpLoadingIndicator` and `ExpLinearProgress` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
 pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
@@ -76,7 +78,8 @@ trailing one becomes a pill and flips its icon while its menu is open. A floatin
 the FAB. Icon buttons inside it take the toolbar's content colour; Compose's toolbars use toggles that keep their shape,
 hence `[morph]="false"`. A docked toolbar spans the bottom of the screen and pads itself by the safe-area insets; its
 `arrangement` is `space-between` or `fixed` (centred, 32px apart), and `--exp-docked-toolbar-container` and
-`--exp-docked-toolbar-content` change its colours. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+`--exp-docked-toolbar-content` change its colours. A linear progress indicator takes a `value` from 0 to 100, or none while the wait is unknown; `wavy` turns its indicator into
+the expressive wave. A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 The motion tokens work on their own too:
 
 ```css
