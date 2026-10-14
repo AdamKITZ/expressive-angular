@@ -11,15 +11,15 @@ import org.junit.Test
 
 /**
  * Records the shapes Compose's `CircularWavyProgressIndicator` strokes, for tools/tokens/generate.ts to turn into
- * TypeScript: per vertex count, the track circle's cubics and the circle-to-star morph's matched cubics at progress
- * 0 and 1. Mirrors `CircularShapes.update` in CircularWavyProgressModifiers.kt. Vertex counts 5 to 24 cover
- * indicators up to about 120px with the default 15dp wavelength.
+ * TypeScript: per vertex count, the star's own cubics, which Compose strokes until the amplitude first changes, and
+ * the circle-to-star morph's matched cubics at progress 0 and 1, which it strokes from then on. Mirrors `CircularShapes.update` in CircularWavyProgressModifiers.kt. Vertex counts 5 to 12 cover
+ * indicators up to about 60px with the default 15dp wavelength.
  */
 class CircularWavyShapesTest {
   @Test
   fun record() {
-    val shapes = (5..24).map { vertices ->
-      val track = RoundedPolygon.circle(numVertices = vertices).normalized()
+    val shapes = (5..12).map { vertices ->
+      val circle = RoundedPolygon.circle(numVertices = vertices).normalized()
       val star =
         RoundedPolygon.star(
             numVerticesPerRadius = vertices,
@@ -28,8 +28,8 @@ class CircularWavyShapesTest {
             innerRounding = CornerRounding(radius = 0.5f),
           )
           .normalized()
-      val morph = Morph(track, star)
-      "    \"$vertices\": { \"track\": ${cubics(track.cubics)}, \"start\": ${cubics(morph.asCubics(0f))}, " +
+      val morph = Morph(circle, star)
+      "    \"$vertices\": { \"star\": ${cubics(star.cubics)}, \"start\": ${cubics(morph.asCubics(0f))}, " +
         "\"end\": ${cubics(morph.asCubics(1f))} }"
     }
     File("src/test/snapshots/circular-wavy-progress.json").writeText("{\n${shapes.joinToString(",\n")}\n}\n")

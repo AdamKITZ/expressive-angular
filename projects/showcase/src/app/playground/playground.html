@@ -81,4 +81,11 @@
   <p class="hint">Indeterminate, wavy and flat.</p>
   <exp-linear-progress wavy aria-label="Loading" />
   <exp-linear-progress aria-label="Loading" />
+  <h2>Circular progress</h2>
+  <div class="row">
+    <exp-circular-progress wavy [value]="progress()" aria-label="Upload" />
+    <exp-circular-progress [value]="progress()" aria-label="Storage used" />
+    <exp-circular-progress wavy aria-label="Loading" />
+    <exp-circular-progress aria-label="Loading" />
+  </div>
 </section>
