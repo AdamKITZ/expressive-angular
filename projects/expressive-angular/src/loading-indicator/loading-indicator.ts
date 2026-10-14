@@ -1,10 +1,13 @@
 import {
   afterNextRender,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   DestroyRef,
   ElementRef,
   inject,
+  input,
+  InputSignalWithTransform,
   Signal,
   viewChild,
 } from '@angular/core';
@@ -12,8 +15,9 @@ import {
 import { loadingIndicatorFrame } from './frame';
 
 /**
- * Compose's indeterminate `LoadingIndicator` (uncontained): shapes morphing into each other while turning. 48px by
- * default; size it with `width`/`height` and colour it with `color`. Give it an `aria-label`.
+ * Compose's indeterminate `LoadingIndicator`: shapes morphing into each other while turning. With `contained` it is
+ * `ContainedLoadingIndicator`, on a round PrimaryContainer. 48px by default; size it with `width`/`height` and colour
+ * it with `color` (and `background-color` when contained). Give it an `aria-label`.
  */
 @Component({
   selector: 'exp-loading-indicator',
@@ -26,6 +30,12 @@ import { loadingIndicatorFrame } from './frame';
       color: var(--mat-sys-primary);
     }
 
+    :host(.exp-loading-indicator-contained) {
+      border-radius: 50%;
+      background-color: var(--mat-sys-primary-container);
+      color: var(--mat-sys-on-primary-container);
+    }
+
     svg {
       display: block;
       width: 100%;
@@ -33,10 +43,14 @@ import { loadingIndicatorFrame } from './frame';
       fill: currentColor;
     }
   `,
-  host: { role: 'progressbar' },
+  host: { role: 'progressbar', '[class.exp-loading-indicator-contained]': 'contained()' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpLoadingIndicator {
+  public readonly contained: InputSignalWithTransform<boolean, unknown> = input(false, {
+    transform: booleanAttribute,
+  });
+
   private readonly path: Signal<ElementRef<SVGPathElement>> = viewChild.required<ElementRef<SVGPathElement>>('path');
 
   constructor() {
