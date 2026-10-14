@@ -84,6 +84,11 @@ $-sizes: (
     // Compose morphs on DefaultEffects so the shape never bounces; colours switch without animation.
     transition: border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
 
+    // Material gives the icon button's state layer the target corner directly, so it would skip the morph.
+    .mat-mdc-button-persistent-ripple {
+      border-radius: inherit;
+    }
+
     .mat-icon {
       width: var(--exp-icon-button-icon-size);
       height: var(--exp-icon-button-icon-size);

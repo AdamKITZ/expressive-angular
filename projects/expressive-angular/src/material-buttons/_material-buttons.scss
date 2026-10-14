@@ -90,6 +90,11 @@ $-variants: (
   .mat-mdc-icon-button.mat-mdc-button-base {
     transition: border-radius var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
 
+    // Material gives the icon button's state layer the target corner directly, so it would skip the morph.
+    .mat-mdc-button-persistent-ripple {
+      border-radius: inherit;
+    }
+
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
