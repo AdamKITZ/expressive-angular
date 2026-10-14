@@ -1,8 +1,10 @@
 package dev.expressive.reference
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.ContainedLoadingIndicator
 import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.LoadingIndicator
 import androidx.compose.material3.MaterialTheme
@@ -31,8 +33,12 @@ class LoadingIndicatorTest {
   fun firstFrame() {
     paparazzi.snapshot(name = "loading-indicator") {
       MaterialTheme {
-        Box(Modifier.background(MaterialTheme.colorScheme.surface).padding(12.dp)) {
+        Row(
+          Modifier.background(MaterialTheme.colorScheme.surface).padding(12.dp),
+          horizontalArrangement = Arrangement.spacedBy(12.dp),
+        ) {
           LoadingIndicator()
+          ContainedLoadingIndicator()
         }
       }
     }
