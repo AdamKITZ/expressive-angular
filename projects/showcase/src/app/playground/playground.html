@@ -68,3 +68,17 @@
   <h2>Loading indicator</h2>
   <exp-loading-indicator aria-label="Loading" />
 </section>
+
+<section class="progress">
+  <h2>Linear progress</h2>
+  <label>
+    Value
+    <input type="range" min="0" max="100" [value]="progress()" (input)="progress.set(+$any($event.target).value)" />
+    {{ progress() }}
+  </label>
+  <exp-linear-progress wavy [value]="progress()" aria-label="Upload" />
+  <exp-linear-progress [value]="progress()" aria-label="Storage used" />
+  <p class="hint">Indeterminate, wavy and flat.</p>
+  <exp-linear-progress wavy aria-label="Loading" />
+  <exp-linear-progress aria-label="Loading" />
+</section>

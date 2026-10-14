@@ -19,6 +19,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },
   {
+    path: 'reference/linear-progress',
+    loadComponent: () => import('./reference/linear-progress').then((m) => m.LinearProgressReference),
+  },
+  {
     path: 'reference/loading-indicator',
     loadComponent: () => import('./reference/loading-indicator').then((m) => m.LoadingIndicatorReference),
   },

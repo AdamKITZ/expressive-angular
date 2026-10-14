@@ -1,4 +1,4 @@
-import { ExpButton, ExpButtonGroup, ExpLoadingIndicator } from '@adam01230/expressive-angular';
+import { ExpButton, ExpButtonGroup, ExpLinearProgress, ExpLoadingIndicator } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { MatButton } from '@angular/material/button';
@@ -11,7 +11,16 @@ type Scheme = 'light dark' | 'light' | 'dark';
 
 @Component({
   selector: 'app-playground',
-  imports: [MatButton, ExpButton, ExpButtonGroup, ExpLoadingIndicator, IconButtonMatrix, SplitButtonDemo, ToolbarDemo],
+  imports: [
+    MatButton,
+    ExpButton,
+    ExpButtonGroup,
+    ExpLinearProgress,
+    ExpLoadingIndicator,
+    IconButtonMatrix,
+    SplitButtonDemo,
+    ToolbarDemo,
+  ],
   templateUrl: './playground.html',
   styleUrl: './playground.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +31,7 @@ export class Playground {
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');
   protected readonly size: WritableSignal<unknown> = signal('m');
+  protected readonly progress: WritableSignal<number> = signal(40);
 
   private readonly document: Document = inject(DOCUMENT);
 
