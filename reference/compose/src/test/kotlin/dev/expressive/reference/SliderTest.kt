@@ -2,11 +2,16 @@ package dev.expressive.reference
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ExperimentalMaterial3ExpressiveApi
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
+import androidx.compose.material3.VerticalSlider
+import androidx.compose.material3.rememberSliderState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import app.cash.paparazzi.DeviceConfig
@@ -51,6 +56,24 @@ class SliderTest {
           RangeSlider(value = 0f..1f, onValueChange = {}, steps = 3)
           RangeSlider(value = 0.5f..0.5f, onValueChange = {})
           RangeSlider(value = 0.3f..0.6f, onValueChange = {}, enabled = false)
+        }
+      }
+    }
+  }
+
+  @OptIn(ExperimentalMaterial3ExpressiveApi::class)
+  @Test
+  fun verticals() {
+    paparazzi.snapshot(name = "vertical-slider") {
+      MaterialTheme {
+        Row(Modifier.background(MaterialTheme.colorScheme.surface).padding(12.dp).height(200.dp)) {
+          VerticalSlider(state = rememberSliderState(value = 0.3f))
+          VerticalSlider(state = rememberSliderState(value = 0.06f))
+          VerticalSlider(state = rememberSliderState(value = 0.5f, steps = 3))
+          VerticalSlider(state = rememberSliderState(value = 0f))
+          VerticalSlider(state = rememberSliderState(value = 1f))
+          VerticalSlider(state = rememberSliderState(value = 0.3f), reverseDirection = true)
+          VerticalSlider(state = rememberSliderState(value = 0.6f), enabled = false)
         }
       }
     }

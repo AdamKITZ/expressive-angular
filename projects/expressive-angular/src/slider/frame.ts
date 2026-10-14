@@ -24,6 +24,8 @@ export interface SliderFrameInput {
   ticks: number[];
   /** A slider has an end thumb only; a range slider has both. */
   range: boolean;
+  /** Compose's vertical slider lets a track without steps grow from nothing, its corners shrinking to fit. */
+  shrinkCorners: boolean;
   startThumbWidth: number;
   endThumbWidth: number;
 }
@@ -54,13 +56,15 @@ export function sliderFrame(input: SliderFrameInput): SliderFrame {
   const startGap = input.startThumbWidth / 2 + THUMB_GAP;
   const endGap = input.endThumbWidth / 2 + THUMB_GAP;
 
+  const shrink = input.shrinkCorners && ticks.length === 0;
+  const shortest = shrink ? 0 : CORNER;
   const pieces: TrackPiece[] = [];
   const stops: number[] = [];
-  if (range && startThumb > startGap + CORNER) {
+  if (range && startThumb > startGap + shortest) {
     pieces.push({ x: 0, width: startThumb - startGap, startRadius: CORNER, endRadius: INSIDE_CORNER, active: false });
     stops.push(CORNER);
   }
-  if (endThumb < width - endGap - CORNER) {
+  if (endThumb < width - endGap - shortest) {
     const x = endThumb + endGap;
     pieces.push({ x, width: width - x, startRadius: INSIDE_CORNER, endRadius: CORNER, active: false });
     stops.push(width - CORNER);
@@ -68,7 +72,7 @@ export function sliderFrame(input: SliderFrameInput): SliderFrame {
   const activeStart = range ? startThumb + startGap : 0;
   const activeEnd = endThumb - endGap;
   const startRadius = range ? INSIDE_CORNER : CORNER;
-  if (activeEnd - activeStart > startRadius) {
+  if (activeEnd - activeStart > (shrink ? 0 : startRadius)) {
     pieces.push({
       x: activeStart,
       width: activeEnd - activeStart,
@@ -86,11 +90,12 @@ export function sliderFrame(input: SliderFrameInput): SliderFrame {
   return { startThumb, endThumb, pieces, stops, ticks: dots };
 }
 
-/** An SVG path for a track piece of the track's height. */
+/** An SVG path for a track piece of the track's height; corners wider than the piece shrink to fit, as in Skia. */
 export function trackPath({ x, width, startRadius, endRadius }: TrackPiece): string {
   const h = TRACK_HEIGHT;
-  const s = startRadius;
-  const e = endRadius;
+  const fit = Math.min(1, width / (startRadius + endRadius));
+  const s = startRadius * fit;
+  const e = endRadius * fit;
   const right = x + width;
   return (
     `M${x + s} 0H${right - e}A${e} ${e} 0 0 1 ${right} ${e}V${h - e}A${e} ${e} 0 0 1 ${right - e} ${h}` +

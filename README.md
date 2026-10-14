@@ -70,6 +70,7 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 <exp-circular-progress wavy aria-label="Loading" />
 
 <exp-slider><input type="range" aria-label="Volume" min="0" max="1" formControlName="volume" /></exp-slider>
+<exp-slider vertical reverse><input type="range" aria-label="Level" formControlName="level" /></exp-slider>
 <exp-range-slider>
   <input type="range" aria-label="From" min="0" max="100" formControlName="from" />
   <input type="range" aria-label="To" min="0" max="100" formControlName="to" />
@@ -91,6 +92,7 @@ the expressive wave. `contained` puts the loading indicator on a round PrimaryCo
 A circular progress indicator works the same as the linear one and is 40px, or 48px when wavy; give it another `width` and `height`
 to resize it. A slider draws Compose's `Slider` around a native `<input type="range">`, which keeps the value, forms
 binding, label and keyboard; without a `step` attribute it is continuous, with one it snaps and shows a dot per step.
+A `vertical` slider fills its height and runs from the top down, or from the bottom up with `reverse`.
 A range slider takes two such inputs with the same `min`, `max` and `step`, the start first; a press moves the nearer
 thumb, and neither passes the other.
 A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.

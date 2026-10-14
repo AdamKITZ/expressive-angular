@@ -98,6 +98,7 @@ export class ExpRangeSlider implements OnInit {
       end: this.end().fraction,
       ticks: this.start().ticks,
       range: true,
+      shrinkCorners: false,
       startThumbWidth: this.startThumbWidth(),
       endThumbWidth: this.endThumbWidth(),
     })
@@ -171,7 +172,7 @@ export class ExpRangeSlider implements OnInit {
     if (!thumb || this.disabled()) return;
     const reading = readRange(this.input(thumb));
     const [lower, upper] = thumb === 'start' ? [reading.min, Number(end.value)] : [Number(start.value), reading.max];
-    const next = valueForKey(event.key, reading, this.rtl(), lower, upper);
+    const next = valueForKey(event.key, reading, this.rtl() ? 'rtl' : 'ltr', lower, upper);
     if (next === undefined) return;
     event.preventDefault();
     commit(this.input(thumb), next, ['input', 'change']);

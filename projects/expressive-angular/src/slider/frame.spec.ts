@@ -1,4 +1,4 @@
-import { sliderFrame, SliderFrameInput } from './frame';
+import { sliderFrame, SliderFrameInput, trackPath } from './frame';
 
 const steps = [0, 0.25, 0.5, 0.75, 1];
 const slider: SliderFrameInput = {
@@ -7,6 +7,7 @@ const slider: SliderFrameInput = {
   end: 0.5,
   ticks: [],
   range: false,
+  shrinkCorners: false,
   startThumbWidth: 0,
   endThumbWidth: 4,
 };
@@ -64,5 +65,15 @@ describe('sliderFrame', () => {
   it('drops a track too short to show its rounded end', () => {
     const { pieces } = sliderFrame({ ...slider, end: 0.05 });
     expect(pieces.map((piece) => piece.active)).toEqual([false]);
+  });
+
+  it('keeps a short track when its corners shrink, as on a vertical slider without steps', () => {
+    const { pieces } = sliderFrame({ ...slider, end: 0.05, shrinkCorners: true });
+    expect(pieces.map((piece) => piece.active)).toEqual([false, true]);
+  });
+
+  it('shrinks both corners of a piece shorter than they are, as Compose’s rounded rectangle does', () => {
+    const path = trackPath({ x: 0, width: 5, startRadius: 8, endRadius: 2, active: true });
+    expect(path).toBe(trackPath({ x: 0, width: 5, startRadius: 4, endRadius: 1, active: true }));
   });
 });

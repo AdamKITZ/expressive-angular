@@ -15,7 +15,21 @@ class Continuous {}
 })
 class Stepped {}
 
-/** happy-dom has no layout: the slider is 204px wide, so its track is 200px. */
+@Component({
+  imports: [ExpSlider],
+  template: `<exp-slider vertical><input type="range" aria-label="Volume" min="0" max="10" value="5" /></exp-slider>`,
+})
+class Vertical {}
+
+@Component({
+  imports: [ExpSlider],
+  template: `
+    <exp-slider vertical reverse><input type="range" aria-label="Volume" min="0" max="10" value="5" /></exp-slider>
+  `,
+})
+class Reversed {}
+
+/** happy-dom has no layout: the slider is 204px long, so its track is 200px. */
 class FixedWidth {
   constructor(private readonly callback: () => void) {}
   public observe(): void {
@@ -27,6 +41,7 @@ class FixedWidth {
 beforeEach(() => {
   vi.stubGlobal('ResizeObserver', FixedWidth);
   vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(204);
+  vi.spyOn(HTMLElement.prototype, 'clientHeight', 'get').mockReturnValue(204);
 });
 
 afterEach(() => {
@@ -34,7 +49,7 @@ afterEach(() => {
   vi.restoreAllMocks();
 });
 
-async function press(host: typeof Continuous | typeof Stepped, key: string): Promise<string> {
+async function press(host: typeof Continuous, key: string): Promise<string> {
   const fixture = TestBed.createComponent(host);
   await fixture.whenStable();
   const input = (fixture.nativeElement as HTMLElement).querySelector('input')!;
@@ -50,6 +65,9 @@ describe('ExpSlider', () => {
     { host: Continuous, key: 'End', value: '10' },
     { host: Stepped, key: 'ArrowLeft', value: '2' },
     { host: Stepped, key: 'PageUp', value: '6' },
+    { host: Vertical, key: 'ArrowDown', value: '5.1' },
+    { host: Vertical, key: 'PageUp', value: '4' },
+    { host: Reversed, key: 'ArrowUp', value: '5.1' },
   ])('moves on $key like Compose', async ({ host, key, value }) => {
     expect(Number(await press(host, key))).toBeCloseTo(Number(value));
   });
@@ -63,5 +81,15 @@ describe('ExpSlider', () => {
     await fixture.whenStable();
 
     expect(thumb.style.insetInlineStart).toBe('180px');
+  });
+
+  it('puts the minimum at the bottom of a reversed vertical slider', async () => {
+    const fixture = TestBed.createComponent(Reversed);
+    await fixture.whenStable();
+    const element = fixture.nativeElement as HTMLElement;
+    element.querySelector('input')!.value = '9';
+    await fixture.whenStable();
+
+    expect(element.querySelector<HTMLElement>('.exp-slider-thumb')!.style.top).toBe('20px');
   });
 });
