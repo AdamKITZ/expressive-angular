@@ -26,6 +26,7 @@ html {
   @include exp.split-button;
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
+  @include exp.segmented-list; // children of .exp-segmented-list become Compose's segmented list items
 }
 ```
 
@@ -75,6 +76,11 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
   <input type="range" aria-label="From" min="0" max="100" formControlName="from" />
   <input type="range" aria-label="To" min="0" max="100" formControlName="to" />
 </exp-range-slider>
+
+<div class="exp-segmented-list">
+  <div>Notifications</div>
+  <div>Language</div>
+</div>
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar`,
@@ -96,6 +102,8 @@ A `vertical` slider fills its height and runs from the top down, or from the bot
 A range slider takes two such inputs with the same `min`, `max` and `step`, the start first; a press moves the nearer
 thumb, and neither passes the other.
 A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+Every child of `.exp-segmented-list` becomes a segmented list item: 2px apart, small corners, large outer corners on the
+first and last. Lay out the item's content yourself; the list sets its shape, padding, height and colours.
 The motion tokens work on their own too:
 
 ```css

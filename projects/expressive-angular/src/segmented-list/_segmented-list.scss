@@ -1,0 +1,30 @@
+// Values from Compose SegmentedListItem with ListItemDefaults.segmentedShapes(), segmentedColors() and ContentPadding
+// (ListTokens). Gives every child of `.exp-segmented-list` the look of a segmented list item: only the outer corners
+// of the first and last item are large, and a single item keeps the small corners, as in Compose.
+// Covers the resting state; hover, pressed and selected shapes come when a clickable list needs them.
+@mixin segmented-list {
+  .exp-segmented-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+
+    > * {
+      box-sizing: border-box;
+      min-height: 56px;
+      padding: 10px 16px;
+      border-radius: var(--exp-corner-extra-small);
+      background: var(--mat-sys-surface);
+      color: var(--mat-sys-on-surface);
+    }
+
+    > :first-child:not(:last-child) {
+      border-top-left-radius: var(--exp-corner-large);
+      border-top-right-radius: var(--exp-corner-large);
+    }
+
+    > :last-child:not(:first-child) {
+      border-bottom-left-radius: var(--exp-corner-large);
+      border-bottom-right-radius: var(--exp-corner-large);
+    }
+  }
+}
