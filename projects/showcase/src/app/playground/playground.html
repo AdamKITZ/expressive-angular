@@ -108,4 +108,12 @@
     <input type="range" aria-label="From" min="0" max="100" step="10" value="30" />
     <input type="range" aria-label="To" min="0" max="100" step="10" value="60" />
   </exp-range-slider>
+  <p class="hint">Vertical, from the top and, reversed, from the bottom.</p>
+  <div class="row vertical-sliders">
+    <exp-slider vertical><input type="range" aria-label="Depth" min="0" max="100" value="40" /></exp-slider>
+    <exp-slider vertical reverse><input type="range" aria-label="Level" min="0" max="100" value="70" /></exp-slider>
+    <exp-slider vertical reverse>
+      <input type="range" aria-label="Brightness" min="0" max="100" step="20" value="60" />
+    </exp-slider>
+  </div>
 </section>

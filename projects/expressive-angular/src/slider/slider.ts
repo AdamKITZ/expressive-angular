@@ -1,11 +1,14 @@
 import {
   afterNextRender,
+  booleanAttribute,
   ChangeDetectionStrategy,
   Component,
   computed,
   DestroyRef,
   ElementRef,
   inject,
+  input,
+  InputSignalWithTransform,
   OnInit,
   Signal,
   signal,
@@ -14,11 +17,25 @@ import {
 } from '@angular/core';
 
 import { DOT_SIZE, SliderFrame, sliderFrame, trackPath, TrackPiece } from './frame';
-import { commit, makeContinuous, RangeReading, readRange, valueForKey, watchRange } from './native-range';
+import {
+  commit,
+  makeContinuous,
+  RangeReading,
+  readRange,
+  SliderDirection,
+  valueForKey,
+  watchRange,
+} from './native-range';
 
 /** SliderTokens: the thumb is narrower while pressed, dragged or focused from the keyboard. */
 export const THUMB_WIDTH = 4;
 export const PRESSED_THUMB_WIDTH = 2;
+
+/** Inline styles that place the track and the thumb along the slider. */
+interface Placement {
+  track: Record<string, string>;
+  thumb: Record<string, string>;
+}
 
 export const EMPTY_READING: RangeReading = { min: 0, max: 100, value: 0, fraction: 0, ticks: [], disabled: false };
 
@@ -26,43 +43,39 @@ export const EMPTY_READING: RangeReading = { min: 0, max: 100, value: 0, fractio
  * Compose's `Slider` around a native `<input type="range">`, which keeps the value, the forms binding, the label and
  * the accessibility: `<exp-slider><input type="range" aria-label="Volume" formControlName="volume" /></exp-slider>`.
  * Without a `step` attribute the slider is continuous (it sets `step="any"`); with one it snaps to the steps and
- * shows a dot for each, like Compose's `steps`. Fills its width; colour it with `color`.
+ * shows a dot for each, like Compose's `steps`. Fills its width; colour it with `color`. A `vertical` slider is
+ * Compose's `VerticalSlider`: it fills its height, runs from the top down, and from the bottom up when `reverse`.
  */
 @Component({
   selector: 'exp-slider',
   template: `
-    <svg
-      class="exp-slider-track"
-      aria-hidden="true"
-      [style.inset-inline-start.px]="thumbWidth() / 2"
-      [style.width.px]="trackWidth()"
-    >
-      @for (piece of frame().pieces; track piece.x) {
-        <path [class]="piece.active ? 'exp-slider-active' : 'exp-slider-inactive'" [attr.d]="path(piece)" />
-      }
-      @for (cx of frame().stops; track cx) {
-        <circle class="exp-slider-stop" [attr.cx]="cx" cy="8" [attr.r]="dot" />
-      }
-      @for (tick of frame().ticks; track tick.cx) {
-        <circle
-          [class]="tick.active ? 'exp-slider-tick-active' : 'exp-slider-tick'"
-          [attr.cx]="tick.cx"
-          cy="8"
-          [attr.r]="dot"
-        />
-      }
+    <svg class="exp-slider-track" aria-hidden="true" [style]="placement().track">
+      <g [attr.transform]="vertical() ? 'matrix(0 1 1 0 0 0)' : null">
+        @for (piece of frame().pieces; track piece.x) {
+          <path [class]="piece.active ? 'exp-slider-active' : 'exp-slider-inactive'" [attr.d]="path(piece)" />
+        }
+        @for (cx of frame().stops; track cx) {
+          <circle class="exp-slider-stop" [attr.cx]="cx" cy="8" [attr.r]="dot" />
+        }
+        @for (tick of frame().ticks; track tick.cx) {
+          <circle
+            [class]="tick.active ? 'exp-slider-tick-active' : 'exp-slider-tick'"
+            [attr.cx]="tick.cx"
+            cy="8"
+            [attr.r]="dot"
+          />
+        }
+      </g>
     </svg>
-    <div
-      class="exp-slider-thumb"
-      [style.inset-inline-start.px]="frame().endThumb"
-      [style.width.px]="thumbWidth()"
-    ></div>
+    <div class="exp-slider-thumb" [style]="placement().thumb"></div>
     <ng-content />
   `,
   styleUrl: './slider.scss',
   host: {
     class: 'exp-slider',
     '[class.exp-slider-disabled]': 'reading().disabled',
+    '[class.exp-slider-vertical]': 'vertical()',
+    '[class.exp-slider-reverse]': 'vertical() && reverse()',
     '(pointerdown)': 'pressed.set(!reading().disabled)',
     '(document:pointerup)': 'pressed.set(false)',
     '(document:pointercancel)': 'pressed.set(false)',
@@ -74,27 +87,47 @@ export const EMPTY_READING: RangeReading = { min: 0, max: 100, value: 0, fractio
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpSlider implements OnInit {
+  public readonly vertical: InputSignalWithTransform<boolean, unknown> = input(false, { transform: booleanAttribute });
+  public readonly reverse: InputSignalWithTransform<boolean, unknown> = input(false, { transform: booleanAttribute });
+
   protected readonly dot: number = DOT_SIZE / 2;
   protected readonly reading: WritableSignal<RangeReading> = signal(EMPTY_READING);
   protected readonly pressed: WritableSignal<boolean> = signal(false);
   protected readonly focusVisible: WritableSignal<boolean> = signal(false);
-  private readonly width: WritableSignal<number> = signal(0);
+  private readonly length: WritableSignal<number> = signal(0);
 
   protected readonly thumbWidth: Signal<number> = computed(() =>
     this.pressed() || this.focusVisible() ? PRESSED_THUMB_WIDTH : THUMB_WIDTH
   );
-  protected readonly trackWidth: Signal<number> = computed(() => Math.max(0, this.width() - this.thumbWidth()));
+  private readonly trackLength: Signal<number> = computed(() => Math.max(0, this.length() - this.thumbWidth()));
   protected readonly frame: Signal<SliderFrame> = computed(() => {
     const { fraction, ticks } = this.reading();
     return sliderFrame({
-      width: this.trackWidth(),
+      width: this.trackLength(),
       start: 0,
       end: fraction,
       ticks,
       range: false,
+      shrinkCorners: this.vertical(),
       startThumbWidth: 0,
       endThumbWidth: this.thumbWidth(),
     });
+  });
+
+  protected readonly placement: Signal<Placement> = computed((): Placement => {
+    const thumb = this.thumbWidth();
+    const length = this.trackLength();
+    const end = this.frame().endThumb;
+    if (!this.vertical()) {
+      return {
+        track: { 'inset-inline-start': `${thumb / 2}px`, width: `${length}px` },
+        thumb: { 'inset-inline-start': `${end}px`, width: `${thumb}px` },
+      };
+    }
+    return {
+      track: { top: `${thumb / 2}px`, height: `${length}px` },
+      thumb: { top: `${this.reverse() ? length - end : end}px`, height: `${thumb}px` },
+    };
   });
 
   private readonly host: HTMLElement = inject<ElementRef<HTMLElement>>(ElementRef).nativeElement;
@@ -105,7 +138,9 @@ export class ExpSlider implements OnInit {
       const input = this.rangeInput();
       const read = (): void => this.reading.set(readRange(input));
       watchRange(input, read, destroyRef);
-      const size = new ResizeObserver(() => this.width.set(this.host.clientWidth));
+      const size = new ResizeObserver(() =>
+        this.length.set(this.vertical() ? this.host.clientHeight : this.host.clientWidth)
+      );
       size.observe(this.host);
       destroyRef.onDestroy(() => size.disconnect());
       read();
@@ -124,11 +159,15 @@ export class ExpSlider implements OnInit {
     const input = this.rangeInput();
     if (event.target !== input || input.disabled) return;
     const reading = readRange(input);
-    const rtl = getComputedStyle(this.host).direction === 'rtl';
-    const next = valueForKey(event.key, reading, rtl, reading.min, reading.max);
+    const next = valueForKey(event.key, reading, this.direction(), reading.min, reading.max);
     if (next === undefined) return;
     event.preventDefault();
     commit(input, next, ['input', 'change']);
+  }
+
+  private direction(): SliderDirection {
+    if (this.vertical()) return this.reverse() ? 'up' : 'down';
+    return getComputedStyle(this.host).direction === 'rtl' ? 'rtl' : 'ltr';
   }
 
   protected rangeInput(): HTMLInputElement {

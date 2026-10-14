@@ -54,15 +54,19 @@ export function watchRange(input: HTMLInputElement, changed: () => void, destroy
   destroyRef.onDestroy(() => attributes.disconnect());
 }
 
+/** The way the value grows: rightwards or leftwards on a horizontal slider, downwards or upwards on a vertical one. */
+export type SliderDirection = 'ltr' | 'rtl' | 'down' | 'up';
+
 /**
  * Where a key moves the value, kept between `lower` and `upper`, or undefined for other keys. Compose moves a
  * continuous slider by 1 % of its range per key and a stepped one by a step; Page Up and Page Down move by a tenth of
- * the steps, at least one and at most ten.
+ * the steps, at least one and at most ten. The arrows along the slider move the thumb their way, as do Page Up and
+ * Page Down on a vertical slider.
  */
 export function valueForKey(
   key: string,
   reading: RangeReading,
-  rtl: boolean,
+  direction: SliderDirection,
   lower: number,
   upper: number
 ): number | undefined {
@@ -70,17 +74,26 @@ export function valueForKey(
   const steps = ticks.length > 0 ? ticks.length - 1 : 100;
   const delta = (max - min) / steps;
   const page = Math.min(Math.max(Math.floor(steps / 10), 1), 10) * delta;
-  const forward = rtl ? -1 : 1;
-  const next = {
-    ArrowRight: value + forward * delta,
-    ArrowLeft: value - forward * delta,
-    ArrowUp: value + delta,
-    ArrowDown: value - delta,
-    PageUp: value + page,
-    PageDown: value - page,
-    Home: min,
-    End: max,
-  }[key];
+  const forward = direction === 'rtl' || direction === 'up' ? -1 : 1;
+  const moves: Record<string, number> =
+    direction === 'down' || direction === 'up'
+      ? {
+          ArrowDown: forward * delta,
+          ArrowUp: -forward * delta,
+          ArrowRight: delta,
+          ArrowLeft: -delta,
+          PageDown: forward * page,
+          PageUp: -forward * page,
+        }
+      : {
+          ArrowRight: forward * delta,
+          ArrowLeft: -forward * delta,
+          ArrowUp: delta,
+          ArrowDown: -delta,
+          PageUp: page,
+          PageDown: -page,
+        };
+  const next = key === 'Home' ? min : key === 'End' ? max : key in moves ? value + moves[key] : undefined;
   return next === undefined ? undefined : Math.min(Math.max(next, lower), upper);
 }
 

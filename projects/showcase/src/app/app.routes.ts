@@ -51,6 +51,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/slider').then((m) => m.SliderReference),
   },
   {
+    path: 'reference/vertical-slider',
+    loadComponent: () => import('./reference/vertical-slider').then((m) => m.VerticalSliderReference),
+  },
+  {
     path: 'reference/split-button',
     loadComponent: () => import('./reference/split-button').then((m) => m.SplitButtonReference),
   },
