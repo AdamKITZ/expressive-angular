@@ -6,5 +6,6 @@ export * from './floating-toolbar/floating-toolbar';
 export * from './icon-button/icon-button';
 export { ExpLinearProgress } from './linear-progress/linear-progress';
 export { ExpLoadingIndicator } from './loading-indicator/loading-indicator';
+export { ExpRangeSlider } from './slider/range-slider';
 export { ExpSlider } from './slider/slider';
 export * from './split-button/split-button';

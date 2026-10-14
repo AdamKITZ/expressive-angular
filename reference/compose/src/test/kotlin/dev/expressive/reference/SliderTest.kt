@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.RangeSlider
 import androidx.compose.material3.Slider
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
@@ -15,7 +16,7 @@ import com.android.resources.Density
 import org.junit.Rule
 import org.junit.Test
 
-/** Must render the same scene as the showcase route `/reference/slider`. */
+/** Each snapshot must render the same scene as the showcase route of its name. */
 class SliderTest {
   @get:Rule
   val paparazzi = Paparazzi(
@@ -35,6 +36,21 @@ class SliderTest {
           Slider(value = 1f, onValueChange = {})
           Slider(value = 0.6f, onValueChange = {}, enabled = false)
           Slider(value = 0.75f, onValueChange = {}, steps = 3, enabled = false)
+        }
+      }
+    }
+  }
+
+  @Test
+  fun ranges() {
+    paparazzi.snapshot(name = "range-slider") {
+      MaterialTheme {
+        Column(Modifier.background(MaterialTheme.colorScheme.surface).padding(12.dp).width(300.dp)) {
+          RangeSlider(value = 0.2f..0.7f, onValueChange = {})
+          RangeSlider(value = 0.25f..0.75f, onValueChange = {}, steps = 3)
+          RangeSlider(value = 0f..1f, onValueChange = {}, steps = 3)
+          RangeSlider(value = 0.5f..0.5f, onValueChange = {})
+          RangeSlider(value = 0.3f..0.6f, onValueChange = {}, enabled = false)
         }
       }
     }
