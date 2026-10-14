@@ -29,8 +29,20 @@ describe('circularProgressFrame', () => {
       amplitude: 1,
       waveOffset: 0.25,
     });
-    expect(moved.indicator.offset).toBeCloseTo(still.indicator.offset - 0.25 * still.indicator.length);
+    expect(moved.indicator.offset).toBeCloseTo(still.indicator.offset - (0.25 * still.indicator.length) / 2);
     expect(moved.indicator.rotation).toBeCloseTo(-90);
+  });
+
+  it('keeps the whole indicator when the wave has moved past the end of the outline', () => {
+    const { indicator } = circularProgressFrame({
+      ...base,
+      size: 48,
+      wavy: true,
+      progress: 0.87,
+      amplitude: 1,
+      waveOffset: 0.9,
+    });
+    expect(-indicator.offset + indicator.visible).toBeLessThanOrEqual(indicator.length);
   });
 });
 
