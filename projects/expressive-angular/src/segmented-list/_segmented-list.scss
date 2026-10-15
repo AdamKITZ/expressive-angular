@@ -2,6 +2,7 @@
 // (ListTokens). Gives every child of `.exp-segmented-list` the look of a segmented list item: only the outer corners
 // of the first and last item are large, and a single item keeps the small corners, as in Compose.
 // Covers the resting state; hover, pressed and selected shapes come when a clickable list needs them.
+// `--exp-segmented-list-container` stands in for segmentedColors(containerColor), for lists on a Surface page.
 @mixin segmented-list {
   .exp-segmented-list {
     display: flex;
@@ -13,7 +14,7 @@
       min-height: 56px;
       padding: 10px 16px;
       border-radius: var(--exp-corner-extra-small);
-      background: var(--mat-sys-surface);
+      background: var(--exp-segmented-list-container, var(--mat-sys-surface));
       color: var(--mat-sys-on-surface);
     }
 
