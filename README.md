@@ -104,6 +104,7 @@ thumb, and neither passes the other.
 A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 Every child of `.exp-segmented-list` becomes a segmented list item: 2px apart, small corners, large outer corners on the
 first and last. Lay out the item's content yourself; the list sets its shape, padding, height and colours.
+`--exp-segmented-list-container` changes the items' Surface colour, for a list that sits on a Surface page.
 The motion tokens work on their own too:
 
 ```css
