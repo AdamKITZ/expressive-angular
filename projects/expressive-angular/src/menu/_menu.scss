@@ -17,15 +17,19 @@
     --mat-menu-divider-bottom-spacing: 2px;
   }
 
-  // Two classes, because Material's own rules for these properties have one and load later.
+  // Two classes, because Material's own rules for these properties have one and load later. A flex column, so the
+  // items' vertical margins add up instead of collapsing.
   .mat-mdc-menu-panel .mat-mdc-menu-content {
+    display: flex;
+    flex-direction: column;
     padding: 2px 0;
   }
 
+  // 44px items in a 48px touch target, as Compose's minimum interactive size lays them out.
   .mat-mdc-menu-panel .mat-mdc-menu-item {
     width: calc(100% - 8px);
     min-height: 44px;
-    margin: 0 4px;
+    margin: 2px 4px;
     padding-block: 12px;
     border-radius: var(--exp-corner-extra-small);
     transition:
@@ -35,6 +39,11 @@
     @media (prefers-reduced-motion: reduce) {
       transition: none;
     }
+  }
+
+  // Compose's item keeps its 20px text height with a 24px icon; the icon overhangs the padding instead.
+  .mat-mdc-menu-panel .mat-mdc-menu-item > .mat-icon {
+    margin-block: -2px;
   }
 
   .mat-mdc-menu-panel .mat-mdc-menu-content > .mat-mdc-menu-item:first-child,
@@ -61,19 +70,17 @@
     border-radius: 0;
     background: transparent;
     box-shadow: none;
-    filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--mat-sys-shadow) 14%, transparent))
-      drop-shadow(0 1px 5px color-mix(in srgb, var(--mat-sys-shadow) 12%, transparent));
+    filter: drop-shadow(0 1px 2px color-mix(in srgb, var(--mat-sys-shadow) 10%, transparent));
   }
 
   .mat-mdc-menu-panel .mat-mdc-menu-content:has(> .exp-menu-group) {
-    display: flex;
-    flex-direction: column;
     gap: 2px;
     padding: 0;
   }
 
   .exp-menu-group {
-    display: block;
+    display: flex;
+    flex-direction: column;
     padding: 2px 0;
     border-radius: var(--exp-corner-small);
     background: var(--mat-menu-container-color);

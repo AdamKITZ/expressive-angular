@@ -57,7 +57,7 @@ import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
       top: 0;
       left: 0;
       width: 436px;
-      height: 204px;
+      height: 220px;
       background: var(--mat-sys-surface);
     }
 
