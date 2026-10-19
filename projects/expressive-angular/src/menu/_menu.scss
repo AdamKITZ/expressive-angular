@@ -1,0 +1,136 @@
+// Values from Compose DropdownMenuGroup and the selectable DropdownMenuItem (MenuDefaults, SegmentedMenuTokens,
+// StandardMenuTokens). Turns every mat-menu into one menu group: a rounded container, items inset 4px from its edge
+// with their own shape, outer items rounder, the selected item on TertiaryContainer. A menu with `exp-menu-group`s
+// draws each group as its own container. Include it at the root, because menus render in the CDK overlay outside the
+// app. `--exp-menu-container` stands in for the group's containerColor.
+@mixin menu {
+  .mat-mdc-menu-panel {
+    --mat-menu-container-shape: var(--exp-corner-large);
+    --mat-menu-container-color: var(--exp-menu-container, var(--mat-sys-surface-container-low));
+    --mat-menu-item-spacing: 8px;
+    --mat-menu-item-leading-spacing: 12px;
+    --mat-menu-item-trailing-spacing: 12px;
+    --mat-menu-item-with-icon-leading-spacing: 12px;
+    --mat-menu-item-with-icon-trailing-spacing: 12px;
+    --mat-menu-divider-color: var(--mat-sys-outline-variant);
+    --mat-menu-divider-top-spacing: 2px;
+    --mat-menu-divider-bottom-spacing: 2px;
+  }
+
+  // Two classes, because Material's own rules for these properties have one and load later.
+  .mat-mdc-menu-panel .mat-mdc-menu-content {
+    padding: 2px 0;
+  }
+
+  .mat-mdc-menu-panel .mat-mdc-menu-item {
+    width: calc(100% - 8px);
+    min-height: 44px;
+    margin: 0 4px;
+    padding-block: 12px;
+    border-radius: var(--exp-corner-extra-small);
+    transition:
+      border-radius var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
+      background-color var(--exp-motion-fast-effects-duration) var(--exp-motion-fast-effects);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
+  .mat-mdc-menu-panel .mat-mdc-menu-content > .mat-mdc-menu-item:first-child,
+  .exp-menu-group > .mat-mdc-menu-item:first-child,
+  .exp-menu-group-label + .mat-mdc-menu-item {
+    border-top-left-radius: var(--exp-corner-medium);
+    border-top-right-radius: var(--exp-corner-medium);
+  }
+
+  .mat-mdc-menu-panel .mat-mdc-menu-content > .mat-mdc-menu-item:last-child,
+  .exp-menu-group > .mat-mdc-menu-item:last-child {
+    border-bottom-left-radius: var(--exp-corner-medium);
+    border-bottom-right-radius: var(--exp-corner-medium);
+  }
+
+  .mat-mdc-menu-panel .mat-divider {
+    margin-inline: 12px;
+  }
+
+  // A panel with groups draws no container itself; each group is its own, 2px apart. The shadow is a filter on the
+  // panel because the panel's `overflow: auto` clips a box-shadow on the groups; it is Material's level 2 without the
+  // spread, which a drop-shadow lacks.
+  .mat-mdc-menu-panel:has(.exp-menu-group) {
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    filter: drop-shadow(0 2px 2px color-mix(in srgb, var(--mat-sys-shadow) 14%, transparent))
+      drop-shadow(0 1px 5px color-mix(in srgb, var(--mat-sys-shadow) 12%, transparent));
+  }
+
+  .mat-mdc-menu-panel .mat-mdc-menu-content:has(> .exp-menu-group) {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    padding: 0;
+  }
+
+  .exp-menu-group {
+    display: block;
+    padding: 2px 0;
+    border-radius: var(--exp-corner-small);
+    background: var(--mat-menu-container-color);
+  }
+
+  .exp-menu-group:first-child {
+    border-top-left-radius: var(--exp-corner-large);
+    border-top-right-radius: var(--exp-corner-large);
+  }
+
+  .exp-menu-group:last-child {
+    border-bottom-left-radius: var(--exp-corner-large);
+    border-bottom-right-radius: var(--exp-corner-large);
+  }
+
+  .exp-menu-group-label {
+    display: flex;
+    align-items: center;
+    min-height: 32px;
+    padding: 0 4px 0 12px;
+    color: var(--mat-sys-on-surface);
+    font: var(--mat-sys-label-large);
+  }
+
+  // Outranks Material's `.mat-mdc-menu-item:not([disabled]):hover`, which also sets the background.
+  .mat-mdc-menu-panel .mat-mdc-menu-item.exp-menu-item-selected:not([disabled]) {
+    --mat-menu-item-label-text-color: var(--mat-sys-on-tertiary-container);
+    --mat-menu-item-icon-color: var(--mat-sys-on-tertiary-container);
+
+    border-radius: var(--exp-corner-medium);
+    background-color: var(--mat-sys-tertiary-container);
+
+    &:hover,
+    &.cdk-keyboard-focused {
+      background-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-tertiary-container) calc(var(--mat-sys-hover-state-layer-opacity) * 100%),
+        var(--mat-sys-tertiary-container)
+      );
+    }
+  }
+
+  // mat-menu-item projects every mat-icon into its leading slot, so a trailing icon sits in an
+  // `.exp-menu-item-trailing` span inside the label and is pushed to the end from there.
+  .mat-mdc-menu-item-text:has(> .exp-menu-item-trailing) {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .exp-menu-item-trailing {
+    display: flex;
+    margin-inline-start: auto;
+    color: var(--mat-menu-item-icon-color, var(--mat-sys-on-surface-variant));
+  }
+
+  .mat-mdc-menu-item .exp-menu-item-trailing .mat-icon {
+    margin: 0;
+  }
+}

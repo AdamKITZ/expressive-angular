@@ -126,3 +126,39 @@
     <div>Privacy</div>
   </div>
 </section>
+
+<section>
+  <h2>Menu</h2>
+  <div class="row">
+    <button matButton="tonal" [matMenuTriggerFor]="plainMenu">Edit</button>
+    <button matButton="tonal" [matMenuTriggerFor]="groupedMenu">View</button>
+  </div>
+  <p class="hint">Every mat-menu takes the Expressive shape. Groups, a label and a selected item in the second.</p>
+  <mat-menu #plainMenu="matMenu">
+    <button mat-menu-item><mat-icon>content_copy</mat-icon>Copy</button>
+    <button mat-menu-item><mat-icon>content_paste</mat-icon>Paste</button>
+    <button mat-menu-item disabled><mat-icon>delete</mat-icon>Delete</button>
+  </mat-menu>
+  <mat-menu #groupedMenu="matMenu">
+    <exp-menu-group label="Sort by">
+      @for (order of orders; track order) {
+        <button
+          mat-menu-item
+          role="menuitemradio"
+          [attr.aria-checked]="order === sortOrder()"
+          [class.exp-menu-item-selected]="order === sortOrder()"
+          (click)="sortOrder.set(order)"
+        >
+          {{ order }}
+        </button>
+      }
+    </exp-menu-group>
+    <exp-menu-group>
+      <button mat-menu-item>
+        <mat-icon>refresh</mat-icon>
+        <span>Refresh</span>
+        <span class="exp-menu-item-trailing">⌘R</span>
+      </button>
+    </exp-menu-group>
+  </mat-menu>
+</section>

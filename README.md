@@ -27,6 +27,7 @@ html {
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
   @include exp.segmented-list; // children of .exp-segmented-list become Compose's segmented list items
+  @include exp.menu; // every mat-menu gets Compose's Expressive menu shapes
 }
 ```
 
@@ -64,6 +65,18 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
   <button mat-icon-button expIconButton aria-label="Delete"><mat-icon>delete</mat-icon></button>
 </exp-docked-toolbar>
 
+<mat-menu #view="matMenu">
+  <exp-menu-group label="Sort by">
+    <button mat-menu-item role="menuitemradio" aria-checked="true" class="exp-menu-item-selected">Date</button>
+    <button mat-menu-item role="menuitemradio" aria-checked="false">Name</button>
+  </exp-menu-group>
+  <exp-menu-group>
+    <button mat-menu-item>
+      <mat-icon>refresh</mat-icon><span>Refresh</span><span class="exp-menu-item-trailing">⌘R</span>
+    </button>
+  </exp-menu-group>
+</mat-menu>
+
 <exp-loading-indicator aria-label="Loading" />
 <exp-loading-indicator contained aria-label="Saving" />
 
@@ -84,7 +97,7 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 ```
 
 Import `ExpIconButton`, `ExpButton`, `ExpButtonGroup`, `ExpSplitButton`, `ExpFloatingToolbar`, `ExpToolbarFab`, `ExpDockedToolbar`,
-`ExpLoadingIndicator`, `ExpLinearProgress`, `ExpCircularProgress`, `ExpSlider` and `ExpRangeSlider` from `@adam01230/expressive-angular`.
+`ExpLoadingIndicator`, `ExpMenuGroup`, `ExpLinearProgress`, `ExpCircularProgress`, `ExpSlider` and `ExpRangeSlider` from `@adam01230/expressive-angular`.
 An icon button's `appearance` is `standard`, `filled`, `tonal` or `outlined`; `size` runs from `xs` to `xl`, `width` is
 `narrow`, `uniform` or `wide`, and `shape` is `round` or `square`. `[morph]="false"` keeps a toggle's shape when it is
 pressed or selected. A split button takes two Material buttons of the same appearance (`filled`, `tonal`, `elevated` or `outlined`); the
@@ -101,6 +114,10 @@ binding, label and keyboard; without a `step` attribute it is continuous, with o
 A `vertical` slider fills its height and runs from the top down, or from the bottom up with `reverse`.
 A range slider takes two such inputs with the same `min`, `max` and `step`, the start first; a press moves the nearer
 thumb, and neither passes the other.
+With `exp.menu`, every `mat-menu` looks like Compose's Expressive menu: one rounded group with inset items. Put the
+items into `exp-menu-group`s to split a menu into separate groups, each with an optional `label`. The class
+`exp-menu-item-selected` marks the selected item; set `role` and `aria-checked` yourself. A trailing icon or shortcut
+goes into a `.exp-menu-item-trailing` span after the label. `--exp-menu-container` changes the menu colour.
 A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
 Every child of `.exp-segmented-list` becomes a segmented list item: 2px apart, small corners, large outer corners on the
 first and last. Lay out the item's content yourself; the list sets its shape, padding, height and colours.

@@ -43,6 +43,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/material-buttons').then((m) => m.MaterialButtonsReference),
   },
   {
+    path: 'reference/menu',
+    loadComponent: () => import('./reference/menu').then((m) => m.MenuReference),
+  },
+  {
     path: 'reference/range-slider',
     loadComponent: () => import('./reference/range-slider').then((m) => m.RangeSliderReference),
   },
