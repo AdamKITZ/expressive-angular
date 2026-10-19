@@ -4,6 +4,7 @@ import {
   ExpCircularProgress,
   ExpLinearProgress,
   ExpLoadingIndicator,
+  ExpMenuGroup,
   ExpRangeSlider,
   ExpSlider,
 } from '@adam01230/expressive-angular';
@@ -11,6 +12,8 @@ import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
+import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
 import { IconButtonMatrix } from './icon-button-matrix';
 import { SplitButtonDemo } from './split-button-demo';
@@ -27,7 +30,12 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpCircularProgress,
     ExpLinearProgress,
     ExpLoadingIndicator,
+    ExpMenuGroup,
     ExpRangeSlider,
+    MatIcon,
+    MatMenu,
+    MatMenuItem,
+    MatMenuTrigger,
     ExpSlider,
     ReactiveFormsModule,
     IconButtonMatrix,
@@ -46,6 +54,8 @@ export class Playground {
   protected readonly size: WritableSignal<unknown> = signal('m');
   protected readonly progress: WritableSignal<number> = signal(40);
   protected readonly volume: FormControl<number | null> = new FormControl(0.3);
+  protected readonly orders: string[] = ['Name', 'Date', 'Size'];
+  protected readonly sortOrder: WritableSignal<string> = signal('Date');
 
   private readonly document: Document = inject(DOCUMENT);
 
