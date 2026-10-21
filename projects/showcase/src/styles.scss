@@ -21,6 +21,7 @@ html {
   @include exp.segmented-list;
   @include exp.menu;
   @include exp.navigation-bar;
+  @include exp.navigation-rail;
 }
 
 body {

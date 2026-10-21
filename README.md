@@ -29,6 +29,7 @@ html {
   @include exp.segmented-list; // children of .exp-segmented-list become Compose's segmented list items
   @include exp.menu; // every mat-menu gets Compose's Expressive menu shapes
   @include exp.navigation-bar; // a and button children of .exp-navigation-bar become Compose's navigation bar items
+  @include exp.navigation-rail; // the same for .exp-navigation-rail, collapsed or .exp-navigation-rail-expanded
 }
 ```
 
@@ -141,6 +142,10 @@ With `exp.navigation-bar`, every `a` or `button` in a `.exp-navigation-bar` beco
 `ShortNavigationBar`): the first child is the icon, the rest the label. The item with `aria-current` is selected, so
 `routerLinkActive` with `ariaCurrentWhenActive="page"` drives it. The bar pads itself by the bottom safe-area inset;
 `--exp-navigation-bar-container` changes its colour.
+`exp.navigation-rail` does the same for a `.exp-navigation-rail` (Compose's `WideNavigationRail`): 96px wide with the
+label under the icon, or, with `.exp-navigation-rail-expanded`, as wide as its widest item (220px to 360px) with the
+label beside the icon. A `.exp-navigation-rail-header` child, such as the button that toggles the class, sits above
+the items. The rail fills its parent's height; `--exp-navigation-rail-container` changes its colour.
 The motion tokens work on their own too:
 
 ```css

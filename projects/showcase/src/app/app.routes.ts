@@ -51,6 +51,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/navigation-bar').then((m) => m.NavigationBarReference),
   },
   {
+    path: 'reference/navigation-rail',
+    loadComponent: () => import('./reference/navigation-rail').then((m) => m.NavigationRailReference),
+  },
+  {
     path: 'reference/range-slider',
     loadComponent: () => import('./reference/range-slider').then((m) => m.RangeSliderReference),
   },
