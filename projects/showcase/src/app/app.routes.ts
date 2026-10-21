@@ -55,6 +55,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/modal-navigation-rail').then((m) => m.ModalNavigationRailReference),
   },
   {
+    path: 'reference/search',
+    loadComponent: () => import('./reference/search').then((m) => m.SearchReference),
+  },
+  {
     path: 'reference/navigation-rail',
     loadComponent: () => import('./reference/navigation-rail').then((m) => m.NavigationRailReference),
   },

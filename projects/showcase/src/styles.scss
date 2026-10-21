@@ -22,6 +22,7 @@ html {
   @include exp.menu;
   @include exp.navigation-bar;
   @include exp.navigation-rail;
+  @include exp.search;
 }
 
 body {

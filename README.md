@@ -30,6 +30,7 @@ html {
   @include exp.menu; // every mat-menu gets Compose's Expressive menu shapes
   @include exp.navigation-bar; // a and button children of .exp-navigation-bar become Compose's navigation bar items
   @include exp.navigation-rail; // the same for .exp-navigation-rail, collapsed or .exp-navigation-rail-expanded
+  @include exp.search; // exp-search
 }
 ```
 
@@ -151,6 +152,11 @@ the items. The rail fills its parent's height; `--exp-navigation-rail-container`
 dialog that traps focus and closes on Escape or a click on the scrim. Put the same header and items into it as into a
 `.exp-navigation-rail`, and close it yourself after a navigation. `--exp-modal-navigation-rail-container` changes its
 colour.
+`exp-search` is Compose's search bar: a pill that shows `[(query)]` or the `placeholder` and, when clicked, opens the
+search as a modal dialog with the input field and the content you put inside `exp-search`, such as result links. By
+default the field stays in place and the results drop down below it; `[fullScreen]="true"` fills the screen and adds a
+back button, as on phones. `[(expanded)]` tells whether it is open, Enter emits `(searched)` with the query, and Escape,
+the scrim and the back button close it. `--exp-search-container` changes its colour.
 The motion tokens work on their own too:
 
 ```css

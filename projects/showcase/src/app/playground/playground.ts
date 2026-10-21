@@ -8,10 +8,20 @@ import {
   ExpMenuGroup,
   ExpModalNavigationRail,
   ExpRangeSlider,
+  ExpSearch,
   ExpSlider,
 } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
-import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  effect,
+  inject,
+  Signal,
+  signal,
+  WritableSignal,
+} from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
@@ -22,6 +32,11 @@ import { SplitButtonDemo } from './split-button-demo';
 import { ToolbarDemo } from './toolbar-demo';
 
 type Scheme = 'light dark' | 'light' | 'dark';
+
+interface Destination {
+  icon: string;
+  label: string;
+}
 
 @Component({
   selector: 'app-playground',
@@ -37,6 +52,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpMenuGroup,
     ExpModalNavigationRail,
     ExpRangeSlider,
+    ExpSearch,
     MatIcon,
     MatMenu,
     MatMenuItem,
@@ -53,7 +69,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
 })
 export class Playground {
   protected readonly scheme: WritableSignal<Scheme> = signal<Scheme>('light dark');
-  protected readonly destinations: readonly { icon: string; label: string }[] = [
+  protected readonly destinations: readonly Destination[] = [
     { icon: 'home', label: 'Home' },
     { icon: 'search', label: 'Search' },
     { icon: 'favorite', label: 'Saved' },
@@ -62,6 +78,13 @@ export class Playground {
   protected readonly currentDestination: WritableSignal<string> = signal('Home');
   protected readonly railExpanded: WritableSignal<boolean> = signal(false);
   protected readonly modalRailOpen: WritableSignal<boolean> = signal(false);
+  protected readonly searchQuery: WritableSignal<string> = signal('');
+  protected readonly searchExpanded: WritableSignal<boolean> = signal(false);
+  protected readonly matchingDestinations: Signal<readonly Destination[]> = computed(() =>
+    this.destinations.filter((destination) =>
+      destination.label.toLowerCase().includes(this.searchQuery().trim().toLowerCase())
+    )
+  );
   protected readonly disabled: WritableSignal<boolean> = signal(false);
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');
