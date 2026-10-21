@@ -1,14 +1,19 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-/** Must render the same scene as `SegmentedListTest.lists` in reference/compose. */
+/**
+ * Must render the same scene as `SegmentedListTest.lists` in reference/compose. The first list's items are the three
+ * clickable kinds, which must look the same at rest as a plain item.
+ */
 @Component({
   selector: 'app-segmented-list-reference',
   template: `
     <div class="scene" data-reference>
       <div class="exp-segmented-list">
-        <div class="item"><span class="dot"></span></div>
-        <div class="item"><span class="dot"></span></div>
-        <div class="item"><span class="dot"></span></div>
+        <button class="item" type="button"><span class="dot"></span></button>
+        <a class="item" href="#"><span class="dot"></span></a>
+        <div class="item">
+          <a class="exp-segmented-list-action" href="#"><span class="dot"></span></a>
+        </div>
       </div>
       <div class="exp-segmented-list">
         <div class="item"><span class="dot"></span></div>

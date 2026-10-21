@@ -92,7 +92,11 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
 
 <div class="exp-segmented-list">
   <div>Notifications</div>
-  <div>Language</div>
+  <a href="/language">Language</a>
+  <div>
+    <a class="exp-segmented-list-action" href="/orders/2">Order 2</a>
+    <button matButton="outlined">Received</button>
+  </div>
 </div>
 ```
 
@@ -122,6 +126,9 @@ A button group also takes `[formControl]` or `formControlName` in place of `[(va
 Every child of `.exp-segmented-list` becomes a segmented list item: 2px apart, small corners, large outer corners on the
 first and last. Lay out the item's content yourself; the list sets its shape, padding, height and colours.
 `--exp-segmented-list-container` changes the items' Surface colour, for a list that sits on a Surface page.
+An item that is an `a[href]` or a `button` is clickable as a whole and takes Compose's hover, focus and pressed states.
+When an item holds buttons of its own, keep it a `div` and give its main link or button the class
+`exp-segmented-list-action`: its click area then covers the whole item, and the other buttons stay clickable on top.
 The motion tokens work on their own too:
 
 ```css

@@ -1,7 +1,9 @@
 // Values from Compose SegmentedListItem with ListItemDefaults.segmentedShapes(), segmentedColors() and ContentPadding
 // (ListTokens). Gives every child of `.exp-segmented-list` the look of a segmented list item: only the outer corners
 // of the first and last item are large, and a single item keeps the small corners, as in Compose.
-// Covers the resting state; hover, pressed and selected shapes come when a clickable list needs them.
+// An item is clickable when it is an `a[href]` or a `button`, or when it holds an `.exp-segmented-list-action` whose
+// click area stretches over the whole item, so the item can also hold buttons of its own. Clickable items take
+// Compose's hovered, focused and pressed shapes and state layers; selected and disabled items are not covered yet.
 // `--exp-segmented-list-container` stands in for segmentedColors(containerColor), for lists on a Surface page.
 @mixin segmented-list {
   .exp-segmented-list {
@@ -27,5 +29,74 @@
       border-bottom-left-radius: var(--exp-corner-large);
       border-bottom-right-radius: var(--exp-corner-large);
     }
+
+    > :is(a[href], button, :has(.exp-segmented-list-action)) {
+      position: relative;
+      border: 0;
+      font: inherit;
+      text-align: start;
+      text-decoration: none;
+      cursor: pointer;
+      transition:
+        border-radius var(--exp-motion-fast-spatial-duration) var(--exp-motion-fast-spatial),
+        background-color var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects);
+
+      @media (prefers-reduced-motion: reduce) {
+        transition: none;
+      }
+    }
+
+    > :is(a[href], button, :has(.exp-segmented-list-action)):hover {
+      border-radius: var(--exp-corner-medium);
+      background-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-surface) calc(var(--mat-sys-hover-state-layer-opacity) * 100%),
+        var(--exp-segmented-list-container, var(--mat-sys-surface))
+      );
+    }
+
+    // Compose draws no focus ring; the web needs one, and Material's list items draw it inward.
+    > :is(a[href], button, :has(.exp-segmented-list-action)):is(
+        :focus-visible,
+        :has(.exp-segmented-list-action:focus-visible)
+      ) {
+      border-radius: var(--exp-corner-large);
+      outline: 3px solid var(--mat-sys-secondary);
+      outline-offset: -3px;
+      background-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-surface) calc(var(--mat-sys-focus-state-layer-opacity) * 100%),
+        var(--exp-segmented-list-container, var(--mat-sys-surface))
+      );
+    }
+
+    > :is(a[href], button, :has(.exp-segmented-list-action)):active {
+      border-radius: var(--exp-corner-large);
+      background-color: color-mix(
+        in srgb,
+        var(--mat-sys-on-surface) calc(var(--mat-sys-pressed-state-layer-opacity) * 100%),
+        var(--exp-segmented-list-container, var(--mat-sys-surface))
+      );
+    }
+  }
+
+  .exp-segmented-list-action {
+    outline: none;
+    color: inherit;
+    text-decoration: none;
+
+    &::after {
+      position: absolute;
+      inset: 0;
+      content: '';
+    }
+  }
+
+  // Lifts the item's other controls above the stretched click area of its action.
+  .exp-segmented-list
+    > :has(.exp-segmented-list-action)
+    :is(a, button, input, select, textarea, label):not(.exp-segmented-list-action) {
+    position: relative;
+    z-index: 1;
   }
 }
