@@ -63,3 +63,13 @@ h2 {
 .playground-navigation-bar {
   max-width: 412px;
 }
+
+.playground-rail {
+  height: 420px;
+  overflow: hidden;
+  border-radius: var(--exp-corner-large);
+
+  .exp-navigation-rail-header {
+    padding-left: 20px;
+  }
+}

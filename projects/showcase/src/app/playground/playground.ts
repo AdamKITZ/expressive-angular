@@ -2,6 +2,7 @@ import {
   ExpButton,
   ExpButtonGroup,
   ExpCircularProgress,
+  ExpIconButton,
   ExpLinearProgress,
   ExpLoadingIndicator,
   ExpMenuGroup,
@@ -11,7 +12,7 @@ import {
 import { DOCUMENT } from '@angular/common';
 import { ChangeDetectionStrategy, Component, effect, inject, signal, WritableSignal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
-import { MatButton } from '@angular/material/button';
+import { MatButton, MatIconButton } from '@angular/material/button';
 import { MatIcon } from '@angular/material/icon';
 import { MatMenu, MatMenuItem, MatMenuTrigger } from '@angular/material/menu';
 
@@ -25,7 +26,9 @@ type Scheme = 'light dark' | 'light' | 'dark';
   selector: 'app-playground',
   imports: [
     MatButton,
+    MatIconButton,
     ExpButton,
+    ExpIconButton,
     ExpButtonGroup,
     ExpCircularProgress,
     ExpLinearProgress,
@@ -55,6 +58,7 @@ export class Playground {
     { icon: 'person', label: 'Profile' },
   ];
   protected readonly currentDestination: WritableSignal<string> = signal('Home');
+  protected readonly railExpanded: WritableSignal<boolean> = signal(false);
   protected readonly disabled: WritableSignal<boolean> = signal(false);
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');

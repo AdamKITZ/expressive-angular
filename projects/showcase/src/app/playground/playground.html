@@ -134,6 +134,34 @@
   </nav>
 </section>
 
+<section>
+  <h2>Navigation rail</h2>
+  <div class="playground-rail">
+    <nav class="exp-navigation-rail" [class.exp-navigation-rail-expanded]="railExpanded()" aria-label="Demo">
+      <div class="exp-navigation-rail-header">
+        <button
+          mat-icon-button
+          expIconButton
+          [attr.aria-label]="railExpanded() ? 'Collapse' : 'Expand'"
+          (click)="railExpanded.set(!railExpanded())"
+        >
+          <mat-icon>{{ railExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
+        </button>
+      </div>
+      @for (destination of destinations; track destination.label) {
+        <button
+          type="button"
+          [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+          (click)="currentDestination.set(destination.label)"
+        >
+          <mat-icon>{{ destination.icon }}</mat-icon>
+          <span>{{ destination.label }}</span>
+        </button>
+      }
+    </nav>
+  </div>
+</section>
+
 <section class="segmented">
   <h2>Segmented list</h2>
   <div class="exp-segmented-list">

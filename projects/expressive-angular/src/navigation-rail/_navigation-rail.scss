@@ -1,0 +1,200 @@
+// Values from Compose WideNavigationRail and WideNavigationRailItem (NavigationRail*Tokens, NavigationItem's
+// AnimatedMeasurePolicy). Every `a` or `button` child of `.exp-navigation-rail` becomes an item: its first child is
+// the icon, the rest is the label, and the item with `aria-current` is selected, as in `.exp-navigation-bar`.
+// Collapsed, the rail is 96px wide with the label under the icon; `.exp-navigation-rail-expanded` widens it to fit
+// its widest item (220px to 360px) with the label beside the icon. A `.exp-navigation-rail-header` child sits above
+// the items. Compose fades the label out and back in around the swap; here it fades in at its new place. The width
+// animates only where the browser supports `interpolate-size`. `--exp-navigation-rail-container` stands in for
+// containerColor.
+@mixin navigation-rail {
+  .exp-navigation-rail {
+    interpolate-size: allow-keywords;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    box-sizing: border-box;
+    width: 96px;
+    height: 100%;
+    padding: max(44px, env(safe-area-inset-top)) 0 max(44px, env(safe-area-inset-bottom));
+    overflow-x: hidden;
+    overflow-y: auto;
+    background: var(--exp-navigation-rail-container, var(--mat-sys-surface));
+    transition:
+      width var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+      padding var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+      gap var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+
+    > .exp-navigation-rail-header {
+      margin-bottom: 36px;
+    }
+
+    > :is(a, button) {
+      --exp-navigation-item-content: var(--mat-sys-on-surface-variant);
+
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex: none;
+      flex-direction: column;
+      align-items: center;
+      box-sizing: border-box;
+      width: 96px;
+      height: 64px;
+      margin: 0;
+      padding: 42px 0 0;
+      border: 0;
+      background: none;
+      color: var(--mat-sys-on-surface-variant);
+      font: var(--mat-sys-label-medium);
+      text-decoration: none;
+      white-space: nowrap;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+      transition:
+        width var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+        height var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 6px;
+        left: 20px;
+        z-index: -1;
+        height: 32px;
+        border-radius: var(--mat-sys-corner-full);
+        content: '';
+        transition:
+          top var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+          width var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+          height var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+          opacity var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+      }
+
+      &::before {
+        width: 0;
+        opacity: 0;
+        background: var(--mat-sys-secondary-container);
+      }
+
+      &::after {
+        width: 56px;
+        background: color-mix(
+          in srgb,
+          var(--exp-navigation-item-content) var(--exp-navigation-item-state, 0%),
+          transparent
+        );
+      }
+
+      > :first-child {
+        position: absolute;
+        top: 10px;
+        left: 36px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: var(--exp-navigation-item-content);
+        transition: top var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+      }
+
+      &:hover {
+        --exp-navigation-item-state: calc(var(--mat-sys-hover-state-layer-opacity) * 100%);
+      }
+
+      &:focus-visible {
+        --exp-navigation-item-state: calc(var(--mat-sys-focus-state-layer-opacity) * 100%);
+
+        outline: none;
+
+        &::after {
+          outline: 3px solid var(--mat-sys-secondary);
+          outline-offset: 2px;
+        }
+      }
+
+      &:active {
+        --exp-navigation-item-state: calc(var(--mat-sys-pressed-state-layer-opacity) * 100%);
+      }
+    }
+
+    > :is(a, button)[aria-current]:not([aria-current='false']) {
+      --exp-navigation-item-content: var(--mat-sys-on-secondary-container);
+
+      color: var(--mat-sys-secondary);
+
+      &::before {
+        width: 56px;
+        opacity: 1;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      > :is(a, button),
+      > :is(a, button)::before,
+      > :is(a, button)::after,
+      > :is(a, button) > :first-child {
+        transition: none;
+      }
+    }
+  }
+
+  .exp-navigation-rail.exp-navigation-rail-expanded {
+    gap: 0;
+    width: max-content;
+    min-width: 220px;
+    max-width: 360px;
+    padding-right: 20px;
+
+    > :is(a, button) {
+      flex-direction: row;
+      width: max-content;
+      height: 56px;
+      padding: 0 16px 0 68px;
+      font: var(--mat-sys-label-large);
+      animation: exp-navigation-rail-label-in var(--exp-motion-default-spatial-duration) linear;
+
+      &::before {
+        top: 0;
+        height: 56px;
+      }
+
+      &::after {
+        top: 0;
+        width: calc(100% - 20px);
+        height: 56px;
+      }
+
+      > :first-child {
+        top: 16px;
+      }
+    }
+
+    > :is(a, button)[aria-current]:not([aria-current='false'])::before {
+      width: calc(100% - 20px);
+    }
+
+    > .exp-navigation-rail-header {
+      margin-bottom: 40px;
+    }
+  }
+
+  .exp-navigation-rail:not(.exp-navigation-rail-expanded) > :is(a, button) {
+    animation: exp-navigation-rail-label-out var(--exp-motion-default-spatial-duration) linear;
+  }
+
+  // Two keyframes with the same frames, so that switching between them restarts the fade on every toggle.
+  @keyframes exp-navigation-rail-label-in {
+    from {
+      color: transparent;
+    }
+  }
+
+  @keyframes exp-navigation-rail-label-out {
+    from {
+      color: transparent;
+    }
+  }
+}
