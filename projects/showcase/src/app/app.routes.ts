@@ -1,11 +1,7 @@
 import { Routes } from '@angular/router';
 
 export const routes: Routes = [
-  {
-    path: '',
-    pathMatch: 'full',
-    loadComponent: () => import('./playground/playground').then((m) => m.Playground),
-  },
+  { path: '', pathMatch: 'full', redirectTo: 'buttons' },
   {
     path: 'reference/button',
     loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
@@ -97,5 +93,9 @@ export const routes: Routes = [
   {
     path: 'reference/docked-toolbar',
     loadComponent: () => import('./reference/docked-toolbar').then((m) => m.DockedToolbarReference),
+  },
+  {
+    path: ':page',
+    loadComponent: () => import('./playground/playground').then((m) => m.Playground),
   },
 ];

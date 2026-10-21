@@ -18,6 +18,8 @@ import {
   computed,
   effect,
   inject,
+  input,
+  InputSignal,
   Signal,
   signal,
   WritableSignal,
@@ -68,6 +70,8 @@ interface Destination {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class Playground {
+  public readonly page: InputSignal<string> = input('buttons');
+
   protected readonly scheme: WritableSignal<Scheme> = signal<Scheme>('light dark');
   protected readonly destinations: readonly Destination[] = [
     { icon: 'home', label: 'Home' },
