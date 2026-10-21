@@ -7,256 +7,266 @@
   <button matButton="tonal" expButton [selected]="disabled()" (click)="disabled.set(!disabled())">Disabled</button>
 </section>
 
-<section>
-  <h2>Icon button</h2>
-  <app-icon-button-matrix [disabled]="disabled()" />
-  <p class="hint">
-    Filled, tonal, outlined and standard, as an action and as a toggle. Hold a button to see the pressed shape.
-  </p>
-</section>
+@switch (page()) {
+  @case ('buttons') {
+    <section id="icon-button">
+      <h2>Icon button</h2>
+      <app-icon-button-matrix [disabled]="disabled()" />
+      <p class="hint">
+        Filled, tonal, outlined and standard, as an action and as a toggle. Hold a button to see the pressed shape.
+      </p>
+    </section>
 
-<section>
-  <h2>Split button</h2>
-  <app-split-button-demo [disabled]="disabled()" />
-  <p class="hint">Hold a half to see its inner corners grow. Opening the menu turns the trailing half into a pill.</p>
-</section>
+    <section id="split-button">
+      <h2>Split button</h2>
+      <app-split-button-demo [disabled]="disabled()" />
+      <p class="hint">
+        Hold a half to see its inner corners grow. Opening the menu turns the trailing half into a pill.
+      </p>
+    </section>
 
-<section>
-  <h2>Toolbars</h2>
-  <app-toolbar-demo [disabled]="disabled()" />
-  <p class="hint">
-    Collapsing folds a floating toolbar's first and last item away, or the whole bar into its FAB. Docked toolbars span
-    the screen's width and don't collapse. Arrow keys, Home and End move between items.
-  </p>
-</section>
-
-<section>
-  <h2>Toggle button</h2>
-  <div class="row">
-    @for (format of ['bold', 'italic']; track format) {
-      <button
-        matButton="tonal"
-        expButton
-        [selected]="formats()[format]"
-        [disabled]="disabled()"
-        (click)="toggleFormat(format)"
-      >
-        {{ format }}
-      </button>
-    }
-  </div>
-</section>
-
-<section>
-  <h2>Button group</h2>
-  <exp-button-group aria-label="Range" [(value)]="range">
-    @for (option of ['day', 'week', 'month']; track option) {
-      <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
-    }
-  </exp-button-group>
-  <p class="hint">Selected: {{ range() }}. Pressing a button widens it; arrow keys move the selection.</p>
-
-  <exp-button-group aria-label="Size" connected [(value)]="size">
-    @for (option of ['s', 'm', 'l', 'xl']; track option) {
-      <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
-    }
-  </exp-button-group>
-  <p class="hint">Connected. Selected: {{ size() }}.</p>
-</section>
-
-<section>
-  <h2>Loading indicator</h2>
-  <div class="row">
-    <exp-loading-indicator aria-label="Loading" />
-    <exp-loading-indicator contained aria-label="Loading" />
-  </div>
-</section>
-
-<section class="progress">
-  <h2>Linear progress</h2>
-  <label>
-    Value
-    <input type="range" min="0" max="100" [value]="progress()" (input)="progress.set(+$any($event.target).value)" />
-    {{ progress() }}
-  </label>
-  <exp-linear-progress wavy [value]="progress()" aria-label="Upload" />
-  <exp-linear-progress [value]="progress()" aria-label="Storage used" />
-  <p class="hint">Indeterminate, wavy and flat.</p>
-  <exp-linear-progress wavy aria-label="Loading" />
-  <exp-linear-progress aria-label="Loading" />
-  <h2>Circular progress</h2>
-  <div class="row">
-    <exp-circular-progress wavy [value]="progress()" aria-label="Upload" />
-    <exp-circular-progress [value]="progress()" aria-label="Storage used" />
-    <exp-circular-progress wavy aria-label="Loading" />
-    <exp-circular-progress aria-label="Loading" />
-  </div>
-</section>
-
-<section>
-  <h2>Slider</h2>
-  <exp-slider><input type="range" aria-label="Volume" min="0" max="1" [formControl]="volume" /></exp-slider>
-  <p class="hint">Volume {{ volume.value }}. Five steps, and disabled.</p>
-  <exp-slider><input type="range" aria-label="Rating" min="1" max="5" step="1" value="3" /></exp-slider>
-  <exp-slider><input type="range" aria-label="Locked" min="0" max="100" value="60" disabled /></exp-slider>
-  <p class="hint">A range, continuous and in steps of 10.</p>
-  <exp-range-slider>
-    <input type="range" aria-label="Lowest price" min="0" max="100" value="20" />
-    <input type="range" aria-label="Highest price" min="0" max="100" value="70" />
-  </exp-range-slider>
-  <exp-range-slider>
-    <input type="range" aria-label="From" min="0" max="100" step="10" value="30" />
-    <input type="range" aria-label="To" min="0" max="100" step="10" value="60" />
-  </exp-range-slider>
-  <p class="hint">Vertical, from the top and, reversed, from the bottom.</p>
-  <div class="row vertical-sliders">
-    <exp-slider vertical><input type="range" aria-label="Depth" min="0" max="100" value="40" /></exp-slider>
-    <exp-slider vertical reverse><input type="range" aria-label="Level" min="0" max="100" value="70" /></exp-slider>
-    <exp-slider vertical reverse>
-      <input type="range" aria-label="Brightness" min="0" max="100" step="20" value="60" />
-    </exp-slider>
-  </div>
-</section>
-
-<section>
-  <h2>Navigation bar</h2>
-  <nav class="exp-navigation-bar playground-navigation-bar" aria-label="Demo">
-    @for (destination of destinations; track destination.label) {
-      <button
-        type="button"
-        [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
-        (click)="currentDestination.set(destination.label)"
-      >
-        <mat-icon>{{ destination.icon }}</mat-icon>
-        <span>{{ destination.label }}</span>
-      </button>
-    }
-  </nav>
-</section>
-
-<section>
-  <h2>Navigation rail</h2>
-  <div class="playground-rail">
-    <nav class="exp-navigation-rail" [class.exp-navigation-rail-expanded]="railExpanded()" aria-label="Demo">
-      <div class="exp-navigation-rail-header">
-        <button
-          mat-icon-button
-          expIconButton
-          [attr.aria-label]="railExpanded() ? 'Collapse' : 'Expand'"
-          (click)="railExpanded.set(!railExpanded())"
-        >
-          <mat-icon>{{ railExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
-        </button>
+    <section id="toggle-button">
+      <h2>Toggle button</h2>
+      <div class="row">
+        @for (format of ['bold', 'italic']; track format) {
+          <button
+            matButton="tonal"
+            expButton
+            [selected]="formats()[format]"
+            [disabled]="disabled()"
+            (click)="toggleFormat(format)"
+          >
+            {{ format }}
+          </button>
+        }
       </div>
-      @for (destination of destinations; track destination.label) {
-        <button
-          type="button"
-          [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
-          (click)="currentDestination.set(destination.label)"
-        >
-          <mat-icon>{{ destination.icon }}</mat-icon>
-          <span>{{ destination.label }}</span>
-        </button>
-      }
-    </nav>
-  </div>
-</section>
+    </section>
 
-<section>
-  <h2>Modal navigation rail</h2>
-  <button matButton="tonal" (click)="modalRailOpen.set(true)">Open</button>
-  <exp-modal-navigation-rail [(open)]="modalRailOpen" label="Demo">
-    <div class="exp-navigation-rail-header">
-      <button mat-icon-button expIconButton aria-label="Close" (click)="modalRailOpen.set(false)">
-        <mat-icon>menu_open</mat-icon>
-      </button>
-    </div>
-    @for (destination of destinations; track destination.label) {
-      <button
-        type="button"
-        [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
-        (click)="currentDestination.set(destination.label); modalRailOpen.set(false)"
-      >
-        <mat-icon>{{ destination.icon }}</mat-icon>
-        <span>{{ destination.label }}</span>
-      </button>
-    }
-  </exp-modal-navigation-rail>
-</section>
+    <section id="button-group">
+      <h2>Button group</h2>
+      <exp-button-group aria-label="Range" [(value)]="range">
+        @for (option of ['day', 'week', 'month']; track option) {
+          <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
+        }
+      </exp-button-group>
+      <p class="hint">Selected: {{ range() }}. Pressing a button widens it; arrow keys move the selection.</p>
 
-<section>
-  <h2>Search</h2>
-  <exp-search [(query)]="searchQuery" [(expanded)]="searchExpanded" placeholder="Search destinations">
-    @for (destination of matchingDestinations(); track destination.label) {
-      <button
-        type="button"
-        class="search-result"
-        (click)="currentDestination.set(destination.label); searchExpanded.set(false)"
-      >
-        <mat-icon>{{ destination.icon }}</mat-icon>
-        {{ destination.label }}
-      </button>
-    }
-  </exp-search>
-  <exp-search [(query)]="searchQuery" placeholder="Full screen" [fullScreen]="true">
-    @for (destination of matchingDestinations(); track destination.label) {
-      <button type="button" class="search-result">
-        <mat-icon>{{ destination.icon }}</mat-icon>
-        {{ destination.label }}
-      </button>
-    }
-  </exp-search>
-</section>
+      <exp-button-group aria-label="Size" connected [(value)]="size">
+        @for (option of ['s', 'm', 'l', 'xl']; track option) {
+          <button matButton="tonal" expButton [value]="option" [disabled]="disabled()">{{ option }}</button>
+        }
+      </exp-button-group>
+      <p class="hint">Connected. Selected: {{ size() }}.</p>
+    </section>
 
-<section class="segmented">
-  <h2>Segmented list</h2>
-  <div class="exp-segmented-list">
-    <div>Notifications</div>
-    <div>Language</div>
-    <div>Privacy</div>
-  </div>
-  <div class="exp-segmented-list">
-    <button type="button">Account</button>
-    <a href="#">Storage</a>
-    <div class="segmented-row">
-      <a class="exp-segmented-list-action" href="#">Order 2</a>
-      <button matButton="outlined">Received</button>
-    </div>
-  </div>
-</section>
+    <section id="toolbars">
+      <h2>Toolbars</h2>
+      <app-toolbar-demo [disabled]="disabled()" />
+      <p class="hint">
+        Collapsing folds a floating toolbar's first and last item away, or the whole bar into its FAB. Docked toolbars
+        span the screen's width and don't collapse. Arrow keys, Home and End move between items.
+      </p>
+    </section>
+  }
+  @case ('progress') {
+    <section id="loading-indicator">
+      <h2>Loading indicator</h2>
+      <div class="row">
+        <exp-loading-indicator aria-label="Loading" />
+        <exp-loading-indicator contained aria-label="Loading" />
+      </div>
+    </section>
 
-<section>
-  <h2>Menu</h2>
-  <div class="row">
-    <button matButton="tonal" [matMenuTriggerFor]="plainMenu">Edit</button>
-    <button matButton="tonal" [matMenuTriggerFor]="groupedMenu">View</button>
-  </div>
-  <p class="hint">Every mat-menu takes the Expressive shape. Groups, a label and a selected item in the second.</p>
-  <mat-menu #plainMenu="matMenu">
-    <button mat-menu-item><mat-icon>content_copy</mat-icon>Copy</button>
-    <button mat-menu-item><mat-icon>content_paste</mat-icon>Paste</button>
-    <button mat-menu-item disabled><mat-icon>delete</mat-icon>Delete</button>
-  </mat-menu>
-  <mat-menu #groupedMenu="matMenu">
-    <exp-menu-group label="Sort by">
-      @for (order of orders; track order) {
-        <button
-          mat-menu-item
-          role="menuitemradio"
-          [attr.aria-checked]="order === sortOrder()"
-          [class.exp-menu-item-selected]="order === sortOrder()"
-          (click)="sortOrder.set(order)"
-        >
-          {{ order }}
-        </button>
-      }
-    </exp-menu-group>
-    <exp-menu-group>
-      <button mat-menu-item>
-        <mat-icon>refresh</mat-icon>
-        <span>Refresh</span>
-        <span class="exp-menu-item-trailing">⌘R</span>
-      </button>
-    </exp-menu-group>
-  </mat-menu>
-</section>
+    <section id="linear-progress" class="progress">
+      <h2>Linear progress</h2>
+      <label>
+        Value
+        <input type="range" min="0" max="100" [value]="progress()" (input)="progress.set(+$any($event.target).value)" />
+        {{ progress() }}
+      </label>
+      <exp-linear-progress wavy [value]="progress()" aria-label="Upload" />
+      <exp-linear-progress [value]="progress()" aria-label="Storage used" />
+      <p class="hint">Indeterminate, wavy and flat.</p>
+      <exp-linear-progress wavy aria-label="Loading" />
+      <exp-linear-progress aria-label="Loading" />
+      <h2>Circular progress</h2>
+      <div class="row">
+        <exp-circular-progress wavy [value]="progress()" aria-label="Upload" />
+        <exp-circular-progress [value]="progress()" aria-label="Storage used" />
+        <exp-circular-progress wavy aria-label="Loading" />
+        <exp-circular-progress aria-label="Loading" />
+      </div>
+    </section>
+  }
+  @case ('sliders') {
+    <section id="slider">
+      <h2>Slider</h2>
+      <exp-slider><input type="range" aria-label="Volume" min="0" max="1" [formControl]="volume" /></exp-slider>
+      <p class="hint">Volume {{ volume.value }}. Five steps, and disabled.</p>
+      <exp-slider><input type="range" aria-label="Rating" min="1" max="5" step="1" value="3" /></exp-slider>
+      <exp-slider><input type="range" aria-label="Locked" min="0" max="100" value="60" disabled /></exp-slider>
+      <p class="hint">A range, continuous and in steps of 10.</p>
+      <exp-range-slider>
+        <input type="range" aria-label="Lowest price" min="0" max="100" value="20" />
+        <input type="range" aria-label="Highest price" min="0" max="100" value="70" />
+      </exp-range-slider>
+      <exp-range-slider>
+        <input type="range" aria-label="From" min="0" max="100" step="10" value="30" />
+        <input type="range" aria-label="To" min="0" max="100" step="10" value="60" />
+      </exp-range-slider>
+      <p class="hint">Vertical, from the top and, reversed, from the bottom.</p>
+      <div class="row vertical-sliders">
+        <exp-slider vertical><input type="range" aria-label="Depth" min="0" max="100" value="40" /></exp-slider>
+        <exp-slider vertical reverse><input type="range" aria-label="Level" min="0" max="100" value="70" /></exp-slider>
+        <exp-slider vertical reverse>
+          <input type="range" aria-label="Brightness" min="0" max="100" step="20" value="60" />
+        </exp-slider>
+      </div>
+    </section>
+  }
+  @case ('lists') {
+    <section id="segmented-list" class="segmented">
+      <h2>Segmented list</h2>
+      <div class="exp-segmented-list">
+        <div>Notifications</div>
+        <div>Language</div>
+        <div>Privacy</div>
+      </div>
+      <div class="exp-segmented-list">
+        <button type="button">Account</button>
+        <a href="#">Storage</a>
+        <div class="segmented-row">
+          <a class="exp-segmented-list-action" href="#">Order 2</a>
+          <button matButton="outlined">Received</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="menu">
+      <h2>Menu</h2>
+      <div class="row">
+        <button matButton="tonal" [matMenuTriggerFor]="plainMenu">Edit</button>
+        <button matButton="tonal" [matMenuTriggerFor]="groupedMenu">View</button>
+      </div>
+      <p class="hint">Every mat-menu takes the Expressive shape. Groups, a label and a selected item in the second.</p>
+      <mat-menu #plainMenu="matMenu">
+        <button mat-menu-item><mat-icon>content_copy</mat-icon>Copy</button>
+        <button mat-menu-item><mat-icon>content_paste</mat-icon>Paste</button>
+        <button mat-menu-item disabled><mat-icon>delete</mat-icon>Delete</button>
+      </mat-menu>
+      <mat-menu #groupedMenu="matMenu">
+        <exp-menu-group label="Sort by">
+          @for (order of orders; track order) {
+            <button
+              mat-menu-item
+              role="menuitemradio"
+              [attr.aria-checked]="order === sortOrder()"
+              [class.exp-menu-item-selected]="order === sortOrder()"
+              (click)="sortOrder.set(order)"
+            >
+              {{ order }}
+            </button>
+          }
+        </exp-menu-group>
+        <exp-menu-group>
+          <button mat-menu-item>
+            <mat-icon>refresh</mat-icon>
+            <span>Refresh</span>
+            <span class="exp-menu-item-trailing">⌘R</span>
+          </button>
+        </exp-menu-group>
+      </mat-menu>
+    </section>
+  }
+  @case ('navigation') {
+    <section id="navigation-bar">
+      <h2>Navigation bar</h2>
+      <nav class="exp-navigation-bar playground-navigation-bar" aria-label="Demo">
+        @for (destination of destinations; track destination.label) {
+          <button
+            type="button"
+            [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+            (click)="currentDestination.set(destination.label)"
+          >
+            <mat-icon>{{ destination.icon }}</mat-icon>
+            <span>{{ destination.label }}</span>
+          </button>
+        }
+      </nav>
+    </section>
+
+    <section id="navigation-rail">
+      <h2>Navigation rail</h2>
+      <div class="playground-rail">
+        <nav class="exp-navigation-rail" [class.exp-navigation-rail-expanded]="railExpanded()" aria-label="Demo">
+          <div class="exp-navigation-rail-header">
+            <button
+              mat-icon-button
+              expIconButton
+              [attr.aria-label]="railExpanded() ? 'Collapse' : 'Expand'"
+              (click)="railExpanded.set(!railExpanded())"
+            >
+              <mat-icon>{{ railExpanded() ? 'menu_open' : 'menu' }}</mat-icon>
+            </button>
+          </div>
+          @for (destination of destinations; track destination.label) {
+            <button
+              type="button"
+              [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+              (click)="currentDestination.set(destination.label)"
+            >
+              <mat-icon>{{ destination.icon }}</mat-icon>
+              <span>{{ destination.label }}</span>
+            </button>
+          }
+        </nav>
+      </div>
+    </section>
+
+    <section id="modal-navigation-rail">
+      <h2>Modal navigation rail</h2>
+      <button matButton="tonal" (click)="modalRailOpen.set(true)">Open</button>
+      <exp-modal-navigation-rail [(open)]="modalRailOpen" label="Demo">
+        <div class="exp-navigation-rail-header">
+          <button mat-icon-button expIconButton aria-label="Close" (click)="modalRailOpen.set(false)">
+            <mat-icon>menu_open</mat-icon>
+          </button>
+        </div>
+        @for (destination of destinations; track destination.label) {
+          <button
+            type="button"
+            [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+            (click)="currentDestination.set(destination.label); modalRailOpen.set(false)"
+          >
+            <mat-icon>{{ destination.icon }}</mat-icon>
+            <span>{{ destination.label }}</span>
+          </button>
+        }
+      </exp-modal-navigation-rail>
+    </section>
+
+    <section id="search">
+      <h2>Search</h2>
+      <exp-search [(query)]="searchQuery" [(expanded)]="searchExpanded" placeholder="Search destinations">
+        @for (destination of matchingDestinations(); track destination.label) {
+          <button
+            type="button"
+            class="search-result"
+            (click)="currentDestination.set(destination.label); searchExpanded.set(false)"
+          >
+            <mat-icon>{{ destination.icon }}</mat-icon>
+            {{ destination.label }}
+          </button>
+        }
+      </exp-search>
+      <exp-search [(query)]="searchQuery" placeholder="Full screen" [fullScreen]="true">
+        @for (destination of matchingDestinations(); track destination.label) {
+          <button type="button" class="search-result">
+            <mat-icon>{{ destination.icon }}</mat-icon>
+            {{ destination.label }}
+          </button>
+        }
+      </exp-search>
+    </section>
+  }
+}

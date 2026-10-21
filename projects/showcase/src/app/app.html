@@ -1,6 +1,44 @@
-<header class="header">
-  <h1>expressive-angular</h1>
-</header>
-<main>
+@if (isReference()) {
   <router-outlet />
-</main>
+} @else {
+  <nav class="exp-navigation-rail app-rail" aria-label="Components">
+    @for (page of pages; track page.path) {
+      <a [routerLink]="page.path" routerLinkActive ariaCurrentWhenActive="page">
+        <mat-icon>{{ page.icon }}</mat-icon>
+        <span>{{ page.label }}</span>
+      </a>
+    }
+  </nav>
+  <div class="app-body">
+    <header class="header">
+      <h1>expressive-angular</h1>
+      <exp-search
+        [(query)]="query"
+        [(expanded)]="searchExpanded"
+        [fullScreen]="isPhone()"
+        placeholder="Search components"
+        (searched)="results()[0] && open(results()[0])"
+      >
+        @for (result of results(); track result.title) {
+          <button type="button" class="search-result" (click)="open(result)">
+            <mat-icon>{{ result.page.icon }}</mat-icon>
+            <span>{{ result.title }}</span>
+          </button>
+        } @empty {
+          <p class="search-empty">No component matches.</p>
+        }
+      </exp-search>
+    </header>
+    <main>
+      <router-outlet />
+    </main>
+  </div>
+  <nav class="exp-navigation-bar app-bar" aria-label="Components">
+    @for (page of pages; track page.path) {
+      <a [routerLink]="page.path" routerLinkActive ariaCurrentWhenActive="page">
+        <mat-icon>{{ page.icon }}</mat-icon>
+        <span>{{ page.label }}</span>
+      </a>
+    }
+  </nav>
+}
