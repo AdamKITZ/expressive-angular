@@ -185,6 +185,71 @@
     animation: exp-navigation-rail-label-out var(--exp-motion-default-spatial-duration) linear;
   }
 
+  // ExpModalNavigationRail: Compose's ModalWideNavigationRail with hideOnCollapse, an expanded rail on
+  // SurfaceContainer with CornerLarge that slides in over a 32 % scrim. The exit transitions run only where the browser
+  // can transition `display` and `overlay`.
+  .exp-modal-navigation-rail {
+    position: fixed;
+    inset: 0 auto 0 0;
+    box-sizing: border-box;
+    width: max-content;
+    max-width: 360px;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--mat-sys-corner-large);
+    overflow: hidden;
+    background: var(--exp-modal-navigation-rail-container, var(--mat-sys-surface-container));
+    color: var(--mat-sys-on-surface);
+    translate: -100% 0;
+    transition:
+      translate var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+      display var(--exp-motion-default-spatial-duration) allow-discrete,
+      overlay var(--exp-motion-default-spatial-duration) allow-discrete;
+
+    &[open] {
+      translate: 0 0;
+
+      @starting-style {
+        translate: -100% 0;
+      }
+    }
+
+    &::backdrop {
+      background: color-mix(in srgb, var(--mat-sys-scrim) 32%, transparent);
+      opacity: 0;
+      transition:
+        opacity var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects),
+        display var(--exp-motion-default-effects-duration) allow-discrete,
+        overlay var(--exp-motion-default-effects-duration) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    > .exp-navigation-rail {
+      background: none;
+
+      > :is(a, button) {
+        animation: none;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      &::backdrop {
+        transition: none;
+      }
+    }
+  }
+
   // Two keyframes with the same frames, so that switching between them restarts the fade on every toggle.
   @keyframes exp-navigation-rail-label-in {
     from {

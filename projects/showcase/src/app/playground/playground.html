@@ -162,6 +162,28 @@
   </div>
 </section>
 
+<section>
+  <h2>Modal navigation rail</h2>
+  <button matButton="tonal" (click)="modalRailOpen.set(true)">Open</button>
+  <exp-modal-navigation-rail [(open)]="modalRailOpen" label="Demo">
+    <div class="exp-navigation-rail-header">
+      <button mat-icon-button expIconButton aria-label="Close" (click)="modalRailOpen.set(false)">
+        <mat-icon>menu_open</mat-icon>
+      </button>
+    </div>
+    @for (destination of destinations; track destination.label) {
+      <button
+        type="button"
+        [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+        (click)="currentDestination.set(destination.label); modalRailOpen.set(false)"
+      >
+        <mat-icon>{{ destination.icon }}</mat-icon>
+        <span>{{ destination.label }}</span>
+      </button>
+    }
+  </exp-modal-navigation-rail>
+</section>
+
 <section class="segmented">
   <h2>Segmented list</h2>
   <div class="exp-segmented-list">
