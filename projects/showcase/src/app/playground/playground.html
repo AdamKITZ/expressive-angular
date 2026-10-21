@@ -184,6 +184,30 @@
   </exp-modal-navigation-rail>
 </section>
 
+<section>
+  <h2>Search</h2>
+  <exp-search [(query)]="searchQuery" [(expanded)]="searchExpanded" placeholder="Search destinations">
+    @for (destination of matchingDestinations(); track destination.label) {
+      <button
+        type="button"
+        class="search-result"
+        (click)="currentDestination.set(destination.label); searchExpanded.set(false)"
+      >
+        <mat-icon>{{ destination.icon }}</mat-icon>
+        {{ destination.label }}
+      </button>
+    }
+  </exp-search>
+  <exp-search [(query)]="searchQuery" placeholder="Full screen" [fullScreen]="true">
+    @for (destination of matchingDestinations(); track destination.label) {
+      <button type="button" class="search-result">
+        <mat-icon>{{ destination.icon }}</mat-icon>
+        {{ destination.label }}
+      </button>
+    }
+  </exp-search>
+</section>
+
 <section class="segmented">
   <h2>Segmented list</h2>
   <div class="exp-segmented-list">

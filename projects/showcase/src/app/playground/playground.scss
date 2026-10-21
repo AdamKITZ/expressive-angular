@@ -73,3 +73,26 @@ h2 {
 .exp-navigation-rail-header {
   padding-left: 20px;
 }
+
+exp-search + exp-search {
+  margin-top: 16px;
+}
+
+.search-result {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  padding: 0 16px;
+  border: 0;
+  background: none;
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-large);
+  cursor: pointer;
+
+  &:hover {
+    background: color-mix(in srgb, currentColor calc(var(--mat-sys-hover-state-layer-opacity) * 100%), transparent);
+  }
+}
