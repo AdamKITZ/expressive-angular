@@ -35,14 +35,17 @@ class NavigationBarTest {
   fun bar() {
     paparazzi.snapshot(name = "navigation-bar") {
       MaterialTheme {
-        ShortNavigationBar(modifier = Modifier.width(360.dp), windowInsets = WindowInsets(0)) {
-          repeat(4) { index ->
-            ShortNavigationBarItem(
-              selected = index == 1,
-              onClick = {},
-              icon = { Dot() },
-              label = { Label() },
-            )
+        // A width on the bar itself reaches its items as a minimum width, so every item becomes 360dp wide.
+        Box(Modifier.width(360.dp)) {
+          ShortNavigationBar(windowInsets = WindowInsets(0)) {
+            repeat(4) { index ->
+              ShortNavigationBarItem(
+                selected = index == 1,
+                onClick = {},
+                icon = { Dot() },
+                label = { Label() },
+              )
+            }
           }
         }
       }
