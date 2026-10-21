@@ -39,18 +39,20 @@ class SearchBarTest {
     paparazzi.snapshot(name = "search") {
       MaterialTheme {
         val state = rememberSearchBarState()
-        SearchBar(
-          state = state,
-          modifier = Modifier.width(360.dp),
-          inputField = {
-            SearchBarDefaults.InputField(
-              textFieldState = rememberTextFieldState(),
-              searchBarState = state,
-              onSearch = {},
-              leadingIcon = { Dot() },
-            )
-          },
-        )
+        Box(Modifier.background(MaterialTheme.colorScheme.surface)) {
+          SearchBar(
+            state = state,
+            modifier = Modifier.width(360.dp),
+            inputField = {
+              SearchBarDefaults.InputField(
+                textFieldState = rememberTextFieldState(),
+                searchBarState = state,
+                onSearch = {},
+                leadingIcon = { Dot() },
+              )
+            },
+          )
+        }
       }
     }
   }
