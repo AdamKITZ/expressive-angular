@@ -6,6 +6,7 @@ import {
   ExpLinearProgress,
   ExpLoadingIndicator,
   ExpMenuGroup,
+  ExpModalNavigationRail,
   ExpRangeSlider,
   ExpSlider,
 } from '@adam01230/expressive-angular';
@@ -34,6 +35,7 @@ type Scheme = 'light dark' | 'light' | 'dark';
     ExpLinearProgress,
     ExpLoadingIndicator,
     ExpMenuGroup,
+    ExpModalNavigationRail,
     ExpRangeSlider,
     MatIcon,
     MatMenu,
@@ -59,6 +61,7 @@ export class Playground {
   ];
   protected readonly currentDestination: WritableSignal<string> = signal('Home');
   protected readonly railExpanded: WritableSignal<boolean> = signal(false);
+  protected readonly modalRailOpen: WritableSignal<boolean> = signal(false);
   protected readonly disabled: WritableSignal<boolean> = signal(false);
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');

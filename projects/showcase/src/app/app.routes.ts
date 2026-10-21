@@ -51,6 +51,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/navigation-bar').then((m) => m.NavigationBarReference),
   },
   {
+    path: 'reference/modal-navigation-rail',
+    loadComponent: () => import('./reference/modal-navigation-rail').then((m) => m.ModalNavigationRailReference),
+  },
+  {
     path: 'reference/navigation-rail',
     loadComponent: () => import('./reference/navigation-rail').then((m) => m.NavigationRailReference),
   },
