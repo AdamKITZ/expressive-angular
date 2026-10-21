@@ -28,6 +28,7 @@ html {
   @include exp.docked-toolbar;
   @include exp.segmented-list; // children of .exp-segmented-list become Compose's segmented list items
   @include exp.menu; // every mat-menu gets Compose's Expressive menu shapes
+  @include exp.navigation-bar; // a and button children of .exp-navigation-bar become Compose's navigation bar items
 }
 ```
 
@@ -90,6 +91,13 @@ The buttons are directives on Angular Material's, so focus, ripple and touch tar
   <input type="range" aria-label="To" min="0" max="100" formControlName="to" />
 </exp-range-slider>
 
+<nav class="exp-navigation-bar">
+  <a routerLink="/" routerLinkActive ariaCurrentWhenActive="page"><mat-icon>home</mat-icon><span>Home</span></a>
+  <a routerLink="/saved" routerLinkActive ariaCurrentWhenActive="page"
+    ><mat-icon>favorite</mat-icon><span>Saved</span></a
+  >
+</nav>
+
 <div class="exp-segmented-list">
   <div>Notifications</div>
   <a href="/language">Language</a>
@@ -129,6 +137,10 @@ first and last. Lay out the item's content yourself; the list sets its shape, pa
 An item that is an `a[href]` or a `button` is clickable as a whole and takes Compose's hover, focus and pressed states.
 When an item holds buttons of its own, keep it a `div` and give its main link or button the class
 `exp-segmented-list-action`: its click area then covers the whole item, and the other buttons stay clickable on top.
+With `exp.navigation-bar`, every `a` or `button` in a `.exp-navigation-bar` becomes a navigation bar item (Compose's
+`ShortNavigationBar`): the first child is the icon, the rest the label. The item with `aria-current` is selected, so
+`routerLinkActive` with `ariaCurrentWhenActive="page"` drives it. The bar pads itself by the bottom safe-area inset;
+`--exp-navigation-bar-container` changes its colour.
 The motion tokens work on their own too:
 
 ```css

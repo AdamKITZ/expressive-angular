@@ -118,6 +118,22 @@
   </div>
 </section>
 
+<section>
+  <h2>Navigation bar</h2>
+  <nav class="exp-navigation-bar playground-navigation-bar" aria-label="Demo">
+    @for (destination of destinations; track destination.label) {
+      <button
+        type="button"
+        [attr.aria-current]="destination.label === currentDestination() ? 'page' : null"
+        (click)="currentDestination.set(destination.label)"
+      >
+        <mat-icon>{{ destination.icon }}</mat-icon>
+        <span>{{ destination.label }}</span>
+      </button>
+    }
+  </nav>
+</section>
+
 <section class="segmented">
   <h2>Segmented list</h2>
   <div class="exp-segmented-list">

@@ -1,0 +1,110 @@
+// Values from Compose ShortNavigationBar and ShortNavigationBarItem with the icon on top (NavigationBarTokens,
+// NavigationBarVerticalItemTokens, NavigationItem). Every `a` or `button` child of `.exp-navigation-bar` becomes an
+// item: its first child is the icon, the rest is the label. The item marked `aria-current` (any value but `false`)
+// is the selected one, so `routerLinkActive` with `ariaCurrentWhenActive="page"` drives it. The pill behind the icon
+// grows from its centre when an item becomes selected; hover, focus and press tint the pill area only, as Compose's
+// ripple does. `--exp-navigation-bar-container` stands in for containerColor.
+@mixin navigation-bar {
+  .exp-navigation-bar {
+    display: flex;
+    box-sizing: border-box;
+    min-height: 64px;
+    padding: 0 env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+    background: var(--exp-navigation-bar-container, var(--mat-sys-surface-container));
+
+    > :is(a, button) {
+      --exp-navigation-item-content: var(--mat-sys-on-surface-variant);
+
+      position: relative;
+      isolation: isolate;
+      display: flex;
+      flex: 1 1 0;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      min-width: 48px;
+      margin: 0;
+      padding: 10px 0 6px;
+      border: 0;
+      background: none;
+      color: var(--mat-sys-on-surface-variant);
+      font: var(--mat-sys-label-medium);
+      text-decoration: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+
+      &::before,
+      &::after {
+        position: absolute;
+        top: 6px;
+        left: 50%;
+        z-index: -1;
+        height: 32px;
+        border-radius: var(--mat-sys-corner-full);
+        transform: translateX(-50%);
+        content: '';
+      }
+
+      &::before {
+        width: 0;
+        opacity: 0;
+        background: var(--mat-sys-secondary-container);
+        transition:
+          width var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+          opacity var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+
+        @media (prefers-reduced-motion: reduce) {
+          transition: none;
+        }
+      }
+
+      &::after {
+        width: 56px;
+        background: color-mix(
+          in srgb,
+          var(--exp-navigation-item-content) var(--exp-navigation-item-state, 0%),
+          transparent
+        );
+      }
+
+      > :first-child {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 24px;
+        height: 24px;
+        color: var(--exp-navigation-item-content);
+      }
+
+      &:hover {
+        --exp-navigation-item-state: calc(var(--mat-sys-hover-state-layer-opacity) * 100%);
+      }
+
+      &:focus-visible {
+        --exp-navigation-item-state: calc(var(--mat-sys-focus-state-layer-opacity) * 100%);
+
+        outline: none;
+
+        &::after {
+          outline: 3px solid var(--mat-sys-secondary);
+          outline-offset: 2px;
+        }
+      }
+
+      &:active {
+        --exp-navigation-item-state: calc(var(--mat-sys-pressed-state-layer-opacity) * 100%);
+      }
+    }
+
+    > :is(a, button)[aria-current]:not([aria-current='false']) {
+      --exp-navigation-item-content: var(--mat-sys-on-secondary-container);
+
+      color: var(--mat-sys-secondary);
+
+      &::before {
+        width: 56px;
+        opacity: 1;
+      }
+    }
+  }
+}

@@ -48,6 +48,13 @@ type Scheme = 'light dark' | 'light' | 'dark';
 })
 export class Playground {
   protected readonly scheme: WritableSignal<Scheme> = signal<Scheme>('light dark');
+  protected readonly destinations: readonly { icon: string; label: string }[] = [
+    { icon: 'home', label: 'Home' },
+    { icon: 'search', label: 'Search' },
+    { icon: 'favorite', label: 'Saved' },
+    { icon: 'person', label: 'Profile' },
+  ];
+  protected readonly currentDestination: WritableSignal<string> = signal('Home');
   protected readonly disabled: WritableSignal<boolean> = signal(false);
   protected readonly formats: WritableSignal<Record<string, boolean>> = signal({ bold: true, italic: false });
   protected readonly range: WritableSignal<unknown> = signal('week');
