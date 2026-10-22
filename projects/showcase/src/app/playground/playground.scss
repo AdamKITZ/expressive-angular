@@ -56,6 +56,31 @@ h2 {
   }
 }
 
+.cards {
+  display: grid;
+  gap: 16px;
+  max-width: 360px;
+
+  > * {
+    padding: 16px;
+  }
+
+  h3 {
+    margin: 0 0 4px;
+    font: var(--mat-sys-title-medium);
+  }
+
+  p {
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-body-medium);
+  }
+
+  button {
+    margin-top: 12px;
+  }
+}
+
 .segmented-row {
   justify-content: space-between;
 }

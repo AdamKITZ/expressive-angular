@@ -27,6 +27,7 @@ html {
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
   @include exp.segmented-list; // children of .exp-segmented-list become Compose's segmented list items
+  @include exp.card; // .exp-card, .exp-card-elevated, .exp-card-outlined
   @include exp.menu; // every mat-menu gets Compose's Expressive menu shapes
   @include exp.navigation-bar; // a and button children of .exp-navigation-bar become Compose's navigation bar items
   @include exp.navigation-rail; // the same for .exp-navigation-rail, collapsed or .exp-navigation-rail-expanded
@@ -139,6 +140,11 @@ first and last. Lay out the item's content yourself; the list sets its shape, pa
 An item that is an `a[href]` or a `button` is clickable as a whole and takes Compose's hover, focus and pressed states.
 When an item holds buttons of its own, keep it a `div` and give its main link or button the class
 `exp-segmented-list-action`: its click area then covers the whole item, and the other buttons stay clickable on top.
+With `exp.card`, `.exp-card`, `.exp-card-elevated` and `.exp-card-outlined` draw Compose's filled, elevated and
+outlined card: the container, its corners and colours; lay out and pad the content yourself. A card that is an
+`a[href]` or a `button` is clickable and takes Compose's hover, focus and pressed states and elevation. A card with
+buttons of its own stays a `div` and gives its main link the class `exp-card-action`, as in a segmented list.
+`--exp-card-container` changes the container colour.
 With `exp.navigation-bar`, every `a` or `button` in a `.exp-navigation-bar` becomes a navigation bar item (Compose's
 `ShortNavigationBar`): the first child is the icon, the rest the label. The item with `aria-current` is selected, so
 `routerLinkActive` with `ariaCurrentWhenActive="page"` drives it. The bar pads itself by the bottom safe-area inset;

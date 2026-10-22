@@ -89,7 +89,7 @@
       <p class="hint">Indeterminate, wavy and flat.</p>
       <exp-linear-progress wavy aria-label="Loading" />
       <exp-linear-progress aria-label="Loading" />
-      <h2>Circular progress</h2>
+      <h2 id="circular-progress">Circular progress</h2>
       <div class="row">
         <exp-circular-progress wavy [value]="progress()" aria-label="Upload" />
         <exp-circular-progress [value]="progress()" aria-label="Storage used" />
@@ -139,6 +139,23 @@
           <a class="exp-segmented-list-action" href="#">Order 2</a>
           <button matButton="outlined">Received</button>
         </div>
+      </div>
+    </section>
+
+    <section id="card" class="cards">
+      <h2>Card</h2>
+      <div class="exp-card">
+        <h3>Filled</h3>
+        <p>Holds related content on a tonal surface.</p>
+      </div>
+      <a class="exp-card-elevated" href="#">
+        <h3>Elevated</h3>
+        <p>A link as a whole card, lifted a little more on hover.</p>
+      </a>
+      <div class="exp-card-outlined">
+        <h3><a class="exp-card-action" href="#">Outlined</a></h3>
+        <p>Its title is the link, and its own button stays clickable.</p>
+        <button matButton="tonal">Share</button>
       </div>
     </section>
 
