@@ -30,7 +30,7 @@ export const PAGES: readonly Page[] = [
     sections: [
       { title: 'Loading indicator', id: 'loading-indicator' },
       { title: 'Linear progress', id: 'linear-progress' },
-      { title: 'Circular progress', id: 'linear-progress' },
+      { title: 'Circular progress', id: 'circular-progress' },
     ],
   },
   { path: 'sliders', label: 'Sliders', icon: 'tune', sections: [{ title: 'Slider', id: 'slider' }] },
@@ -40,6 +40,7 @@ export const PAGES: readonly Page[] = [
     icon: 'list',
     sections: [
       { title: 'Segmented list', id: 'segmented-list' },
+      { title: 'Card', id: 'card' },
       { title: 'Menu', id: 'menu' },
     ],
   },

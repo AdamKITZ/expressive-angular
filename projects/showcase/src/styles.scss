@@ -19,6 +19,7 @@ html {
   @include exp.floating-toolbar;
   @include exp.docked-toolbar;
   @include exp.segmented-list;
+  @include exp.card;
   @include exp.menu;
   @include exp.navigation-bar;
   @include exp.navigation-rail;

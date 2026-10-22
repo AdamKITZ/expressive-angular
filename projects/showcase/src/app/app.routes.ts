@@ -11,6 +11,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/button-group').then((m) => m.ButtonGroupReference),
   },
   {
+    path: 'reference/card',
+    loadComponent: () => import('./reference/card').then((m) => m.CardReference),
+  },
+  {
     path: 'reference/circular-progress',
     loadComponent: () => import('./reference/circular-progress').then((m) => m.CircularProgressReference),
   },
