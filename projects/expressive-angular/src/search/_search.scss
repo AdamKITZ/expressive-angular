@@ -38,10 +38,11 @@
       margin: 0 12px 0 16px;
     }
 
+    // Stretched rather than `height: 100%`, which puts the text 1px lower than in the closed bar in Chromium.
     > input {
       flex: 1;
+      align-self: stretch;
       min-width: 0;
-      height: 100%;
       margin: 0;
       padding: 0;
       border: 0;
