@@ -3,9 +3,9 @@
 // the icon, the rest is the label, and the item with `aria-current` is selected, as in `.exp-navigation-bar`.
 // Collapsed, the rail is 96px wide with the label under the icon; `.exp-navigation-rail-expanded` widens it to fit
 // its widest item (220px to 360px) with the label beside the icon. A `.exp-navigation-rail-header` child sits above
-// the items. Compose fades the label out and back in around the swap; here it fades in at its new place. The width
-// animates only where the browser supports `interpolate-size`. `--exp-navigation-rail-container` stands in for
-// containerColor.
+// the items, centred on their icons. Compose fades the label out and back in around the swap; here it fades in at its
+// new place. The width animates only where the browser supports `interpolate-size`. `--exp-navigation-rail-container`
+// stands in for containerColor.
 @mixin navigation-rail {
   .exp-navigation-rail {
     interpolate-size: allow-keywords;
@@ -25,7 +25,12 @@
       padding var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
       gap var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
 
+    // Centres a header narrower than the rail, such as a menu button or a FAB, on the items' icons.
     > .exp-navigation-rail-header {
+      display: flex;
+      justify-content: center;
+      box-sizing: border-box;
+      min-width: 96px;
       margin-bottom: 36px;
     }
 
