@@ -152,7 +152,7 @@ With `exp.navigation-bar`, every `a` or `button` in a `.exp-navigation-bar` beco
 `exp.navigation-rail` does the same for a `.exp-navigation-rail` (Compose's `WideNavigationRail`): 96px wide with the
 label under the icon, or, with `.exp-navigation-rail-expanded`, as wide as its widest item (220px to 360px) with the
 label beside the icon. A `.exp-navigation-rail-header` child, such as the button that toggles the class, sits above
-the items. The rail fills its parent's height; `--exp-navigation-rail-container` changes its colour.
+the items, centred on their icons. The rail fills its parent's height; `--exp-navigation-rail-container` changes its colour.
 `exp-modal-navigation-rail` takes the place of a navigation drawer (Compose's `ModalWideNavigationRail` with
 `hideOnCollapse`): bind `[(open)]` and it slides an expanded rail in from the start edge over a scrim, as a modal
 dialog that traps focus and closes on Escape or a click on the scrim. Put the same header and items into it as into a
