@@ -1,0 +1,92 @@
+// Values from Material Components for Android's side sheet (md.comp.sheet.side tokens, Widget.Material3.SideSheet
+// and SideSheetDialog), since Compose has none. `.exp-side-sheet` is the standard sheet beside the content: 256px wide
+// on Surface with square corners and no elevation, laid out by the app. `exp-modal-side-sheet` slides in from the end
+// edge over a 32 % scrim: 256px wide on SurfaceContainerLow, large corners on its inner side, elevation level 1, in
+// 275ms with the emphasized easing. Its exit transitions run only where the browser can transition `display` and
+// `overlay`. `--exp-side-sheet-container` and `--exp-modal-side-sheet-container` change the container colours.
+@mixin side-sheet {
+  .exp-side-sheet {
+    box-sizing: border-box;
+    width: 256px;
+    height: 100%;
+    overflow-y: auto;
+    background: var(--exp-side-sheet-container, var(--mat-sys-surface));
+    color: var(--mat-sys-on-surface);
+  }
+
+  .exp-modal-side-sheet {
+    --exp-modal-side-sheet-motion: 275ms cubic-bezier(0.2, 0, 0, 1);
+
+    position: fixed;
+    inset: 0 0 0 auto;
+    box-sizing: border-box;
+    width: 256px;
+    max-width: 100%;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-start-start-radius: var(--exp-corner-large);
+    border-end-start-radius: var(--exp-corner-large);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    background: var(--exp-modal-side-sheet-container, var(--mat-sys-surface-container-low));
+    box-shadow: var(--mat-sys-level1);
+    color: var(--mat-sys-on-surface);
+    touch-action: pan-y;
+    translate: 100% 0;
+    transition:
+      translate var(--exp-modal-side-sheet-motion),
+      display var(--exp-modal-side-sheet-motion) allow-discrete,
+      overlay var(--exp-modal-side-sheet-motion) allow-discrete;
+
+    &:dir(rtl) {
+      inset: 0 auto 0 0;
+      translate: -100% 0;
+    }
+
+    &[open] {
+      translate: var(--exp-modal-side-sheet-offset, 0) 0;
+
+      @starting-style {
+        translate: 100% 0;
+      }
+    }
+
+    &[open]:dir(rtl) {
+      @starting-style {
+        translate: -100% 0;
+      }
+    }
+
+    &::backdrop {
+      background: color-mix(in srgb, var(--mat-sys-scrim) 32%, transparent);
+      opacity: 0;
+      transition:
+        opacity var(--exp-modal-side-sheet-motion),
+        display var(--exp-modal-side-sheet-motion) allow-discrete,
+        overlay var(--exp-modal-side-sheet-motion) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      &::backdrop {
+        transition: none;
+      }
+    }
+  }
+
+  .exp-modal-side-sheet-dragging {
+    transition: none;
+    user-select: none;
+  }
+}

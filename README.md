@@ -33,6 +33,7 @@ html {
   @include exp.navigation-rail; // the same for .exp-navigation-rail, collapsed or .exp-navigation-rail-expanded
   @include exp.search; // exp-search
   @include exp.bottom-sheet; // exp-bottom-sheet
+  @include exp.side-sheet; // .exp-side-sheet, exp-modal-side-sheet
 }
 ```
 
@@ -170,6 +171,11 @@ half way and opens fully on a drag or scroll up; a drag down, Escape, the scrim 
 close it. The handle strip can always be dragged; the rest of the sheet only while half open, so that its content
 scrolls natively. `handleLabel` names the handle for screen readers, and `--exp-bottom-sheet-container` changes its
 colour.
+Compose has no side sheet, so `exp.side-sheet` takes its values from Material Components for Android.
+`.exp-side-sheet` is the standard sheet: a 256px panel on Surface for you to place beside the content.
+`exp-modal-side-sheet` slides in from the end edge over a scrim: bind `[(open)]`, lay out its header, content and
+actions inside, and a swipe towards the edge, Escape or the scrim close it. `--exp-side-sheet-container` and
+`--exp-modal-side-sheet-container` change their colours.
 The motion tokens work on their own too:
 
 ```css

@@ -25,6 +25,7 @@ html {
   @include exp.navigation-rail;
   @include exp.search;
   @include exp.bottom-sheet;
+  @include exp.side-sheet;
 }
 
 body {

@@ -313,5 +313,36 @@
         </div>
       </exp-bottom-sheet>
     </section>
+
+    <section id="side-sheet">
+      <h2>Side sheet</h2>
+      <button matButton="tonal" (click)="sideSheetOpen.set(true)">Filters</button>
+      <exp-modal-side-sheet [(open)]="sideSheetOpen" label="Filters">
+        <div class="side-sheet-layout">
+          <header class="side-sheet-header">
+            <h3>Filters</h3>
+            <button mat-icon-button expIconButton aria-label="Close" (click)="sideSheetOpen.set(false)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </header>
+          <div class="side-sheet-body">
+            @for (target of shareTargets; track target.label) {
+              <label><input type="checkbox" /> {{ target.label }}</label>
+            }
+          </div>
+          <footer class="side-sheet-actions">
+            <button matButton="filled" (click)="sideSheetOpen.set(false)">Apply</button>
+            <button matButton="outlined" (click)="sideSheetOpen.set(false)">Cancel</button>
+          </footer>
+        </div>
+      </exp-modal-side-sheet>
+      <div class="standard-side-sheet-demo">
+        <p>Content beside a standard side sheet.</p>
+        <aside class="exp-side-sheet side-sheet-layout" aria-label="Details">
+          <header class="side-sheet-header"><h3>Details</h3></header>
+          <div class="side-sheet-body"><p>A standard side sheet sits beside the content, on Surface.</p></div>
+        </aside>
+      </div>
+    </section>
   }
 }
