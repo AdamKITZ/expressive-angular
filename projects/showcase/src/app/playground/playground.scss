@@ -212,3 +212,16 @@ exp-search + exp-search {
     border-inline-start: 1px solid var(--mat-sys-outline-variant);
   }
 }
+
+.standard-sheet-demo {
+  position: relative;
+  max-width: 412px;
+  height: 480px;
+  overflow: hidden;
+  border-radius: var(--exp-corner-large);
+  background: var(--mat-sys-surface-container-highest);
+
+  > p {
+    margin: 16px;
+  }
+}

@@ -7,6 +7,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/bottom-sheet').then((m) => m.BottomSheetReference),
   },
   {
+    path: 'reference/standard-bottom-sheet',
+    loadComponent: () => import('./reference/standard-bottom-sheet').then((m) => m.StandardBottomSheetReference),
+  },
+  {
     path: 'reference/button',
     loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
   },

@@ -171,8 +171,11 @@ half way and opens fully on a drag or scroll up; a drag down, Escape, the scrim 
 close it. The handle strip can always be dragged; the rest of the sheet only while half open, so that its content
 scrolls natively. `handleLabel` names the handle for screen readers, and `--exp-bottom-sheet-container` changes its
 colour.
+`exp-standard-bottom-sheet` is the sheet of Compose's `BottomSheetScaffold`: it sits at the bottom of its positioned
+parent without a scrim, shows its top `peekHeight` pixels (56 by default) and opens fully on a drag up or a click on its
+handle; `[(expanded)]` tells and sets that. Leave room for the peek height under the parent's own content.
 Compose has no side sheet, so `exp.side-sheet` takes its values from Material Components for Android.
-`.exp-side-sheet` is the standard sheet: a 256px panel on Surface for you to place beside the content.
+`.exp-side-sheet` is the standard sheet: a 256px panel (`--exp-side-sheet-width` changes it for both) on Surface for you to place beside the content.
 `exp-modal-side-sheet` slides in from the end edge over a scrim: bind `[(open)]`, lay out its header, content and
 actions inside, and a swipe towards the edge, Escape or the scrim close it. `--exp-side-sheet-container` and
 `--exp-modal-side-sheet-container` change their colours.

@@ -314,6 +314,21 @@
       </exp-bottom-sheet>
     </section>
 
+    <section id="standard-bottom-sheet">
+      <h2>Standard bottom sheet</h2>
+      <div class="standard-sheet-demo">
+        <p>The content behind stays usable.</p>
+        <exp-standard-bottom-sheet [peekHeight]="112">
+          <div class="sheet-text">
+            <h3>3 places nearby</h3>
+            @for (day of days; track day) {
+              <p>{{ day }}: 9:00 to 18:00</p>
+            }
+          </div>
+        </exp-standard-bottom-sheet>
+      </div>
+    </section>
+
     <section id="side-sheet">
       <h2>Side sheet</h2>
       <button matButton="tonal" (click)="sideSheetOpen.set(true)">Filters</button>

@@ -61,6 +61,7 @@ export const PAGES: readonly Page[] = [
     icon: 'call_to_action',
     sections: [
       { title: 'Bottom sheet', id: 'bottom-sheet' },
+      { title: 'Standard bottom sheet', id: 'standard-bottom-sheet' },
       { title: 'Side sheet', id: 'side-sheet' },
     ],
   },
