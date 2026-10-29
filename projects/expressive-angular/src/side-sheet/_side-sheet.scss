@@ -3,12 +3,16 @@
 // on Surface with square corners and no elevation, laid out by the app. `exp-modal-side-sheet` slides in from the end
 // edge over a 32 % scrim: 256px wide on SurfaceContainerLow, large corners on its inner side, elevation level 1, in
 // 275ms with the emphasized easing. Its exit transitions run only where the browser can transition `display` and
-// `overlay`. `--exp-side-sheet-width` changes the width of both, as Android's maxWidth does, and
-// `--exp-side-sheet-container` and `--exp-modal-side-sheet-container` change their container colours.
+// `overlay`. `--exp-side-sheet-width` changes the width of both up to the spec's 400px maximum, and
+// `--exp-side-sheet-container` and `--exp-modal-side-sheet-container` change their container colours. The detached
+// variant sits 16px in from the edges with large corners all round. Header and action area follow the M3 spec page:
+// 24px side padding (16px before a back button), 12px between header elements, a Title Large headline in
+// OnSurfaceVariant, and a 72px action area with 16px above and 24px below the buttons.
 @mixin side-sheet {
   .exp-side-sheet {
     box-sizing: border-box;
     width: var(--exp-side-sheet-width, 256px);
+    max-width: min(400px, 100%);
     height: 100%;
     overflow-y: auto;
     background: var(--exp-side-sheet-container, var(--mat-sys-surface));
@@ -17,12 +21,13 @@
 
   .exp-modal-side-sheet {
     --exp-modal-side-sheet-motion: 275ms cubic-bezier(0.2, 0, 0, 1);
+    --exp-modal-side-sheet-hidden: 100%;
 
     position: fixed;
     inset: 0 0 0 auto;
     box-sizing: border-box;
     width: var(--exp-side-sheet-width, 256px);
-    max-width: 100%;
+    max-width: min(400px, 100%);
     height: 100%;
     max-height: none;
     margin: 0;
@@ -36,7 +41,7 @@
     box-shadow: var(--mat-sys-level1);
     color: var(--mat-sys-on-surface);
     touch-action: pan-y;
-    translate: 100% 0;
+    translate: var(--exp-modal-side-sheet-hidden) 0;
     transition:
       translate var(--exp-modal-side-sheet-motion),
       display var(--exp-modal-side-sheet-motion) allow-discrete,
@@ -44,20 +49,20 @@
 
     &:dir(rtl) {
       inset: 0 auto 0 0;
-      translate: -100% 0;
+      translate: calc(-1 * var(--exp-modal-side-sheet-hidden)) 0;
     }
 
     &[open] {
       translate: var(--exp-modal-side-sheet-offset, 0) 0;
 
       @starting-style {
-        translate: 100% 0;
+        translate: var(--exp-modal-side-sheet-hidden) 0;
       }
     }
 
     &[open]:dir(rtl) {
       @starting-style {
-        translate: -100% 0;
+        translate: calc(-1 * var(--exp-modal-side-sheet-hidden)) 0;
       }
     }
 
@@ -84,6 +89,57 @@
         transition: none;
       }
     }
+  }
+
+  .exp-side-sheet-detached {
+    height: calc(100% - 32px);
+    margin: 16px;
+    border-radius: var(--exp-corner-large);
+  }
+
+  .exp-modal-side-sheet-detached {
+    --exp-modal-side-sheet-hidden: calc(100% + 16px);
+
+    inset: 16px 16px 16px auto;
+    max-width: min(400px, 100% - 32px);
+    height: calc(100% - 32px);
+    border-radius: var(--exp-corner-large);
+
+    &:dir(rtl) {
+      inset: 16px auto 16px 16px;
+    }
+  }
+
+  .exp-side-sheet-header {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    padding: 12px 24px;
+
+    &:has(> button:first-child) {
+      padding-inline-start: 16px;
+    }
+
+    > button:last-child:not(:first-child) {
+      margin-inline-start: auto;
+    }
+  }
+
+  .exp-side-sheet-headline {
+    flex: 1;
+    margin: 0;
+    color: var(--mat-sys-on-surface-variant);
+    font: var(--mat-sys-title-large);
+  }
+
+  .exp-side-sheet-actions {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    box-sizing: border-box;
+    min-height: 72px;
+    padding: 16px 24px 24px;
+    border-top: 1px solid var(--mat-sys-outline-variant);
   }
 
   .exp-modal-side-sheet-dragging {

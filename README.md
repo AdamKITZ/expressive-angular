@@ -178,7 +178,10 @@ Compose has no side sheet, so `exp.side-sheet` takes its values from Material Co
 `.exp-side-sheet` is the standard sheet: a 256px panel (`--exp-side-sheet-width` changes it for both) on Surface for you to place beside the content.
 `exp-modal-side-sheet` slides in from the end edge over a scrim: bind `[(open)]`, lay out its header, content and
 actions inside, and a swipe towards the edge, Escape or the scrim close it. `--exp-side-sheet-container` and
-`--exp-modal-side-sheet-container` change their colours.
+`--exp-modal-side-sheet-container` change their colours. `.exp-side-sheet-detached` and `[detached]="true"` inset the sheets by
+16px with large corners all round. Inside, `.exp-side-sheet-header` (a back button first, then a
+`.exp-side-sheet-headline`, then a close button last), the content and `.exp-side-sheet-actions` give the spec's
+paddings.
 The motion tokens work on their own too:
 
 ```css

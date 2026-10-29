@@ -162,19 +162,6 @@ exp-search + exp-search {
   min-height: 100%;
 }
 
-.side-sheet-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 12px 12px 24px;
-
-  h3 {
-    margin: 0;
-    color: var(--mat-sys-on-surface-variant);
-    font: var(--mat-sys-title-large);
-  }
-}
-
 .side-sheet-body {
   display: flex;
   flex: 1;
@@ -186,13 +173,6 @@ exp-search + exp-search {
   p {
     margin: 0;
   }
-}
-
-.side-sheet-actions {
-  display: flex;
-  gap: 8px;
-  padding: 16px 24px 24px;
-  border-top: 1px solid var(--mat-sys-outline-variant);
 }
 
 .standard-side-sheet-demo {
