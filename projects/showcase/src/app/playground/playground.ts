@@ -9,10 +9,10 @@ import {
   ExpMenuGroup,
   ExpModalNavigationRail,
   ExpModalSideSheet,
-  ExpStandardBottomSheet,
   ExpRangeSlider,
   ExpSearch,
   ExpSlider,
+  ExpStandardBottomSheet,
 } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import {
