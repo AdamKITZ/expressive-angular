@@ -10,6 +10,7 @@ export { ExpLoadingIndicator } from './loading-indicator/loading-indicator';
 export { ExpMenuGroup } from './menu/menu-group';
 export { ExpModalNavigationRail } from './modal-navigation-rail/modal-navigation-rail';
 export { ExpSearch } from './search/search';
+export { ExpModalSideSheet } from './side-sheet/modal-side-sheet';
 export { ExpRangeSlider } from './slider/range-slider';
 export { ExpSlider } from './slider/slider';
 export * from './split-button/split-button';

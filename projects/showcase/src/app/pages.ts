@@ -59,6 +59,9 @@ export const PAGES: readonly Page[] = [
     path: 'sheets',
     label: 'Sheets',
     icon: 'call_to_action',
-    sections: [{ title: 'Bottom sheet', id: 'bottom-sheet' }],
+    sections: [
+      { title: 'Bottom sheet', id: 'bottom-sheet' },
+      { title: 'Side sheet', id: 'side-sheet' },
+    ],
   },
 ];

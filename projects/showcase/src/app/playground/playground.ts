@@ -8,6 +8,7 @@ import {
   ExpLoadingIndicator,
   ExpMenuGroup,
   ExpModalNavigationRail,
+  ExpModalSideSheet,
   ExpRangeSlider,
   ExpSearch,
   ExpSlider,
@@ -55,6 +56,7 @@ interface Destination {
     ExpLoadingIndicator,
     ExpMenuGroup,
     ExpModalNavigationRail,
+    ExpModalSideSheet,
     ExpRangeSlider,
     ExpSearch,
     MatIcon,
@@ -101,6 +103,7 @@ export class Playground {
   ];
   protected readonly shortSheetOpen: WritableSignal<boolean> = signal(false);
   protected readonly longSheetOpen: WritableSignal<boolean> = signal(false);
+  protected readonly sideSheetOpen: WritableSignal<boolean> = signal(false);
   protected readonly searchQuery: WritableSignal<string> = signal('');
   protected readonly searchExpanded: WritableSignal<boolean> = signal(false);
   protected readonly matchingDestinations: Signal<readonly Destination[]> = computed(() =>
