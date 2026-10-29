@@ -12,6 +12,7 @@ import {
   ExpRangeSlider,
   ExpSearch,
   ExpSlider,
+  ExpStandardBottomSheet,
 } from '@adam01230/expressive-angular';
 import { DOCUMENT } from '@angular/common';
 import {
@@ -57,6 +58,7 @@ interface Destination {
     ExpMenuGroup,
     ExpModalNavigationRail,
     ExpModalSideSheet,
+    ExpStandardBottomSheet,
     ExpRangeSlider,
     ExpSearch,
     MatIcon,
@@ -104,6 +106,7 @@ export class Playground {
   protected readonly shortSheetOpen: WritableSignal<boolean> = signal(false);
   protected readonly longSheetOpen: WritableSignal<boolean> = signal(false);
   protected readonly sideSheetOpen: WritableSignal<boolean> = signal(false);
+  protected readonly sideSheetDetached: WritableSignal<boolean> = signal(false);
   protected readonly searchQuery: WritableSignal<string> = signal('');
   protected readonly searchExpanded: WritableSignal<boolean> = signal(false);
   protected readonly matchingDestinations: Signal<readonly Destination[]> = computed(() =>

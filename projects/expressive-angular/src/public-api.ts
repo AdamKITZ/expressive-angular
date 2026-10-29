@@ -1,4 +1,5 @@
 export { ExpBottomSheet } from './bottom-sheet/bottom-sheet';
+export { ExpStandardBottomSheet } from './bottom-sheet/standard-bottom-sheet';
 export { ExpButton } from './button/button';
 export { ExpButtonGroup } from './button-group/button-group';
 export { ExpCircularProgress } from './circular-progress/circular-progress';

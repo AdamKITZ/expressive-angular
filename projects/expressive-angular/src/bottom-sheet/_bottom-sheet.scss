@@ -2,8 +2,39 @@
 // SurfaceContainerLow with extra-large top corners and no elevation, a 32 × 4 drag handle with 22px above and below,
 // and a 32 % scrim. It slides with DefaultSpatial and the scrim fades with DefaultEffects; the exit transitions run
 // only where the browser can transition `display` and `overlay`. `--exp-bottom-sheet-container` stands in for
-// containerColor.
+// containerColor. `exp-standard-bottom-sheet` is BottomSheetScaffold's sheet: the same container, drag handle and
+// width with elevation level 1 and no scrim, at the bottom of its positioned parent.
 @mixin bottom-sheet {
+  .exp-standard-bottom-sheet-host {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .exp-standard-bottom-sheet {
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 640px;
+    max-height: 100%;
+    border-radius: var(--exp-corner-extra-large) var(--exp-corner-extra-large) 0 0;
+    background: var(--exp-bottom-sheet-container, var(--mat-sys-surface-container-low));
+    box-shadow: var(--mat-sys-level1);
+    color: var(--mat-sys-on-surface);
+    pointer-events: auto;
+    translate: 0 var(--exp-bottom-sheet-offset, 0);
+    transition: translate var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
+
+    @media (prefers-reduced-motion: reduce) {
+      transition: none;
+    }
+  }
+
   .exp-bottom-sheet {
     position: fixed;
     inset: auto 0 0;

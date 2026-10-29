@@ -28,9 +28,10 @@ interface Drag {
 
 /**
  * Material's modal side sheet (Material Components' `SideSheetDialog`): a sheet that slides in from the end edge over a
- * scrim while `open` is true, and that a swipe towards that edge closes. Lay out its header, content and actions
- * yourself. It runs in a native modal `<dialog>`, which traps focus and closes on Escape; a click on the scrim closes
- * it too. Needs the `side-sheet` Sass mixin once in the app's styles.
+ * scrim while `open` is true, and that a swipe towards that edge closes; `detached` insets it by 16px. Lay out its
+ * content with `.exp-side-sheet-header`, `.exp-side-sheet-headline` and `.exp-side-sheet-actions`. It runs in a native
+ * modal `<dialog>`, which traps focus and closes on Escape; a click on the scrim closes it too. Needs the `side-sheet`
+ * Sass mixin once in the app's styles.
  */
 @Component({
   selector: 'exp-modal-side-sheet',
@@ -38,6 +39,7 @@ interface Drag {
     <dialog
       #dialog
       class="exp-modal-side-sheet"
+      [class.exp-modal-side-sheet-detached]="detached()"
       [attr.aria-label]="label()"
       (close)="open.set(false)"
       (click)="$event.target === dialog && !wasDragged() && open.set(false)"
@@ -54,6 +56,7 @@ interface Drag {
 export class ExpModalSideSheet {
   public readonly open: ModelSignal<boolean> = model(false);
   public readonly label: InputSignal<string | undefined> = input<string>();
+  public readonly detached: InputSignal<boolean> = input(false);
 
   private readonly dialog: Signal<ElementRef<HTMLDialogElement>> = viewChild.required('dialog');
   private drag: Drag | null = null;

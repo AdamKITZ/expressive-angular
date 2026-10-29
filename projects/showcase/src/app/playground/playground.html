@@ -314,13 +314,31 @@
       </exp-bottom-sheet>
     </section>
 
+    <section id="standard-bottom-sheet">
+      <h2>Standard bottom sheet</h2>
+      <div class="standard-sheet-demo">
+        <p>The content behind stays usable.</p>
+        <exp-standard-bottom-sheet [peekHeight]="112">
+          <div class="sheet-text">
+            <h3>3 places nearby</h3>
+            @for (day of days; track day) {
+              <p>{{ day }}: 9:00 to 18:00</p>
+            }
+          </div>
+        </exp-standard-bottom-sheet>
+      </div>
+    </section>
+
     <section id="side-sheet">
       <h2>Side sheet</h2>
-      <button matButton="tonal" (click)="sideSheetOpen.set(true)">Filters</button>
-      <exp-modal-side-sheet [(open)]="sideSheetOpen" label="Filters">
+      <div class="row">
+        <button matButton="tonal" (click)="sideSheetDetached.set(false); sideSheetOpen.set(true)">Filters</button>
+        <button matButton="tonal" (click)="sideSheetDetached.set(true); sideSheetOpen.set(true)">Detached</button>
+      </div>
+      <exp-modal-side-sheet [(open)]="sideSheetOpen" [detached]="sideSheetDetached()" label="Filters">
         <div class="side-sheet-layout">
-          <header class="side-sheet-header">
-            <h3>Filters</h3>
+          <header class="exp-side-sheet-header">
+            <h3 class="exp-side-sheet-headline">Filters</h3>
             <button mat-icon-button expIconButton aria-label="Close" (click)="sideSheetOpen.set(false)">
               <mat-icon>close</mat-icon>
             </button>
@@ -330,7 +348,7 @@
               <label><input type="checkbox" /> {{ target.label }}</label>
             }
           </div>
-          <footer class="side-sheet-actions">
+          <footer class="exp-side-sheet-actions">
             <button matButton="filled" (click)="sideSheetOpen.set(false)">Apply</button>
             <button matButton="outlined" (click)="sideSheetOpen.set(false)">Cancel</button>
           </footer>
@@ -339,7 +357,7 @@
       <div class="standard-side-sheet-demo">
         <p>Content beside a standard side sheet.</p>
         <aside class="exp-side-sheet side-sheet-layout" aria-label="Details">
-          <header class="side-sheet-header"><h3>Details</h3></header>
+          <header class="exp-side-sheet-header"><h3 class="exp-side-sheet-headline">Details</h3></header>
           <div class="side-sheet-body"><p>A standard side sheet sits beside the content, on Surface.</p></div>
         </aside>
       </div>
