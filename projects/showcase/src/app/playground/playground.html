@@ -286,4 +286,32 @@
       </exp-search>
     </section>
   }
+  @case ('sheets') {
+    <section id="bottom-sheet">
+      <h2>Bottom sheet</h2>
+      <div class="row">
+        <button matButton="tonal" (click)="shortSheetOpen.set(true)">Share</button>
+        <button matButton="tonal" (click)="longSheetOpen.set(true)">Opening hours</button>
+      </div>
+      <exp-bottom-sheet [(open)]="shortSheetOpen" label="Share">
+        <div class="sheet-list">
+          @for (target of shareTargets; track target.label) {
+            <button type="button" (click)="shortSheetOpen.set(false)">
+              <mat-icon>{{ target.icon }}</mat-icon>
+              {{ target.label }}
+            </button>
+          }
+        </div>
+      </exp-bottom-sheet>
+      <exp-bottom-sheet [(open)]="longSheetOpen" label="Opening hours">
+        <div class="sheet-text">
+          <h3>Opening hours</h3>
+          <p>Taller than half the window, so it opens half way. Drag it up, or scroll, to open it fully.</p>
+          @for (day of days; track day) {
+            <p>{{ day }}: 9:00 to 18:00</p>
+          }
+        </div>
+      </exp-bottom-sheet>
+    </section>
+  }
 }

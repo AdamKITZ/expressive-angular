@@ -32,6 +32,7 @@ html {
   @include exp.navigation-bar; // a and button children of .exp-navigation-bar become Compose's navigation bar items
   @include exp.navigation-rail; // the same for .exp-navigation-rail, collapsed or .exp-navigation-rail-expanded
   @include exp.search; // exp-search
+  @include exp.bottom-sheet; // exp-bottom-sheet
 }
 ```
 
@@ -163,6 +164,12 @@ search as a modal dialog with the input field and the content you put inside `ex
 default the field stays in place and the results drop down below it; `[fullScreen]="true"` fills the screen and adds a
 back button, as on phones. `[(expanded)]` tells whether it is open, Enter emits `(searched)` with the query, and Escape,
 the scrim and the back button close it. `--exp-search-container` changes its colour.
+`exp-bottom-sheet` is Compose's modal bottom sheet: bind `[(open)]` and it slides up from the bottom edge over a scrim,
+at most 640px wide, with a drag handle above the content you put inside it. A sheet taller than half the window opens
+half way and opens fully on a drag or scroll up; a drag down, Escape, the scrim or the drag handle of a fully open sheet
+close it. The handle strip can always be dragged; the rest of the sheet only while half open, so that its content
+scrolls natively. `handleLabel` names the handle for screen readers, and `--exp-bottom-sheet-container` changes its
+colour.
 The motion tokens work on their own too:
 
 ```css

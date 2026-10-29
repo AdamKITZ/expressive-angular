@@ -1,0 +1,118 @@
+// Values from Compose ModalBottomSheet (SheetBottomTokens, BottomSheetDefaults): a sheet at most 640px wide on
+// SurfaceContainerLow with extra-large top corners and no elevation, a 32 × 4 drag handle with 22px above and below,
+// and a 32 % scrim. It slides with DefaultSpatial and the scrim fades with DefaultEffects; the exit transitions run
+// only where the browser can transition `display` and `overlay`. `--exp-bottom-sheet-container` stands in for
+// containerColor.
+@mixin bottom-sheet {
+  .exp-bottom-sheet {
+    position: fixed;
+    inset: auto 0 0;
+    display: none;
+    flex-direction: column;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 640px;
+    max-height: calc(100% - env(safe-area-inset-top));
+    margin: 0 auto;
+    padding: 0;
+    border: 0;
+    border-radius: var(--exp-corner-extra-large) var(--exp-corner-extra-large) 0 0;
+    overflow: hidden;
+    background: var(--exp-bottom-sheet-container, var(--mat-sys-surface-container-low));
+    color: var(--mat-sys-on-surface);
+    translate: 0 100%;
+    transition:
+      translate var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial),
+      display var(--exp-motion-default-spatial-duration) allow-discrete,
+      overlay var(--exp-motion-default-spatial-duration) allow-discrete;
+
+    &[open] {
+      display: flex;
+      translate: 0 var(--exp-bottom-sheet-offset, 0);
+
+      @starting-style {
+        translate: 0 100%;
+      }
+    }
+
+    &::backdrop {
+      background: color-mix(in srgb, var(--mat-sys-scrim) 32%, transparent);
+      opacity: 0;
+      transition:
+        opacity var(--exp-motion-default-effects-duration) var(--exp-motion-default-effects),
+        display var(--exp-motion-default-effects-duration) allow-discrete,
+        overlay var(--exp-motion-default-effects-duration) allow-discrete;
+    }
+
+    &[open]::backdrop {
+      opacity: 1;
+
+      @starting-style {
+        opacity: 0;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      &,
+      &::backdrop {
+        transition: none;
+      }
+    }
+  }
+
+  .exp-bottom-sheet-dragging {
+    transition: none;
+    user-select: none;
+  }
+
+  .exp-bottom-sheet-handle-strip {
+    display: flex;
+    flex: none;
+    justify-content: center;
+    touch-action: none;
+  }
+
+  .exp-bottom-sheet-handle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    border-radius: var(--mat-sys-corner-full);
+    background: none;
+    cursor: pointer;
+
+    &::before {
+      width: 32px;
+      height: 4px;
+      border-radius: var(--mat-sys-corner-full);
+      background: var(--mat-sys-on-surface-variant);
+      content: '';
+    }
+
+    &:focus-visible {
+      outline: 3px solid var(--mat-sys-secondary);
+      outline-offset: -3px;
+    }
+  }
+
+  .exp-bottom-sheet-content {
+    flex: 1;
+    min-height: 0;
+    padding-bottom: env(safe-area-inset-bottom);
+    overflow-y: auto;
+    overscroll-behavior: contain;
+  }
+
+  // Half open, the sheet takes every drag and scroll, which open it fully, as Compose's nested scroll does.
+  .exp-bottom-sheet-partial {
+    touch-action: none;
+
+    .exp-bottom-sheet-content {
+      overflow-y: hidden;
+    }
+  }
+}

@@ -117,3 +117,41 @@ exp-search + exp-search {
     background: color-mix(in srgb, currentColor calc(var(--mat-sys-hover-state-layer-opacity) * 100%), transparent);
   }
 }
+
+.sheet-list {
+  display: flex;
+  flex-direction: column;
+  padding: 0 0 16px;
+
+  button {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    min-height: 56px;
+    padding: 0 24px;
+    border: 0;
+    background: none;
+    color: inherit;
+    font: var(--mat-sys-body-large);
+    text-align: start;
+    cursor: pointer;
+
+    &:hover {
+      background: color-mix(in srgb, currentColor 8%, transparent);
+    }
+  }
+}
+
+.sheet-text {
+  padding: 0 24px 24px;
+
+  h3 {
+    margin: 0 0 8px;
+    font: var(--mat-sys-title-large);
+  }
+
+  p {
+    margin: 0 0 16px;
+    font: var(--mat-sys-body-large);
+  }
+}

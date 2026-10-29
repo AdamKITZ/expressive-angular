@@ -3,6 +3,10 @@ import { Routes } from '@angular/router';
 export const routes: Routes = [
   { path: '', pathMatch: 'full', redirectTo: 'buttons' },
   {
+    path: 'reference/bottom-sheet',
+    loadComponent: () => import('./reference/bottom-sheet').then((m) => m.BottomSheetReference),
+  },
+  {
     path: 'reference/button',
     loadComponent: () => import('./reference/button').then((m) => m.ButtonReference),
   },

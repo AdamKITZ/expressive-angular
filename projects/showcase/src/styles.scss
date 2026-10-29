@@ -24,6 +24,7 @@ html {
   @include exp.navigation-bar;
   @include exp.navigation-rail;
   @include exp.search;
+  @include exp.bottom-sheet;
 }
 
 body {
