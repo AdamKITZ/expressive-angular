@@ -1,4 +1,5 @@
 import {
+  ExpBottomSheet,
   ExpButton,
   ExpButtonGroup,
   ExpCircularProgress,
@@ -45,6 +46,7 @@ interface Destination {
   imports: [
     MatButton,
     MatIconButton,
+    ExpBottomSheet,
     ExpButton,
     ExpIconButton,
     ExpButtonGroup,
@@ -82,6 +84,23 @@ export class Playground {
   protected readonly currentDestination: WritableSignal<string> = signal('Home');
   protected readonly railExpanded: WritableSignal<boolean> = signal(false);
   protected readonly modalRailOpen: WritableSignal<boolean> = signal(false);
+  protected readonly shareTargets: readonly Destination[] = [
+    { icon: 'link', label: 'Copy link' },
+    { icon: 'mail', label: 'Email' },
+    { icon: 'print', label: 'Print' },
+  ];
+  protected readonly days: readonly string[] = [
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday',
+    'Sunday',
+    'Public holidays',
+  ];
+  protected readonly shortSheetOpen: WritableSignal<boolean> = signal(false);
+  protected readonly longSheetOpen: WritableSignal<boolean> = signal(false);
   protected readonly searchQuery: WritableSignal<string> = signal('');
   protected readonly searchExpanded: WritableSignal<boolean> = signal(false);
   protected readonly matchingDestinations: Signal<readonly Destination[]> = computed(() =>
