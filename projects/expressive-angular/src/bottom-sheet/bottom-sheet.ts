@@ -31,7 +31,7 @@ interface Drag {
  * Compose's `ModalBottomSheet`: a sheet that slides up from the bottom edge over a scrim while `open` is true. A sheet
  * taller than half the window opens half way and opens fully on a drag or scroll up; a drag down closes it. The strip
  * with the drag handle can always be dragged and the rest of the sheet while it is half open. Fully open, the content
- * scrolls natively, and a touch pulling down while it is scrolled to the top drags the sheet instead. It runs in a native modal `<dialog>`, which traps focus and closes on Escape; a click on
+ * scrolls natively, and pulling it down while it is scrolled to the top drags the sheet instead. It runs in a native modal `<dialog>`, which traps focus and closes on Escape; a click on
  * the scrim or on the drag handle of a fully open sheet closes it too. Needs the `bottom-sheet` Sass mixin once in the
  * app's styles.
  */
@@ -110,8 +110,7 @@ export class ExpBottomSheet {
   protected startDrag(event: PointerEvent): void {
     const onStrip = (event.target as Element).closest('.exp-bottom-sheet-handle-strip') !== null;
     const fromContent = !onStrip && !this.isPartial();
-    const pullsSheet = event.pointerType !== 'mouse' && this.content().nativeElement.scrollTop <= 0;
-    if (event.button !== 0 || (fromContent && !pullsSheet)) {
+    if (event.button !== 0 || (fromContent && this.content().nativeElement.scrollTop > 0)) {
       return;
     }
     this.drag = {
@@ -140,6 +139,7 @@ export class ExpBottomSheet {
         return;
       }
       drag.dragging = true;
+      window.getSelection()?.removeAllRanges();
       this.dialog().nativeElement.setPointerCapture(event.pointerId);
       this.dialog().nativeElement.classList.add('exp-bottom-sheet-dragging');
     }
