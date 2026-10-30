@@ -168,8 +168,8 @@ the scrim and the back button close it. `--exp-search-container` changes its col
 `exp-bottom-sheet` is Compose's modal bottom sheet: bind `[(open)]` and it slides up from the bottom edge over a scrim,
 at most 640px wide, with a drag handle above the content you put inside it. A sheet taller than half the window opens
 half way and opens fully on a drag or scroll up; a drag down, Escape, the scrim or the drag handle of a fully open sheet
-close it. The handle strip can always be dragged; the rest of the sheet only while half open, so that its content
-scrolls natively. `handleLabel` names the handle for screen readers, and `--exp-bottom-sheet-container` changes its
+close it. The handle strip can always be dragged, and the rest of the sheet while half open. Fully open, the content
+scrolls natively, and a touch pulling down while it is scrolled to the top drags the sheet. `handleLabel` names the handle for screen readers, and `--exp-bottom-sheet-container` changes its
 colour.
 `exp-standard-bottom-sheet` is the sheet of Compose's `BottomSheetScaffold`: it sits at the bottom of its positioned
 parent without a scrim, shows its top `peekHeight` pixels (56 by default) and opens fully on a drag up or a click on its
