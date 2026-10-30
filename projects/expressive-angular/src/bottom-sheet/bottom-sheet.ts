@@ -24,13 +24,14 @@ interface Drag {
   lastTime: number;
   velocity: number;
   dragging: boolean;
+  fromContent: boolean;
 }
 
 /**
  * Compose's `ModalBottomSheet`: a sheet that slides up from the bottom edge over a scrim while `open` is true. A sheet
  * taller than half the window opens half way and opens fully on a drag or scroll up; a drag down closes it. The strip
- * with the drag handle can always be dragged, the rest of the sheet only while it is half open, so that its content
- * keeps scrolling natively. It runs in a native modal `<dialog>`, which traps focus and closes on Escape; a click on
+ * with the drag handle can always be dragged and the rest of the sheet while it is half open. Fully open, the content
+ * scrolls natively, and a touch pulling down while it is scrolled to the top drags the sheet instead. It runs in a native modal `<dialog>`, which traps focus and closes on Escape; a click on
  * the scrim or on the drag handle of a fully open sheet closes it too. Needs the `bottom-sheet` Sass mixin once in the
  * app's styles.
  */
@@ -47,6 +48,7 @@ interface Drag {
       (pointermove)="moveDrag($event)"
       (pointerup)="endDrag()"
       (pointercancel)="endDrag()"
+      (touchmove)="holdScroll($event)"
       (wheel)="$event.deltaY > 0 && expandFromPartial()"
     >
       <div class="exp-bottom-sheet-handle-strip">
@@ -57,7 +59,7 @@ interface Drag {
           (click)="!wasDragged() && toggle()"
         ></button>
       </div>
-      <div class="exp-bottom-sheet-content"><ng-content /></div>
+      <div #content class="exp-bottom-sheet-content"><ng-content /></div>
     </dialog>
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -68,6 +70,7 @@ export class ExpBottomSheet {
   public readonly handleLabel: InputSignal<string> = input('Drag handle');
 
   private readonly dialog: Signal<ElementRef<HTMLDialogElement>> = viewChild.required('dialog');
+  private readonly content: Signal<ElementRef<HTMLElement>> = viewChild.required('content');
   private offset: number = 0;
   private drag: Drag | null = null;
   private dragged: boolean = false;
@@ -106,7 +109,9 @@ export class ExpBottomSheet {
 
   protected startDrag(event: PointerEvent): void {
     const onStrip = (event.target as Element).closest('.exp-bottom-sheet-handle-strip') !== null;
-    if (event.button !== 0 || (!onStrip && !this.isPartial())) {
+    const fromContent = !onStrip && !this.isPartial();
+    const pullsSheet = event.pointerType !== 'mouse' && this.content().nativeElement.scrollTop <= 0;
+    if (event.button !== 0 || (fromContent && !pullsSheet)) {
       return;
     }
     this.drag = {
@@ -117,6 +122,7 @@ export class ExpBottomSheet {
       lastTime: event.timeStamp,
       velocity: 0,
       dragging: false,
+      fromContent,
     };
   }
 
@@ -127,6 +133,10 @@ export class ExpBottomSheet {
     }
     if (!drag.dragging) {
       if (Math.abs(event.clientY - drag.startY) < dragSlop) {
+        return;
+      }
+      if (drag.fromContent && event.clientY < drag.startY) {
+        this.drag = null;
         return;
       }
       drag.dragging = true;
@@ -140,6 +150,14 @@ export class ExpBottomSheet {
     drag.lastY = event.clientY;
     drag.lastTime = event.timeStamp;
     this.moveTo(Math.min(Math.max(drag.startOffset + event.clientY - drag.startY, 0), this.anchors().hidden));
+  }
+
+  /** Only a cancelled touchmove keeps the browser from scrolling the content while a touch pulls the sheet. */
+  protected holdScroll(event: TouchEvent): void {
+    const drag = this.drag;
+    if (drag?.fromContent && event.cancelable && (drag.dragging || event.touches[0].clientY > drag.startY)) {
+      event.preventDefault();
+    }
   }
 
   protected endDrag(): void {

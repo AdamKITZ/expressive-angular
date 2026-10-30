@@ -33,6 +33,35 @@ describe('ExpBottomSheet', () => {
     };
   });
 
+  async function pullContent(pointerType: string, scrollTop: number, distance: number): Promise<boolean> {
+    const { fixture, dialog } = await render();
+    fixture.componentInstance.open.set(true);
+    await fixture.whenStable();
+    Object.defineProperty(dialog, 'offsetHeight', { value: 300 });
+    dialog.setPointerCapture = (): void => undefined;
+    const content = dialog.querySelector('.exp-bottom-sheet-content') as HTMLElement;
+    content.scrollTop = scrollTop;
+    const button = content.querySelector('button') as HTMLElement;
+    const pointer = { bubbles: true, pointerId: 1, pointerType, button: 0 };
+
+    button.dispatchEvent(new PointerEvent('pointerdown', { ...pointer, clientY: 400 }));
+    button.dispatchEvent(new PointerEvent('pointermove', { ...pointer, clientY: 400 + distance }));
+    button.dispatchEvent(new PointerEvent('pointerup', { ...pointer, clientY: 400 + distance }));
+    return fixture.componentInstance.open();
+  }
+
+  it('closes on a touch pulling the content down while it is scrolled to the top', async () => {
+    expect(await pullContent('touch', 0, 250)).toBe(false);
+  });
+
+  it.each([
+    ['the content is scrolled down', 'touch', 40, 250],
+    ['the touch moves up', 'touch', 0, -250],
+    ['a mouse drags, which selects text', 'mouse', 0, 250],
+  ])('keeps the sheet open when %s', async (_, pointerType, scrollTop, distance) => {
+    expect(await pullContent(pointerType, scrollTop, distance)).toBe(true);
+  });
+
   it('shows the sheet as a modal dialog while open, and closes it again', async () => {
     const { fixture, dialog } = await render();
     expect(dialog.open).toBe(false);
