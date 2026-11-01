@@ -182,6 +182,16 @@
       var(--exp-search-bar-top) calc(100% - var(--exp-search-bar-left) - var(--exp-search-bar-width))
         calc(100% - var(--exp-search-bar-top) - 56px) var(--exp-search-bar-left) round 28px
     );
+    --exp-search-content-collapsed: calc(var(--exp-search-bar-left) - env(safe-area-inset-left))
+      calc(var(--exp-search-bar-top) - 8px - env(safe-area-inset-top));
+
+    // Right to left, the content's right edge meets the bar's; 100% is the width of the field or the results.
+    &:dir(rtl) {
+      --exp-search-content-collapsed: calc(
+          var(--exp-search-bar-left) + var(--exp-search-bar-width) - env(safe-area-inset-left) - 100%
+        )
+        calc(var(--exp-search-bar-top) - 8px - env(safe-area-inset-top));
+    }
 
     inset: 0;
     width: 100%;
@@ -211,13 +221,32 @@
       }
     }
 
+    // The field and the results slide from the bar's place to the top, so that the icon and the text move inside the
+    // growing clip instead of jumping to their final place.
     > .exp-search-field {
       flex: none;
       height: 72px;
       padding-block: 8px;
-      border-bottom: 1px solid var(--mat-sys-outline);
+      border-bottom: 1px solid transparent;
       border-radius: 0;
       background: none;
+      translate: var(--exp-search-content-collapsed);
+      transition:
+        translate var(--exp-search-exit),
+        border-color var(--exp-search-exit);
+    }
+
+    &[open] > .exp-search-field {
+      border-bottom-color: var(--mat-sys-outline);
+      translate: 0 0;
+      transition:
+        translate var(--exp-search-enter),
+        border-color var(--exp-search-enter);
+
+      @starting-style {
+        border-bottom-color: transparent;
+        translate: var(--exp-search-content-collapsed);
+      }
     }
 
     > .exp-search-results {
@@ -226,13 +255,31 @@
       max-height: none;
       border-radius: 0;
       background: none;
+      translate: var(--exp-search-content-collapsed);
+      transition:
+        clip-path var(--exp-search-exit),
+        opacity var(--exp-search-exit),
+        translate var(--exp-search-exit);
+    }
+
+    &[open] > .exp-search-results {
+      translate: 0 0;
+      transition:
+        clip-path var(--exp-search-enter),
+        opacity var(--exp-search-enter),
+        translate var(--exp-search-enter);
+
+      @starting-style {
+        translate: var(--exp-search-content-collapsed);
+      }
     }
   }
 
   @media (prefers-reduced-motion: reduce) {
     .exp-search-view,
     .exp-search-view::backdrop,
-    .exp-search-view > .exp-search-results {
+    .exp-search-view > .exp-search-results,
+    .exp-search-view > .exp-search-field {
       transition: none !important;
     }
   }
