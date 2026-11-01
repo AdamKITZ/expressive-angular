@@ -33,7 +33,8 @@ interface Drag {
 /**
  * The sheet of Compose's `BottomSheetScaffold`: a non-modal sheet at the bottom of its positioned parent that shows its
  * top `peekHeight` pixels and opens fully on a drag up or a click on its drag handle, without a scrim, so the content
- * behind stays usable. `expanded` tells and sets whether it is fully open. The strip with the drag handle can always be
+ * behind stays usable. `expanded` tells and sets whether it is fully open. Given a `middleHeight`, it also rests with
+ * that many pixels shown, which `middle` tells and sets, and a click on the handle steps peek, middle, open. The strip with the drag handle can always be
  * dragged and the rest of the sheet while folded. Open, the content scrolls natively, and pulling it down while it is
  * scrolled to the top drags the sheet instead. Leave room
  * for the peek height under the parent's own content. Needs the `bottom-sheet` Sass mixin once in the app's styles.
@@ -59,7 +60,7 @@ interface Drag {
           class="exp-bottom-sheet-handle"
           [attr.aria-label]="handleLabel()"
           [attr.aria-expanded]="expanded()"
-          (click)="!wasDragged() && expanded.set(!expanded())"
+          (click)="!wasDragged() && step()"
         ></button>
       </div>
       <div #content class="exp-bottom-sheet-content"><ng-content /></div>
@@ -69,7 +70,9 @@ interface Drag {
 })
 export class ExpStandardBottomSheet {
   public readonly expanded: ModelSignal<boolean> = model(false);
+  public readonly middle: ModelSignal<boolean> = model(false);
   public readonly peekHeight: InputSignal<number> = input(56);
+  public readonly middleHeight: InputSignal<number | null> = input<number | null>(null);
   public readonly handleLabel: InputSignal<string> = input('Drag handle');
 
   private readonly sheet: Signal<ElementRef<HTMLElement>> = viewChild.required('sheet');
@@ -79,10 +82,10 @@ export class ExpStandardBottomSheet {
   private dragged: boolean = false;
 
   constructor() {
-    effect(() => this.moveTo(this.expanded() ? 0 : this.anchors().partial));
+    effect(() => this.moveTo(this.restingOffset()));
     const destroyRef = inject(DestroyRef);
     afterNextRender(() => {
-      const size = new ResizeObserver(() => this.moveTo(this.expanded() ? 0 : this.anchors().partial));
+      const size = new ResizeObserver(() => this.moveTo(this.restingOffset()));
       size.observe(this.sheet().nativeElement);
       destroyRef.onDestroy(() => size.disconnect());
     });
@@ -92,6 +95,12 @@ export class ExpStandardBottomSheet {
     const dragged = this.dragged;
     this.dragged = false;
     return dragged;
+  }
+
+  protected step(): void {
+    const opening = !this.expanded() && (this.middle() || this.middleHeight() === null);
+    this.middle.set(!this.expanded() && !opening);
+    this.expanded.set(opening);
   }
 
   protected startDrag(event: PointerEvent): void {
@@ -156,14 +165,28 @@ export class ExpStandardBottomSheet {
     }
     this.dragged = true;
     this.sheet().nativeElement.classList.remove('exp-bottom-sheet-dragging');
-    const { partial } = this.anchors();
-    const target = settle([0, partial], drag.startOffset, this.offset, drag.velocity);
+    const { middle, partial } = this.anchors();
+    const target = settle(
+      middle === null ? [0, partial] : [0, middle, partial],
+      drag.startOffset,
+      this.offset,
+      drag.velocity
+    );
     this.expanded.set(target === 0);
+    this.middle.set(target !== 0 && target === middle);
     this.moveTo(target);
   }
 
-  private anchors(): { partial: number } {
-    return { partial: Math.max(this.sheet().nativeElement.offsetHeight - this.peekHeight(), 0) };
+  private anchors(): { middle: number | null; partial: number } {
+    const height = this.sheet().nativeElement.offsetHeight;
+    const partial = Math.max(height - this.peekHeight(), 0);
+    const middleHeight = this.middleHeight();
+    return { middle: middleHeight === null ? null : Math.min(Math.max(height - middleHeight, 0), partial), partial };
+  }
+
+  private restingOffset(): number {
+    const { middle, partial } = this.anchors();
+    return this.expanded() ? 0 : this.middle() && middle !== null ? middle : partial;
   }
 
   private moveTo(offset: number): void {

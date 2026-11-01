@@ -173,7 +173,7 @@ scrolls natively, and pulling it down while it is scrolled to the top drags the 
 colour.
 `exp-standard-bottom-sheet` is the sheet of Compose's `BottomSheetScaffold`: it sits at the bottom of its positioned
 parent without a scrim, shows its top `peekHeight` pixels (56 by default) and opens fully on a drag up or a click on its
-handle; `[(expanded)]` tells and sets that. Open, pulling its content down while it is scrolled to the top folds it. Leave room for the peek height under the parent's own content.
+handle; `[(expanded)]` tells and sets that. With a `middleHeight` it also rests with that many pixels shown, told and set by `[(middle)]`, and the handle steps from the peek to the middle to fully open. Open, pulling its content down while it is scrolled to the top folds it. Leave room for the peek height under the parent's own content.
 Compose has no side sheet, so `exp.side-sheet` takes its values from Material Components for Android.
 `.exp-side-sheet` is the standard sheet: a 256px panel (`--exp-side-sheet-width` changes it for both) on Surface for you to place beside the content.
 `exp-modal-side-sheet` slides in from the end edge over a scrim: bind `[(open)]`, lay out its header, content and
