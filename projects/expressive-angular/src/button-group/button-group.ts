@@ -44,8 +44,12 @@ const STEPS: Record<string, number> = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: 
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ExpButtonGroup implements ExpButtonGroupRef {
-  /** The selected button's `value`; a click on the selected button keeps it. */
+  /** The selected button's `value`; a click on the selected button keeps it, unless `deselectable`. */
   public readonly value: ModelSignal<unknown> = model<unknown>(null);
+  /** A click on the selected button clears `value` to null, so no button is selected. */
+  public readonly deselectable: InputSignalWithTransform<boolean, unknown> = input(false, {
+    transform: booleanAttribute,
+  });
   /** Buttons touch and share their inner corners instead of growing when pressed. */
   public readonly connected: InputSignalWithTransform<boolean, unknown> = input(false, {
     transform: booleanAttribute,
@@ -63,6 +67,10 @@ export class ExpButtonGroup implements ExpButtonGroupRef {
 
   public select(value: unknown): void {
     this.value.set(value);
+  }
+
+  public toggle(value: unknown): void {
+    this.select(this.deselectable() && value === this.value() ? null : value);
   }
 
   public isTabStop(button: ExpButton): boolean {

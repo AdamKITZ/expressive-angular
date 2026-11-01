@@ -135,7 +135,7 @@ With `exp.menu`, every `mat-menu` looks like Compose's Expressive menu: one roun
 items into `exp-menu-group`s to split a menu into separate groups, each with an optional `label`. The class
 `exp-menu-item-selected` marks the selected item; set `role` and `aria-checked` yourself. A trailing icon or shortcut
 goes into a `.exp-menu-item-trailing` span after the label. `--exp-menu-container` changes the menu colour.
-A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`.
+A button group also takes `[formControl]` or `formControlName` in place of `[(value)]`. With `deselectable`, a click on the selected button clears the value to null.
 Every child of `.exp-segmented-list` becomes a segmented list item: 2px apart, small corners, large outer corners on the
 first and last. Lay out the item's content yourself; the list sets its shape, padding, height and colours.
 `--exp-segmented-list-container` changes the items' Surface colour, for a list that sits on a Surface page.

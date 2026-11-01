@@ -16,6 +16,8 @@ import { MatButton } from '@angular/material/button';
 export interface ExpButtonGroupRef {
   readonly value: Signal<unknown>;
   select(value: unknown): void;
+  /** A click: selects `value`, or clears it when it is selected and the group is deselectable. */
+  toggle(value: unknown): void;
   isTabStop(button: ExpButton): boolean;
 }
 
@@ -36,7 +38,7 @@ export const EXP_BUTTON_GROUP: InjectionToken<ExpButtonGroupRef> = new Injection
     '[attr.aria-pressed]': 'group ? null : (selected() ?? null)',
     '[attr.role]': "group ? 'radio' : null",
     '[attr.aria-checked]': 'group ? checked() : null',
-    '(click)': 'group?.select(value())',
+    '(click)': 'group?.toggle(value())',
   },
 })
 export class ExpButton {
