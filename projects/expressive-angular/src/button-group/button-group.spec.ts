@@ -22,6 +22,19 @@ class Host {
   public readonly value = signal<unknown>(null);
 }
 
+@Component({
+  imports: [MatButton, ExpButton, ExpButtonGroup],
+  template: `
+    <exp-button-group aria-label="Period" deselectable [(value)]="value">
+      <button matButton="tonal" expButton value="week">Week</button>
+      <button matButton="tonal" expButton value="month">Month</button>
+    </exp-button-group>
+  `,
+})
+class DeselectableHost {
+  public readonly value = signal<unknown>('week');
+}
+
 async function setup(value: unknown): Promise<{ fixture: ComponentFixture<Host>; buttons: HTMLButtonElement[] }> {
   const fixture = TestBed.createComponent(Host);
   fixture.componentInstance.value.set(value);
@@ -48,6 +61,21 @@ describe('ExpButtonGroup', () => {
     await fixture.whenStable();
 
     expect(fixture.componentInstance.value()).toBe(2);
+  });
+
+  it('clears the selection when the selected button is clicked again, given deselectable', async () => {
+    const fixture = TestBed.createComponent(DeselectableHost);
+    await fixture.whenStable();
+    const [week, month] = Array.from((fixture.nativeElement as HTMLElement).querySelectorAll('button'));
+
+    week.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toBeNull();
+    expect(week.getAttribute('aria-checked')).toBe('false');
+
+    month.click();
+    await fixture.whenStable();
+    expect(fixture.componentInstance.value()).toBe('month');
   });
 
   it.each([
