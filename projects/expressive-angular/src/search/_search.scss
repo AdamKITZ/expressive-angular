@@ -1,8 +1,8 @@
 // Values from Compose SearchBar, SearchBarDefaults.InputField (TextField's 48px leading icon slot shifted 4px in, text
 // 4px after it), ExpandedDockedSearchBarWithGap and ExpandedFullScreenSearchBar (SearchBarTokens, SearchViewTokens).
 // The docked results are at least as tall as Compose's 240px minimum for field and results together, and the two
-// together at most half the window. The enter motion is Compose's 500ms emphasized-decelerate after a 50ms delay; the
-// exit is 250ms. Exit transitions run only where the browser can transition `display` and `overlay`.
+// together at most half the window. It opens with the SlowSpatial spring and closes with DefaultSpatial, the defaults
+// of rememberSearchBarState. Exit transitions run only where the browser can transition `display` and `overlay`.
 // `--exp-search-container` stands in for containerColor.
 @mixin search {
   .exp-search {
@@ -103,8 +103,8 @@
   }
 
   .exp-search-view {
-    --exp-search-enter: 500ms cubic-bezier(0.05, 0.7, 0.1, 1) 50ms;
-    --exp-search-exit: 250ms cubic-bezier(0, 1, 0, 1) 50ms;
+    --exp-search-enter: var(--exp-motion-slow-spatial-duration) var(--exp-motion-slow-spatial);
+    --exp-search-exit: var(--exp-motion-default-spatial-duration) var(--exp-motion-default-spatial);
 
     position: fixed;
     inset: var(--exp-search-bar-top) auto auto var(--exp-search-bar-left);
@@ -140,8 +140,8 @@
 
     &[open]::backdrop {
       opacity: 1;
-      transition-timing-function: cubic-bezier(0.05, 0.7, 0.1, 1);
-      transition-duration: 500ms;
+      transition-timing-function: var(--exp-motion-slow-spatial);
+      transition-duration: var(--exp-motion-slow-spatial-duration);
 
       @starting-style {
         opacity: 0;
