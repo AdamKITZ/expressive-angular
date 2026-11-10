@@ -52,9 +52,8 @@ class MaterialShapesTest {
   @Test
   fun record() {
     val entries = shapes.map { (name, polygon) ->
-      val features = polygon.features.joinToString(", ", "[", "]") { feature ->
-        val type = if (feature.isConvexCorner) "convex" else if (feature.isConcaveCorner) "concave" else "edge"
-        "{ \"type\": \"$type\", \"cubics\": ${cubics(feature.cubics)} }"
+      val features = features(polygon).joinToString(", ", "[", "]") { (type, featureCubics) ->
+        "{ \"type\": \"$type\", \"cubics\": ${cubics(featureCubics)} }"
       }
       "  \"$name\": { \"cubics\": ${cubics(polygon.cubics)}, \"features\": $features }"
     }
@@ -76,6 +75,27 @@ class MaterialShapesTest {
           }
         }
       }
+    }
+  }
+
+  /**
+   * The polygon's features as `Morph` sees them: corner (convex or concave) or edge, with their cubics. graphics-shapes
+   * 1.1.0 keeps `features` and `Feature` internal, hence the reflection.
+   */
+  private fun features(polygon: RoundedPolygon): List<Pair<String, List<Cubic>>> {
+    val getter = RoundedPolygon::class.java.methods.first { it.name.startsWith("getFeatures") }
+    return (getter.invoke(polygon) as List<*>).map { feature ->
+      val type = feature!!::class.java
+      @Suppress("UNCHECKED_CAST")
+      val cubics = type.methods.first { it.name.startsWith("getCubics") }.invoke(feature) as List<Cubic>
+      val kind =
+        if (type.simpleName == "Corner") {
+          val convex = type.methods.first { it.name.startsWith("getConvex") }.invoke(feature) as Boolean
+          if (convex) "convex" else "concave"
+        } else {
+          "edge"
+        }
+      kind to cubics
     }
   }
 
