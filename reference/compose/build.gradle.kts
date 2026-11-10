@@ -24,16 +24,3 @@ dependencies {
   testImplementation("junit:junit:4.13.2")
 }
 
-val dumpShapesSources by tasks.registering {
-  doLast {
-    val id = configurations.getByName("debugRuntimeClasspath").incoming.resolutionResult.allComponents
-      .map { it.moduleVersion!! }.first { it.group == "androidx.graphics" && it.name.startsWith("graphics-shapes") }
-    val jar = configurations.detachedConfiguration(
-      project.dependencies.create("${id.group}:${id.name}:${id.version}:sources")
-    ).apply { isTransitive = false }.singleFile
-    val out = file("src/test/snapshots/tmp-shapes-src")
-    copy { from(zipTree(jar)); into(out) }
-    file("src/test/snapshots/tmp-shapes-src/VERSION").writeText("${id.name} ${id.version}\n")
-  }
-}
-tasks.matching { it.name == "recordPaparazziDebug" }.configureEach { dependsOn(dumpShapesSources) }

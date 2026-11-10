@@ -25,8 +25,9 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * Records Compose's 35 `MaterialShapes` for tools/tokens/generate.ts: per shape the cubics `toShape` draws and the
- * features `Morph` matches, and renders them for the showcase route `/reference/material-shapes`.
+ * Records Compose's 35 `MaterialShapes` for tools/tokens/generate.ts: per shape its centre and the features `Morph`
+ * matches, whose cubics are the outline `toShape` draws. Renders them for the showcase route
+ * `/reference/material-shapes`.
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 class MaterialShapesTest {
@@ -56,7 +57,7 @@ class MaterialShapesTest {
       val features = features(polygon).joinToString(", ", "[", "]") { (type, featureCubics) ->
         "{ \"type\": \"$type\", \"cubics\": ${cubics(featureCubics)} }"
       }
-      "  \"$name\": { \"cubics\": ${cubics(polygon.cubics)}, \"features\": $features }"
+      "  \"$name\": { \"center\": [${round(polygon.centerX)}, ${round(polygon.centerY)}], \"features\": $features }"
     }
     File("src/test/snapshots/material-shapes.json").writeText("{\n${entries.joinToString(",\n")}\n}\n")
   }
