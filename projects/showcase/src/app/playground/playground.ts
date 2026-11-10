@@ -1,4 +1,5 @@
 import {
+  EXP_SHAPE_NAMES,
   ExpBottomSheet,
   ExpButton,
   ExpButtonGroup,
@@ -11,6 +12,7 @@ import {
   ExpModalSideSheet,
   ExpRangeSlider,
   ExpSearch,
+  expShapePath,
   ExpSlider,
   ExpStandardBottomSheet,
 } from '@adam01230/expressive-angular';
@@ -93,6 +95,10 @@ export class Playground {
     { icon: 'mail', label: 'Email' },
     { icon: 'print', label: 'Print' },
   ];
+  protected readonly shapes: readonly { name: string; path: string }[] = EXP_SHAPE_NAMES.map((name) => ({
+    name,
+    path: expShapePath(name),
+  }));
   protected readonly days: readonly string[] = [
     'Monday',
     'Tuesday',

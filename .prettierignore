@@ -9,3 +9,5 @@ reference/compose/src/test/snapshots/loading-indicator.json
 projects/expressive-angular/src/loading-indicator/morphs.ts
 reference/compose/src/test/snapshots/circular-wavy-progress.json
 projects/expressive-angular/src/circular-progress/shapes.ts
+reference/compose/src/test/snapshots/material-shapes.json
+projects/expressive-angular/src/shapes/material-shapes.ts

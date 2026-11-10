@@ -27,6 +27,10 @@ export const routes: Routes = [
     loadComponent: () => import('./reference/circular-progress').then((m) => m.CircularProgressReference),
   },
   {
+    path: 'reference/material-shapes',
+    loadComponent: () => import('./reference/material-shapes').then((m) => m.MaterialShapesReference),
+  },
+  {
     path: 'reference/corner-large-increased',
     loadComponent: () => import('./reference/corner-large-increased').then((m) => m.CornerLargeIncreased),
   },
