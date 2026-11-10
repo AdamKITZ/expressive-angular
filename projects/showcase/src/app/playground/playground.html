@@ -363,4 +363,17 @@
       </div>
     </section>
   }
+  @case ('shapes') {
+    <section id="material-shapes">
+      <h2>Material shapes</h2>
+      <div class="shape-grid">
+        @for (shape of shapes; track shape.name) {
+          <figure>
+            <svg viewBox="0 0 1 1" aria-hidden="true"><path [attr.d]="shape.path" /></svg>
+            <figcaption>{{ shape.name }}</figcaption>
+          </figure>
+        }
+      </div>
+    </section>
+  }
 }

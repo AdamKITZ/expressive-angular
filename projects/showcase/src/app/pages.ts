@@ -65,4 +65,10 @@ export const PAGES: readonly Page[] = [
       { title: 'Side sheet', id: 'side-sheet' },
     ],
   },
+  {
+    path: 'shapes',
+    label: 'Shapes',
+    icon: 'category',
+    sections: [{ title: 'Material shapes', id: 'material-shapes' }],
+  },
 ];
