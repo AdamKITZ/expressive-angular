@@ -366,12 +366,14 @@
   @case ('shapes') {
     <section id="material-shapes">
       <h2>Material shapes</h2>
+      <p class="hint">Pick a shape and the large one morphs into it.</p>
+      <exp-shape class="morphing-shape" [shape]="morphShape()" />
       <div class="shape-grid">
         @for (shape of shapes; track shape.name) {
-          <figure>
+          <button type="button" [attr.aria-pressed]="morphShape() === shape.name" (click)="morphShape.set(shape.name)">
             <svg viewBox="0 0 1 1" aria-hidden="true"><path [attr.d]="shape.path" /></svg>
-            <figcaption>{{ shape.name }}</figcaption>
-          </figure>
+            {{ shape.name }}
+          </button>
         }
       </div>
     </section>

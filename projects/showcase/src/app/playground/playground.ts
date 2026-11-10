@@ -12,6 +12,8 @@ import {
   ExpModalSideSheet,
   ExpRangeSlider,
   ExpSearch,
+  ExpShape,
+  ExpShapeName,
   expShapePath,
   ExpSlider,
   ExpStandardBottomSheet,
@@ -51,6 +53,7 @@ interface Destination {
     MatButton,
     MatIconButton,
     ExpBottomSheet,
+    ExpShape,
     ExpButton,
     ExpIconButton,
     ExpButtonGroup,
@@ -95,7 +98,8 @@ export class Playground {
     { icon: 'mail', label: 'Email' },
     { icon: 'print', label: 'Print' },
   ];
-  protected readonly shapes: readonly { name: string; path: string }[] = EXP_SHAPE_NAMES.map((name) => ({
+  protected readonly morphShape: WritableSignal<ExpShapeName> = signal('circle');
+  protected readonly shapes: readonly { name: ExpShapeName; path: string }[] = EXP_SHAPE_NAMES.map((name) => ({
     name,
     path: expShapePath(name),
   }));

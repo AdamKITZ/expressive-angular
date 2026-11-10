@@ -11,3 +11,4 @@ reference/compose/src/test/snapshots/circular-wavy-progress.json
 projects/expressive-angular/src/circular-progress/shapes.ts
 reference/compose/src/test/snapshots/material-shapes.json
 projects/expressive-angular/src/shapes/material-shapes.ts
+reference/compose/src/test/snapshots/material-shape-morphs.json

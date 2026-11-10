@@ -14,6 +14,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.graphics.shapes.Cubic
+import androidx.graphics.shapes.Morph
 import androidx.graphics.shapes.RoundedPolygon
 import app.cash.paparazzi.DeviceConfig
 import app.cash.paparazzi.Paparazzi
@@ -24,8 +25,9 @@ import org.junit.Rule
 import org.junit.Test
 
 /**
- * Records Compose's 35 `MaterialShapes` for tools/tokens/generate.ts: per shape the cubics `toShape` draws and the
- * features `Morph` matches, and renders them for the showcase route `/reference/material-shapes`.
+ * Records Compose's 35 `MaterialShapes` for tools/tokens/generate.ts: per shape its centre and the features `Morph`
+ * matches, whose cubics are the outline `toShape` draws. Renders them for the showcase route
+ * `/reference/material-shapes`.
  */
 @OptIn(ExperimentalMaterial3ExpressiveApi::class)
 class MaterialShapesTest {
@@ -55,9 +57,21 @@ class MaterialShapesTest {
       val features = features(polygon).joinToString(", ", "[", "]") { (type, featureCubics) ->
         "{ \"type\": \"$type\", \"cubics\": ${cubics(featureCubics)} }"
       }
-      "  \"$name\": { \"cubics\": ${cubics(polygon.cubics)}, \"features\": $features }"
+      "  \"$name\": { \"center\": [${round(polygon.centerX)}, ${round(polygon.centerY)}], \"features\": $features }"
     }
     File("src/test/snapshots/material-shapes.json").writeText("{\n${entries.joinToString(",\n")}\n}\n")
+  }
+
+  /** Morphs between neighbouring shapes and shapes seven apart, as fixtures for the TypeScript port of `Morph`. */
+  @Test
+  fun recordMorphs() {
+    val entries = shapes.indices.flatMap { i -> listOf(i to (i + 1) % shapes.size, i to (i + 7) % shapes.size) }
+      .map { (from, to) ->
+        val morph = Morph(shapes[from].second, shapes[to].second)
+        "  { \"from\": \"${shapes[from].first}\", \"to\": \"${shapes[to].first}\", " +
+          "\"start\": ${cubics(morph.asCubics(0f))}, \"end\": ${cubics(morph.asCubics(1f))} }"
+      }
+    File("src/test/snapshots/material-shape-morphs.json").writeText("[\n${entries.joinToString(",\n")}\n]\n")
   }
 
   @Test
