@@ -185,6 +185,9 @@ paddings.
 `expShapePath(name, size)` gives the SVG path of one of Compose's 35 `MaterialShapes` (`'cookie9Sided'`, `'sunny'`,
 `'heart'`, … all in `EXP_SHAPE_NAMES`) filling a `size` × `size` square, as `toShape()` fills a square box. With the
 default size of 1 it fits a `<clipPath clipPathUnits="objectBoundingBox">`, for example to mask an avatar.
+`<exp-shape [shape]="name" />` draws one of them, 48px and Primary by default (size it with `width`/`height`, colour it
+with `color`), and morphs into the next one when `shape` changes, matching corners as Compose's `Morph` does, with the
+DefaultSpatial spring. It is decorative and hidden from assistive technology.
 The motion tokens work on their own too:
 
 ```css
