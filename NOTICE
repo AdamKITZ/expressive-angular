@@ -20,9 +20,9 @@ projects/expressive-angular/src/loading-indicator/morphs.ts is generated from th
 Compose Material3's LoadingIndicator (androidx.compose.material3, androidx.graphics.shapes), recorded by
 reference/compose. Copyright The Android Open Source Project, licensed under the Apache License, Version 2.0.
 
-projects/expressive-angular/src/shapes/material-shapes.ts is generated from Jetpack Compose Material3's
+projects/expressive-angular/shape/src/material-shapes.ts is generated from Jetpack Compose Material3's
 MaterialShapes (androidx.compose.material3, androidx.graphics.shapes), recorded by reference/compose. Copyright
 The Android Open Source Project, licensed under the Apache License, Version 2.0.
 
-projects/expressive-angular/src/shapes/morph.ts is a port of Morph's matching from androidx.graphics.shapes 1.0.1.
+projects/expressive-angular/shape/src/morph.ts is a port of Morph's matching from androidx.graphics.shapes 1.0.1.
 Copyright The Android Open Source Project, licensed under the Apache License, Version 2.0.

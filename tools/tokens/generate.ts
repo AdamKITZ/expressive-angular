@@ -18,7 +18,7 @@ const MORPHS_OUTPUT = 'projects/expressive-angular/src/loading-indicator/morphs.
 const CIRCULAR_INPUT = 'reference/compose/src/test/snapshots/circular-wavy-progress.json';
 const CIRCULAR_OUTPUT = 'projects/expressive-angular/src/circular-progress/shapes.ts';
 const SHAPES_INPUT = 'reference/compose/src/test/snapshots/material-shapes.json';
-const SHAPES_OUTPUT = 'projects/expressive-angular/src/shapes/material-shapes.ts';
+const SHAPES_OUTPUT = 'projects/expressive-angular/shape/src/material-shapes.ts';
 const SPRINGS = ['FastSpatial', 'DefaultSpatial', 'SlowSpatial', 'FastEffects', 'DefaultEffects', 'SlowEffects'];
 const SOURCES = ['ExpressiveMotionTokens', 'ShapeTokens', 'ColorLightTokens', 'PaletteTokens'] as const;
 

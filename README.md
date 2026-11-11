@@ -182,7 +182,8 @@ actions inside, and a swipe towards the edge, Escape or the scrim close it. `--e
 16px with large corners all round. Inside, `.exp-side-sheet-header` (a back button first, then a
 `.exp-side-sheet-headline`, then a close button last), the content and `.exp-side-sheet-actions` give the spec's
 paddings.
-`expShapePath(name, size)` gives the SVG path of one of Compose's 35 `MaterialShapes` (`'cookie9Sided'`, `'sunny'`,
+The shapes live in their own entry point, `@adam01230/expressive-angular/shape`, so their tables load only where an app
+uses them. `expShapePath(name, size)` gives the SVG path of one of Compose's 35 `MaterialShapes` (`'cookie9Sided'`, `'sunny'`,
 `'heart'`, … all in `EXP_SHAPE_NAMES`) filling a `size` × `size` square, as `toShape()` fills a square box. With the
 default size of 1 it fits a `<clipPath clipPathUnits="objectBoundingBox">`, for example to mask an avatar.
 `<exp-shape [shape]="name" />` draws one of them, 48px and Primary by default (size it with `width`/`height`, colour it

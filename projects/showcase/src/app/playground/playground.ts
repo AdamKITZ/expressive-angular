@@ -1,5 +1,4 @@
 import {
-  EXP_SHAPE_NAMES,
   ExpBottomSheet,
   ExpButton,
   ExpButtonGroup,
@@ -12,12 +11,10 @@ import {
   ExpModalSideSheet,
   ExpRangeSlider,
   ExpSearch,
-  ExpShape,
-  ExpShapeName,
-  expShapePath,
   ExpSlider,
   ExpStandardBottomSheet,
 } from '@adam01230/expressive-angular';
+import { EXP_SHAPE_NAMES, ExpShape, ExpShapeName, expShapePath } from '@adam01230/expressive-angular/shape';
 import { DOCUMENT } from '@angular/common';
 import {
   ChangeDetectionStrategy,

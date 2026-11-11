@@ -52,6 +52,7 @@ gets scenes for its states; a deliberate difference is written down in the scene
 ```
 projects/expressive-angular/   the library (ng-packagr)
 projects/expressive-angular/src/foundations/   motion and corner tokens (generated) as the Sass mixin `tokens`
+projects/expressive-angular/shape/   secondary entry point `/shape` (MaterialShapes, exp-shape), kept out of the main bundle
 projects/showcase/             demo app, one route per component; /reference/<scene> routes for the visual check
 reference/compose/             Compose scenes rendered by Paparazzi in CI (needs JDK 21 + Android SDK, not run locally)
 e2e/visual/                    Playwright: each reference scene vs. its showcase route, pixel diff

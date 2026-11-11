@@ -5,7 +5,11 @@
   "compilerOptions": {
     "noImplicitOverride": true,
     "paths": {
-      "@adam01230/expressive-angular": ["./dist/expressive-angular", "./projects/expressive-angular/src/public-api.ts"]
+      "@adam01230/expressive-angular": ["./dist/expressive-angular", "./projects/expressive-angular/src/public-api.ts"],
+      "@adam01230/expressive-angular/shape": [
+        "./dist/expressive-angular/shape",
+        "./projects/expressive-angular/shape/src/public-api.ts"
+      ]
     },
     "noPropertyAccessFromIndexSignature": true,
     "noImplicitReturns": true,
