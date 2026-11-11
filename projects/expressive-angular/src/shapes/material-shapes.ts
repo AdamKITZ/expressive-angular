@@ -2,6 +2,9 @@
 
 export type ExpShapeName = 'circle' | 'square' | 'slanted' | 'arch' | 'fan' | 'arrow' | 'semiCircle' | 'oval' | 'pill' | 'triangle' | 'diamond' | 'clamShell' | 'pentagon' | 'gem' | 'sunny' | 'verySunny' | 'cookie4Sided' | 'cookie6Sided' | 'cookie7Sided' | 'cookie9Sided' | 'cookie12Sided' | 'ghostish' | 'clover4Leaf' | 'clover8Leaf' | 'burst' | 'softBurst' | 'boom' | 'softBoom' | 'flower' | 'puffy' | 'puffyDiamond' | 'pixelCircle' | 'pixelTriangle' | 'bun' | 'heart';
 
+/** The names of all of Compose's `MaterialShapes`, in Compose's order. */
+export const EXP_SHAPE_NAMES: readonly ExpShapeName[] = ['circle', 'square', 'slanted', 'arch', 'fan', 'arrow', 'semiCircle', 'oval', 'pill', 'triangle', 'diamond', 'clamShell', 'pentagon', 'gem', 'sunny', 'verySunny', 'cookie4Sided', 'cookie6Sided', 'cookie7Sided', 'cookie9Sided', 'cookie12Sided', 'ghostish', 'clover4Leaf', 'clover8Leaf', 'burst', 'softBurst', 'boom', 'softBoom', 'flower', 'puffy', 'puffyDiamond', 'pixelCircle', 'pixelTriangle', 'bun', 'heart'];
+
 /** A corner (convex or concave) or an edge of a shape, with its cubics flattened to eight numbers each. */
 export interface ShapeFeature {
   readonly type: 'convex' | 'concave' | 'edge';

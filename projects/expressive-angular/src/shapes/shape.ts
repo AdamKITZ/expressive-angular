@@ -2,9 +2,7 @@ import { cubicsPath } from './cubics';
 import { ExpShapeName, MATERIAL_SHAPES } from './material-shapes';
 
 export type { ExpShapeName } from './material-shapes';
-
-/** The names of all of Compose's `MaterialShapes`, in Compose's order. */
-export const EXP_SHAPE_NAMES: readonly ExpShapeName[] = Object.keys(MATERIAL_SHAPES) as ExpShapeName[];
+export { EXP_SHAPE_NAMES } from './material-shapes';
 
 /**
  * The SVG path data of one of Compose's `MaterialShapes`, filling a `size` × `size` square the way `toShape()` fills
