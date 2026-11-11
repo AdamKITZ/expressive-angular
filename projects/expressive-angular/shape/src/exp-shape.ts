@@ -9,8 +9,8 @@ import {
   OnDestroy,
 } from '@angular/core';
 
-import { durationMs } from '../button-group/duration-ms';
 import { cubicsPath } from './cubics';
+import { durationMs } from './duration-ms';
 import { MATERIAL_SHAPES } from './material-shapes';
 import { matchShapes } from './morph';
 import { ExpShapeName, expShapePath } from './shape';

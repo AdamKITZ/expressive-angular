@@ -27,7 +27,8 @@
         "test": {
           "builder": "@angular/build:unit-test",
           "options": {
-            "tsConfig": "projects/expressive-angular/tsconfig.spec.json"
+            "tsConfig": "projects/expressive-angular/tsconfig.spec.json",
+            "include": ["**/*.spec.ts", "../shape/**/*.spec.ts"]
           }
         }
       }

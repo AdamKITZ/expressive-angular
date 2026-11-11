@@ -1,4 +1,4 @@
-import { EXP_SHAPE_NAMES, expShapePath } from '@adam01230/expressive-angular';
+import { EXP_SHAPE_NAMES, expShapePath } from '@adam01230/expressive-angular/shape';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 /** Must render the same scene as `MaterialShapesTest.all` in reference/compose. */
